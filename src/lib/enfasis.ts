@@ -55,8 +55,3 @@ export function refuerzoDelDia(dia: number, focos: Foco[]): { foco: Foco; texto:
   }
   return null;
 }
-
-/** Descriptor de una medida, para la pestaña del Tratamiento. */
-export function descriptorMedida(id: string): string {
-  return MEDIDAS.find((m) => m.id === id)?.descriptor ?? '';
-}

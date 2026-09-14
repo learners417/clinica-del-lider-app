@@ -128,10 +128,6 @@ export function promedioColumna(c: Columna, t: Tablero): number {
   return Math.round(l.reduce((a, m) => a + puntaje(m, t), 0) / l.length);
 }
 
-export function promedioTablero(t: Tablero): number {
-  return Math.round(MEDIDAS.reduce((a, m) => a + puntaje(m, t), 0) / MEDIDAS.length);
-}
-
 /**
  * ÍNDICE DEL JUGADOR (0-100).
  * Promedio de las diez, penalizado por el desbalance entre columnas.
@@ -139,7 +135,8 @@ export function promedioTablero(t: Tablero): number {
  */
 export function indiceJugador(t: Tablero): number {
   const desbalance = Math.abs(promedioColumna('der', t) - promedioColumna('izq', t));
-  return Math.max(0, Math.round(promedioTablero(t) - desbalance / 4));
+  const promedio = Math.round(MEDIDAS.reduce((s, m) => s + puntaje(m, t), 0) / MEDIDAS.length);
+  return Math.max(0, Math.round(promedio - desbalance / 4));
 }
 
 /** Las tres medidas más caídas. Definen el énfasis de las 12 semanas. */

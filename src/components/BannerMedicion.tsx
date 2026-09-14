@@ -1,6 +1,7 @@
-/** EL BANNER DE MEDICIÓN — prepara la medición del Día 45 y la del contrato, sin sorprender a nadie. */
+/** EL BANNER DE MEDICIÓN — prepara la medición del día 42 y la del contrato, sin sorprender a nadie. */
 import { CalendarCheck } from 'lucide-react';
 import { getProtocolo, diaDelProtocolo, listarChequeos, type PaginaId } from '../lib/estadoCdl';
+import { HITO_MEDIO, HITO_CONTRATO } from '../data/camino';
 
 function fechaMas(inicio: string, dias: number): string {
   const [y, m, d] = inicio.split('-').map(Number);
@@ -15,13 +16,23 @@ export default function BannerMedicion({ navegar }: { navegar: (p: PaginaId) => 
   const fechas = listarChequeos().map((c) => c.fecha.slice(0, 10)).filter((f) => f > p.fechaInicio);
   const tiene = (desde: number) => fechas.some((f) => f >= fechaMas(p.fechaInicio, desde - 1));
 
-  // Ventana del Día 45
-  if (dia >= 42 && dia < 45 && !tiene(45)) return <Aviso texto={`Tu medición del Día 45 es en ${45 - dia} ${45 - dia === 1 ? 'día' : 'días'}. No estudies para el examen: vive tu sistema normal, como cualquier semana.`} />;
-  if (dia >= 45 && dia < 60 && !tiene(45)) return <Aviso destacado texto="La medición del Día 45 está abierta: el mismo instrumento del Día 0, tu verdad de hoy." boton="Hacer mi medición" onClick={() => navegar('chequeo')} />;
+  // Ventana del día 42 — cierre del primer viaje
+  if (dia >= HITO_MEDIO - 3 && dia < HITO_MEDIO && !tiene(HITO_MEDIO)) {
+    const faltan = HITO_MEDIO - dia;
+    return <Aviso texto={`Tu medición del día ${HITO_MEDIO} es en ${faltan} ${faltan === 1 ? 'día' : 'días'}. No estudies para el examen: vive tu sistema normal, como cualquier semana.`} />;
+  }
+  if (dia >= HITO_MEDIO && dia < HITO_MEDIO + 15 && !tiene(HITO_MEDIO)) {
+    return <Aviso destacado texto={`La medición del día ${HITO_MEDIO} está abierta: el mismo instrumento del Día 0, tu verdad de hoy.`} boton="Hacer mi medición" onClick={() => navegar('chequeo')} />;
+  }
 
   // Ventana del contrato
-  if (dia >= 87 && dia < 90 && !tiene(88)) return <Aviso texto={`Faltan ${90 - dia} ${90 - dia === 1 ? 'día' : 'días'} para la medición del contrato. Vive normal: el instrumento no mide tu mejor día, mide tus últimas semanas.`} />;
-  if (dia >= 90 && !tiene(88)) return <Aviso destacado texto="La medición del contrato está abierta. Respóndela para saber, no para aprobar." boton="Medir el contrato" onClick={() => navegar('chequeo')} />;
+  if (dia >= HITO_CONTRATO - 3 && dia < HITO_CONTRATO && !tiene(HITO_CONTRATO)) {
+    const faltan = HITO_CONTRATO - dia;
+    return <Aviso texto={`Faltan ${faltan} ${faltan === 1 ? 'día' : 'días'} para la medición del contrato. Vive normal: el instrumento no mide tu mejor día, mide tus últimas semanas.`} />;
+  }
+  if (dia >= HITO_CONTRATO && !tiene(HITO_CONTRATO)) {
+    return <Aviso destacado texto="La medición del contrato está abierta. Respóndela para saber, no para aprobar." boton="Medir el contrato" onClick={() => navegar('chequeo')} />;
+  }
 
   return null;
 }

@@ -1,4 +1,4 @@
-/** EL MENSAJE AL DÍA 90 — el paciente le escribe al que va a terminar. Se sella. Se abre en el Alta. */
+/** EL MENSAJE AL DÍA 84 — el paciente le escribe al que va a terminar. Se sella. Se abre en el Alta. */
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { Mail, MailOpen, Lock } from 'lucide-react';
@@ -23,10 +23,10 @@ export function Mensaje90Tarjeta({ onAbrir }: { onAbrir?: () => void } = {}) {
     if (dia > 20) return null;
     return (
       <div className="tarjeta p-5 mb-4">
-        <p className="flex items-center gap-2 t-sub mb-1"><Mail size={17} color="var(--calido)" /> Tu mensaje al Día 90</p>
+        <p className="flex items-center gap-2 t-sub mb-1"><Mail size={17} color="var(--calido)" /> Tu mensaje al día 84</p>
         <p className="t-cuerpo mb-3" style={{ fontSize: 13.5 }}>
           Escríbele unas líneas al hombre que va a terminar esto. No un discurso: la verdad de hoy — cómo estás
-          llegando, por qué empezaste, qué no quieres olvidar. Se sella ahora y se abre solo el Día 90, con tus
+          llegando, por qué empezaste, qué no quieres olvidar. Se sella ahora y se abre solo el día 84, con tus
           números al lado.
         </p>
         <textarea
@@ -45,7 +45,7 @@ export function Mensaje90Tarjeta({ onAbrir }: { onAbrir?: () => void } = {}) {
             vibrar(LATIDO_HITO);
             setTexto('');
             setV((v) => v + 1);
-            toast.success('Sellado. Nos vemos el Día 90.');
+            toast.success('Sellado. Nos vemos el día 84.');
           }}
         >
           {texto.trim().length < 30 ? 'Escribe unas líneas más' : 'Sellar mi mensaje'}
@@ -54,7 +54,7 @@ export function Mensaje90Tarjeta({ onAbrir }: { onAbrir?: () => void } = {}) {
     );
   }
 
-  // 3 · Llegó el Día 90 y todavía no lo abrió
+  // 3 · Llegó el día 84 y todavía no lo abrió
   if (puedeAbrirMensaje90() && !mensaje.abierto) {
     return (
       <button
@@ -76,7 +76,7 @@ export function Mensaje90Tarjeta({ onAbrir }: { onAbrir?: () => void } = {}) {
     <div className="tarjeta p-4 mb-4 flex items-center gap-3">
       <Lock size={17} color="var(--texto-tenue)" className="flex-none" />
       <p className="t-cuerpo" style={{ fontSize: 13 }}>
-        Tu mensaje al Día 90 está sellado. Se abre en <b>{TOTAL_DIAS - dia} días</b>.
+        Tu mensaje al día 84 está sellado. Se abre en <b>{TOTAL_DIAS - dia} días</b>.
       </p>
     </div>
   );

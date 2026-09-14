@@ -12,7 +12,8 @@ import { PHQ9_INTRO, PHQ9_ITEMS, PHQ9_OPCIONES, calcularPhq9 } from '../data/phq
 import { ENEAGRAMA_TIPOS } from '../data/eneagrama';
 import { MEDIDAS, FRECUENCIA, indiceJugador, lectura, focos as focosTablero,
   promedioColumna, puntaje as puntajeMedida, colorPuntaje } from '../data/arbol';
-import { HITO_MEDIO, HITO_CONTRATO } from '../data/camino';
+import { HITO_MEDIO, HITO_CONTRATO, SUBIDA_CONTRATO } from '../data/camino';
+import { APAGADORES, VENTANA, VENTANA_MIN, horasDormidas, avisaAlClinico } from '../data/onboarding';
 import ArbolTablero from '../components/ArbolTablero';
 import { CONTEXTO } from '../data/contexto';
 import { ZONAS, zonaDesdeCbi } from '../data/zonas';
@@ -26,11 +27,20 @@ import { OfertasReinicio } from '../components/Ofertas';
 import { getProtocolo } from '../lib/estadoCdl';
 import CeremoniaMedicion from '../components/CeremoniaMedicion';
 
+const ABIERTAS = [
+  { id: 'porquehoy', min: 40, pregunta: '¿Y por qué hoy?', ayuda: 'Algo pasó. Pudiste entrar el año pasado y entraste ahora.' },
+  { id: 'costo', min: 60, pregunta: 'Si todo sigue exactamente igual, ¿dónde estás dentro de un año?', ayuda: 'Escribe lo que ves, no lo que temes que pase.' },
+  { id: 'oculto', min: 40, pregunta: '¿Qué es lo que no le dices a nadie?', ayuda: 'Esto queda sellado. Se abre el día 84 y lo abres tú.' },
+  { id: 'quien', min: 40, pregunta: '¿Quién te necesita entero?', ayuda: 'Con nombre. Y qué cambia para esa persona si lo logras.' },
+  { id: 'escena', min: 60, pregunta: 'Un martes a las siete de la tarde, dentro de doce semanas: ¿dónde estás y qué estás haciendo?', ayuda: 'Una escena concreta. Qué se ve, qué se escucha, quién está.' },
+];
+
 type Fase =
   | 'intro' | 'contexto'
   | 'cbiIntro' | 'cbi' | 'inter1' | 'inter2'
   | 'phqIntro' | 'phq' | 'derivacion'
   | 'rueda' | 'habitos' | 'eneagrama'
+  | 'cuerpo' | 'ventana' | 'palabrasIntro' | 'palabras' | 'firma'
   | 'procesando' | 'resultado' | 'dia90';
 
 const HABITOS_INICIAL = { horasSueno: 6, entrenosSemana: 0, horasTrabajo: 55, cafeinaDia: 2 };
@@ -39,7 +49,7 @@ const HABITOS_INICIAL = { horasSueno: 6, entrenosSemana: 0, horasTrabajo: 55, ca
 function progresoDe(fase: Fase, ctxIdx: number, cbiIdx: number, phqIdx: number): number {
   const total = 40;
   let hecho = 0;
-  const orden: Fase[] = ['intro', 'contexto', 'cbiIntro', 'cbi', 'inter1', 'inter2', 'phqIntro', 'phq', 'derivacion', 'rueda', 'habitos', 'eneagrama', 'procesando', 'resultado', 'dia90'];
+  const orden: Fase[] = ['intro', 'contexto', 'cbiIntro', 'cbi', 'inter1', 'inter2', 'phqIntro', 'phq', 'derivacion', 'rueda', 'habitos', 'eneagrama', 'cuerpo', 'ventana', 'palabrasIntro', 'palabras', 'firma', 'procesando', 'resultado', 'dia90'];
   const antes = (f: Fase) => orden.indexOf(fase) > orden.indexOf(f);
   hecho += antes('contexto') ? 1 : 0;
   hecho += fase === 'contexto' ? ctxIdx : antes('cbiIntro') ? 4 : 0;
@@ -57,7 +67,8 @@ function progresoDe(fase: Fase, ctxIdx: number, cbiIdx: number, phqIdx: number):
 function actoDe(fase: Fase): { n: number; nombre: string } {
   if (fase === 'intro' || fase === 'contexto') return { n: 1, nombre: 'Conocerte' };
   if (['cbiIntro', 'cbi', 'inter1', 'inter2', 'phqIntro', 'phq', 'derivacion'].includes(fase)) return { n: 2, nombre: 'Medirte' };
-  if (['rueda', 'habitos', 'eneagrama'].includes(fase)) return { n: 3, nombre: 'Tu vida' };
+  if (['rueda', 'habitos', 'eneagrama', 'cuerpo', 'ventana'].includes(fase)) return { n: 3, nombre: 'Tu vida' };
+  if (['palabrasIntro', 'palabras', 'firma'].includes(fase)) return { n: 4, nombre: 'En tus palabras' };
   return { n: 4, nombre: 'Tu Zona' };
 }
 
@@ -79,6 +90,15 @@ export default function Chequeo({ onTerminado, onSalir }: { onTerminado: () => v
   );
   const [habitos, setHabitos] = useState(borrador?.habitos ?? HABITOS_INICIAL);
   const [eneaSel, setEneaSel] = useState<number[]>(borrador?.eneaSel ?? []);
+  const [cuerpo, setCuerpo] = useState(borrador?.cuerpo ?? {
+    acoste: '23:30', levante: '07:00', despertares: 0, energia0: 5,
+    apagar: [] as number[], ventanaAM: 10, ventanaPM: 10,
+  });
+  const [palabras, setPalabras] = useState<Record<string, string>>(
+    (borrador?.palabras as Record<string, string>) ?? {}
+  );
+  const [palIdx, setPalIdx] = useState(0);
+  const [firma, setFirma] = useState(borrador?.firma ?? '');
   const [guardado, setGuardado] = useState<ChequeoGuardado | null>(null);
 
   // Aviso de reanudación (una sola vez)
@@ -90,8 +110,8 @@ export default function Chequeo({ onTerminado, onSalir }: { onTerminado: () => v
   // Autoguardado: cada respuesta persiste.
   useEffect(() => {
     if (fase === 'procesando' || fase === 'resultado' || fase === 'dia90') return;
-    guardarBorrador({ fase, nombre, contexto: ctx, cbiResp, cbiIdx, phqResp, phqIdx, rueda, habitos, eneaSel });
-  }, [fase, nombre, ctx, cbiResp, cbiIdx, phqResp, phqIdx, rueda, habitos, eneaSel]);
+    guardarBorrador({ fase, nombre, contexto: ctx, cbiResp, cbiIdx, phqResp, phqIdx, rueda, habitos, eneaSel, cuerpo, palabras, firma });
+  }, [fase, nombre, ctx, cbiResp, cbiIdx, phqResp, phqIdx, rueda, habitos, eneaSel, cuerpo, palabras, firma]);
 
   const progreso = progresoDe(fase, Math.max(0, ctxIdx), cbiIdx, phqIdx);
   const acto = actoDe(fase);
@@ -121,7 +141,12 @@ export default function Chequeo({ onTerminado, onSalir }: { onTerminado: () => v
       contexto: {
         lidera: ctx.lidera ?? '', personas: ctx.personas ?? '', edad: ctx.edad ?? '', motivo: ctx.motivo ?? '',
       },
-      cbi, phq9, rueda, eneagramaTipos: eneaSel, habitos,
+      cbi, phq9, rueda, eneagramaTipos: eneaSel, habitos, cuerpo,
+      palabras: {
+        porquehoy: palabras.porquehoy ?? '', costo: palabras.costo ?? '',
+        oculto: palabras.oculto ?? '', quien: palabras.quien ?? '', escena: palabras.escena ?? '',
+      },
+      firma: firma.trim(),
       zona: zonaDesdeCbi(cbi.promedio).id,
     };
     setNombre(nombre);
@@ -392,8 +417,146 @@ export default function Chequeo({ onTerminado, onSalir }: { onTerminado: () => v
             <Opcion key={t.tipo} label={t.afirmacion} activa={eneaSel.includes(t.tipo)} onClick={() => toggle(t.tipo)} />
           ))}
         </div>
-        <button className="btn-primario w-full mt-6" onClick={terminarMedicion}>Ver mi resultado</button>
-        <button className="w-full mt-2 t-sub py-3" style={{ color: 'var(--texto-tenue)' }} onClick={terminarMedicion}>Saltar este paso</button>
+        <button className="btn-primario w-full mt-6" onClick={() => setFase('cuerpo')}>Seguir</button>
+        <button className="w-full mt-2 t-sub py-3" style={{ color: 'var(--texto-tenue)' }} onClick={() => setFase('cuerpo')}>Saltar este paso</button>
+      </Marco>
+    );
+  }
+
+  /* ═══════════ ACTO 3b · TU CUERPO HOY ═══════════ */
+
+  if (fase === 'cuerpo') {
+    const listo = cuerpo.energia0 > 0;
+    return (
+      <Marco acto={acto} progreso={progreso} onSalir={onSalir}>
+        <Encabezado etiqueta="Tu cuerpo hoy" titulo="La línea de la que partimos" sub="En doce semanas se vuelve a medir, con los mismos datos." />
+        <div className="tarjeta p-5 space-y-5">
+          <div className="flex gap-3">
+            <div className="flex-1">
+              <label className="t-micro block mb-2" style={{ color: 'var(--texto-tenue)' }}>Anoche me acosté</label>
+              <input type="time" className="w-full px-4 py-3" value={cuerpo.acoste}
+                onChange={(e) => setCuerpo({ ...cuerpo, acoste: e.target.value })} />
+            </div>
+            <div className="flex-1">
+              <label className="t-micro block mb-2" style={{ color: 'var(--texto-tenue)' }}>Me levanté</label>
+              <input type="time" className="w-full px-4 py-3" value={cuerpo.levante}
+                onChange={(e) => setCuerpo({ ...cuerpo, levante: e.target.value })} />
+            </div>
+          </div>
+          <p className="t-cuerpo">Dormiste <b>{horasDormidas(cuerpo.acoste, cuerpo.levante)}</b> horas.</p>
+        </div>
+
+        <p className="t-sub mt-7 mb-3">¿Cuántas veces te despertaste durante la noche?</p>
+        <div className="chips">
+          {['Ninguna', 'Una', 'Dos', 'Tres o más'].map((l, i) => (
+            <button key={l} className={`chip${cuerpo.despertares === i ? ' activo' : ''}`}
+              onClick={() => setCuerpo({ ...cuerpo, despertares: i })}>{l}</button>
+          ))}
+        </div>
+
+        <p className="t-sub mt-7 mb-1">Al abrir los ojos esta mañana, ¿con cuánta energía arrancaste?</p>
+        <p className="t-cuerpo mb-3">Uno es a rastras. Diez es entero.</p>
+        <div className="grid grid-cols-5 gap-2">
+          {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
+            <button key={n} className={`opcion justify-center${cuerpo.energia0 === n ? ' activa' : ''}`}
+              style={{ minHeight: 60, padding: 0 }}
+              onClick={() => setCuerpo({ ...cuerpo, energia0: n })}>{n}</button>
+          ))}
+        </div>
+
+        <p className="t-sub mt-7 mb-1">¿Con qué te apagas de noche?</p>
+        <p className="t-cuerpo mb-3">Marca todo lo que sea cierto. Sin adjetivos: esto no se juzga, se mide.</p>
+        <div className="chips">
+          {APAGADORES.map((l, i) => (
+            <button key={l} className={`chip${cuerpo.apagar.includes(i) ? ' activo' : ''}`}
+              onClick={() => setCuerpo({
+                ...cuerpo,
+                apagar: cuerpo.apagar.includes(i) ? cuerpo.apagar.filter((x) => x !== i) : [...cuerpo.apagar, i],
+              })}>{l}</button>
+          ))}
+        </div>
+
+        <button className="btn-primario w-full mt-8" disabled={!listo} onClick={() => setFase('ventana')}>Seguir</button>
+      </Marco>
+    );
+  }
+
+  if (fase === 'ventana') {
+    return (
+      <Marco acto={acto} progreso={progreso} onSalir={onSalir}>
+        <Encabezado etiqueta="Tu tiempo real" titulo="¿Cuántos minutos tienes de verdad?" sub="Sé exacto. Tu camino se va a construir dentro de ese tiempo, no dentro del que te gustaría tener." />
+        <p className="t-sub mb-3">Por la mañana, antes de que alguien te pida algo</p>
+        <div className="chips">
+          {VENTANA.map((l, i) => (
+            <button key={`am${l}`} className={`chip${cuerpo.ventanaAM === VENTANA_MIN[i] ? ' activo' : ''}`}
+              onClick={() => setCuerpo({ ...cuerpo, ventanaAM: VENTANA_MIN[i] })}>{l}</button>
+          ))}
+        </div>
+        <p className="t-sub mt-7 mb-3">Por la noche, antes de dormir</p>
+        <div className="chips">
+          {VENTANA.map((l, i) => (
+            <button key={`pm${l}`} className={`chip${cuerpo.ventanaPM === VENTANA_MIN[i] ? ' activo' : ''}`}
+              onClick={() => setCuerpo({ ...cuerpo, ventanaPM: VENTANA_MIN[i] })}>{l}</button>
+          ))}
+        </div>
+        <button className="btn-primario w-full mt-8" onClick={() => setFase('palabrasIntro')}>Seguir</button>
+      </Marco>
+    );
+  }
+
+  /* ═══════════ ACTO 4 · EN TUS PALABRAS ═══════════ */
+
+  if (fase === 'palabrasIntro') {
+    return (
+      <Marco acto={acto} progreso={progreso} onSalir={onSalir}>
+        <Encabezado etiqueta="Último acto" titulo="En tus palabras" sub="Cuatro respuestas. Se guardan y se te devuelven más adelante, tal como las escribiste hoy." />
+        <p className="t-cuerpo">Esto no lo puntúa nadie. Es lo único del Chequeo que va a seguir siendo tuyo dentro de doce semanas.</p>
+        <button className="btn-primario w-full mt-8" onClick={() => { setPalIdx(0); setFase('palabras'); }}>Empezar</button>
+      </Marco>
+    );
+  }
+
+  if (fase === 'palabras') {
+    const p = ABIERTAS[palIdx];
+    const valor = palabras[p.id] ?? '';
+    const faltan = p.min - valor.trim().length;
+    return (
+      <Marco acto={acto} progreso={progreso} onSalir={onSalir}>
+        <Encabezado etiqueta={`En tus palabras · ${palIdx + 1} de ${ABIERTAS.length}`} titulo={p.pregunta} sub={p.ayuda} />
+        <textarea
+          className="w-full px-5 py-4"
+          style={{ minHeight: 200 }}
+          placeholder="Escribe aquí"
+          value={valor}
+          onChange={(e) => setPalabras({ ...palabras, [p.id]: e.target.value })}
+        />
+        <p className="t-micro mt-3 text-right" style={{ color: 'var(--texto-tenue)' }}>
+          {faltan > 0 ? `${faltan} caracteres más` : 'Listo'}
+        </p>
+        <button className="btn-primario w-full mt-5" disabled={faltan > 0}
+          onClick={() => palIdx < ABIERTAS.length - 1 ? setPalIdx(palIdx + 1) : setFase('firma')}>
+          Seguir
+        </button>
+        {palIdx > 0 && (
+          <button className="btn-fantasma w-full mt-2" onClick={() => setPalIdx(palIdx - 1)}>Volver</button>
+        )}
+      </Marco>
+    );
+  }
+
+  if (fase === 'firma') {
+    const hoy = new Date().toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'numeric' });
+    return (
+      <Marco acto={acto} progreso={progreso} onSalir={onSalir}>
+        <Encabezado etiqueta="El contrato" titulo="Firma tu punto de partida." sub={`Hoy es ${hoy}. Escribe tu nombre completo.`} />
+        <input type="text" className="w-full px-5 py-4" placeholder="Nombre y apellido"
+          value={firma} onChange={(e) => setFirma(e.target.value)} />
+        <div className="tarjeta p-5 mt-6">
+          <p className="t-cuerpo">En doce semanas tu Índice sube {SUBIDA_CONTRATO} puntos y sales con tus sistemas andando. Si no sube, seguimos hasta que suba.</p>
+        </div>
+        <button className="btn-primario w-full mt-7" disabled={firma.trim().length < 3} onClick={terminarMedicion}>
+          Firmo y empiezo
+        </button>
       </Marco>
     );
   }
@@ -459,6 +622,12 @@ export default function Chequeo({ onTerminado, onSalir }: { onTerminado: () => v
           </div>
         )}
 
+        {guardado.cuerpo && avisaAlClinico(guardado.cuerpo.apagar) && (
+          <div className="mt-4 tarjeta p-5" style={{ borderColor: 'var(--calido)' }}>
+            <p className="t-sub">Algo de lo que marcaste en cómo te apagas se trabaja en consulta y no con una Dosis. Llévalo a tu próxima sesión: es lo más útil que puedes hacer con esa información.</p>
+          </div>
+        )}
+
         {guardado.phq9.derivar && (
           <div className="mt-4 tarjeta p-5" style={{ borderColor: 'var(--calido)' }}>
             <p className="t-sub">Tu recomendación principal: hablar esta semana con un profesional de la salud mental. El camino puede esperarte; tu bienestar no.</p>
@@ -490,6 +659,24 @@ export default function Chequeo({ onTerminado, onSalir }: { onTerminado: () => v
           </div>
         )}
 
+        {guardado.palabras?.costo && (
+          <div className="mt-10 pt-7" style={{ borderTop: '1px solid var(--acento)' }}>
+            <h3 className="t-titulo mb-3">Lo que escribiste hoy</h3>
+            <p className="t-cuerpo">Si todo sigue igual, dentro de un año:</p>
+            <p className="voz-maestro my-5">{guardado.palabras.costo}</p>
+            <p className="t-sub" style={{ color: 'var(--texto-tenue)' }}>
+              {guardado.firma} · {new Date(guardado.fecha).toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'numeric' })}
+            </p>
+            {guardado.palabras.escena && (
+              <>
+                <p className="t-cuerpo mt-8">Y esto es lo que viene en doce semanas, con tus palabras:</p>
+                <p className="voz-maestro my-5">{guardado.palabras.escena}</p>
+              </>
+            )}
+            <p className="t-cuerpo mt-6">Lo que no le dices a nadie queda sellado. Se abre el día {HITO_CONTRATO} y lo abres tú.</p>
+          </div>
+        )}
+
         <button className="btn-primario w-full mt-10" onClick={() => setFase('dia90')}>Ver mi día 84</button>
       </Marco>
     );
@@ -499,7 +686,7 @@ export default function Chequeo({ onTerminado, onSalir }: { onTerminado: () => v
     return (
       <Marco acto={acto} progreso={100}>
         <p className="t-micro" style={{ color: 'var(--calido)' }}>Tu camino</p>
-        <h2 className="t-display mt-2 mb-1">Tu Día 90 es el</h2>
+        <h2 className="t-display mt-2 mb-1">Tu día 84 es el</h2>
         <p className="t-display mb-4" style={{ color: 'var(--acento)' }}>{fechaDia90(guardado.fecha)}.</p>
         <p className="t-cuerpo mb-6">
           Ese día tu agotamiento se vuelve a medir con el mismo instrumento de hoy.
@@ -526,7 +713,7 @@ function Procesando({ onListo }: { onListo: () => void }) {
     'Calculando tus 3 subescalas de agotamiento…',
     'Cruzando tus hábitos con tu Rueda de la Vida…',
     'Definiendo tu Zona Vital…',
-    'Preparando tu Día 90…',
+    'Preparando tu día 84…',
   ];
   const [visibles, setVisibles] = useState(1);
   useEffect(() => {

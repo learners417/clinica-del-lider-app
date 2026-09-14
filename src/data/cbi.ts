@@ -41,7 +41,7 @@ export const CBI_ITEMS: CbiItem[] = [
   // Equipo (personas a cargo)
   { id: 'e1', sub: 'equipo', texto: '¿Te resulta difícil trabajar con las personas que lideras?' },
   { id: 'e2', sub: 'equipo', texto: '¿Trabajar con tu equipo te drena la energía?' },
-  { id: 'e3', sub: 'equipo', texto: '¿Te resulta frustrante liderar a tu gente?' },
+  { id: 'e3', sub: 'equipo', texto: '¿Te resulta frustrante liderar a tu equipo?' },
   { id: 'e4', sub: 'equipo', texto: '¿Sientes que das más de lo que recibes cuando trabajas con tu equipo?' },
   { id: 'e5', sub: 'equipo', texto: '¿Estás cansado de trabajar con personas a cargo?' },
   { id: 'e6', sub: 'equipo', texto: '¿Te preguntas cuánto tiempo más vas a poder sostener este rol?' },

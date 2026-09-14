@@ -4,8 +4,8 @@
   "description": "La clínica digital del líder. Chequeo, Tratamiento, Alta.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0C1210",
-  "theme_color": "#0C1210",
+  "background_color": "#F0EBE0",
+  "theme_color": "#F0EBE0",
   "lang": "es",
   "icons": [
     { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },

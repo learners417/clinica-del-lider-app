@@ -34,7 +34,7 @@ export default function Puerta({ onActivado }: { onActivado: () => void }) {
         No es un hospital. Y yo no soy médico — soy el fundador y el paciente cero.
       </p>
       <p className="t-cuerpo mb-6">
-        Trabaja con una sola promesa, medida: tu agotamiento fuera de la zona roja en 90 días, por contrato.
+        Trabaja con una sola promesa, medida: tu Índice sube 25 puntos en doce semanas, por contrato.
         <b> Duermes. Vuelves a tu casa. Vuelves a ti.</b>
       </p>
 
@@ -60,7 +60,7 @@ export default function Puerta({ onActivado }: { onActivado: () => void }) {
         <div className="space-y-3">
           <div className="flex items-start gap-3"><span className="t-dato flex-none" style={{ color: 'var(--acento)', width: 22 }}>1</span><p className="t-cuerpo"><b>Esta noche te mides.</b> El Chequeo: 7 minutos, instrumentos clínicos validados. Sales con tu número.</p></div>
           <div className="flex items-start gap-3"><span className="t-dato flex-none" style={{ color: 'var(--acento)', width: 22 }}>2</span><p className="t-cuerpo"><b>Una consigna por noche, 4 noches.</b> 10 minutos cada una. Tu cabeza aprende a apagarse mientras duermes distinto.</p></div>
-          <div className="flex items-start gap-3"><span className="t-dato flex-none" style={{ color: 'var(--acento)', width: 22 }}>3</span><p className="t-cuerpo"><b>El vivo.</b> 2 horas conmigo, sobre TUS números. Te muestro el mapa completo de los 90 días — y decides.</p></div>
+          <div className="flex items-start gap-3"><span className="t-dato flex-none" style={{ color: 'var(--acento)', width: 22 }}>3</span><p className="t-cuerpo"><b>El vivo.</b> 2 horas conmigo, sobre TUS números. Te muestro el mapa completo de las doce semanas — y decides.</p></div>
         </div>
       </div>
 

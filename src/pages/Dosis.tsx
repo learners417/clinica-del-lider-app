@@ -23,7 +23,7 @@ export default function DosisPage({ navegar }: { navegar: (p: PaginaId) => void 
         <CheckCircle2 size={44} color="var(--acento)" className="mx-auto mb-4 reveal-zona" />
         <h1 className="t-titulo mb-2">Las 90 Dosis: hechas.</h1>
         <p className="t-cuerpo mb-6">El Tratamiento está completo. Tu bitácora y tu comparación de mediciones te esperan en la pestaña Tratamiento.</p>
-        <button className="btn-primario w-full" onClick={() => navegar('tratamiento')}>Ver mi Día 91</button>
+        <button className="btn-primario w-full" onClick={() => navegar('tratamiento')}>Ver mi día 85</button>
       </div>
     );
   }

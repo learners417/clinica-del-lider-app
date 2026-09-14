@@ -15,6 +15,7 @@ import { FASES_VITAL, HITOS, DOSIS_ESCRITAS, TOTAL_DIAS, faseDeDia } from '../da
 import { SISTEMAS, estadoSistema, ESTADO_SISTEMA_LABEL } from '../data/sistemas';
 import { calcularFocos } from '../lib/enfasis';
 import { estadoMedida as descriptorArea } from '../data/arbol';
+import { HITO_MEDIO, HITO_CONTRATO } from '../data/camino';
 import {
   getProtocolo, activarProtocolo, diaDelProtocolo, proximaDosis, listarChequeos,
   listarBitacora, listarDiario, calcularRacha, fechaDia90, type PaginaId,
@@ -41,7 +42,7 @@ function OfertaTratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
   return (
     <div className="pantalla pt-6 pb-28">
       <p className="t-micro" style={{ color: 'var(--calido)' }}>El Tratamiento</p>
-      <h1 className="t-titulo mt-1 mb-2">90 días. Una acción por día. Tres mediciones.</h1>
+      <h1 className="t-titulo mt-1 mb-2">84 días en dos viajes. Una acción por día. Tres mediciones.</h1>
       <p className="t-cuerpo mb-2">
         Semanas 1-2: duermes. Semanas 3-5: cortas lo que te drena. Semanas 6-9: reconstruyes — cuerpo, comida,
         orden, y las personas que estabas perdiendo. Semanas 10-12: lo vuelves sistema. Semana 13: el Personaje
@@ -84,12 +85,12 @@ function MiTratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
     return {
       'semana-signos': racha >= 7,
       'noches-7h': noches7 >= 5,
-      'medicion-45': post.some((f) => f >= fechaMas(44)),
-      'medicion-90': post.some((f) => f >= fechaMas(85)),
+      'medicion-medio': post.some((f) => f >= fechaMas(HITO_MEDIO - 1)),
+      'medicion-contrato': post.some((f) => f >= fechaMas(HITO_CONTRATO - 1)),
     } as Record<string, boolean>;
   }, [p, dia]);
 
-  const dia91 = diaReal >= 91;
+  const dia91 = diaReal >= TOTAL_DIAS + 1;
 
   return (
     <div className="pantalla pt-6 pb-28">
@@ -98,11 +99,11 @@ function MiTratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
       <p className="t-cuerpo mb-4">Fase {fase.id} · {fase.nombre} — {fase.resumen}</p>
       <div className="barra mb-5"><div style={{ width: `${Math.round((dia / TOTAL_DIAS) * 100)}%`, background: 'var(--acento)' }} /></div>
 
-      {/* Día 91: la bitácora se revela */}
+      {/* día 85: la bitácora se revela */}
       {dia91 && bitacora.length > 0 && (
         <div className="tarjeta p-5 mb-4" style={{ borderColor: 'var(--acento)', borderWidth: 2 }}>
-          <p className="flex items-center gap-2 t-sub mb-2"><Award size={17} color="var(--acento)" /> Día 91 · Tu historia, escrita por ti</p>
-          <p className="t-cuerpo mb-3" style={{ fontSize: 13 }}>Durante 90 días dejaste {bitacora.length} líneas honestas. Léelas en orden — esa es tu historia real, sin guion. Si quieres, grábate 90 segundos contándola: ese es tu testimonio.</p>
+          <p className="flex items-center gap-2 t-sub mb-2"><Award size={17} color="var(--acento)" /> día 85 · Tu historia, escrita por ti</p>
+          <p className="t-cuerpo mb-3" style={{ fontSize: 13 }}>A lo largo del camino dejaste {bitacora.length} líneas honestas. Léelas en orden — esa es tu historia real, sin guion. Si quieres, grábate noventa segundos contándola: ese es tu testimonio.</p>
           <div className="space-y-2" style={{ maxHeight: 260, overflowY: 'auto' }}>
             {bitacora.map((l) => (
               <p key={l.fecha} className="t-cuerpo" style={{ fontSize: 13 }}><span className="t-micro" style={{ color: 'var(--texto-tenue)' }}>{l.fecha}</span> — {l.nota}</p>
@@ -195,16 +196,16 @@ function MiTratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
 
       <div className="tarjeta p-5 mb-4">
         <p className="flex items-center gap-2 t-sub mb-1"><Activity size={16} color="var(--acento)" /> Tus mediciones</p>
-        <p className="t-cuerpo mb-3" style={{ fontSize: 13 }}>Día 45 y Día 90, mismo instrumento. Tu Día 90: <b>{fechaDia90(p.fechaInicio + 'T12:00:00')}</b>.</p>
+        <p className="t-cuerpo mb-3" style={{ fontSize: 13 }}>Día {HITO_MEDIO} y día {HITO_CONTRATO}, el mismo instrumento. Tu último día: <b>{fechaDia90(p.fechaInicio + 'T12:00:00')}</b>.</p>
         <button className="btn-secundario w-full" disabled={dia < 45} onClick={() => navegar('chequeo')}>
-          {dia < 45 ? `La medición se abre el Día 45 (faltan ${45 - dia})` : 'Hacer mi medición oficial'}
+          {dia < HITO_MEDIO ? `La medición se abre el día ${HITO_MEDIO} (faltan ${HITO_MEDIO - dia})` : 'Hacer mi medición oficial'}
         </button>
       </div>
 
       {bitacora.length > 0 && !dia91 && (
         <div className="tarjeta p-4 mb-4 flex items-center gap-3">
           <BookOpen size={18} color="var(--calido)" className="flex-none" />
-          <p className="t-cuerpo" style={{ fontSize: 13 }}>Tu bitácora lleva <b>{bitacora.length} líneas</b>. El Día 91 se te revela entera — es tu historia, escrita por ti.</p>
+          <p className="t-cuerpo" style={{ fontSize: 13 }}>Tu bitácora lleva <b>{bitacora.length} líneas</b>. El día 85 se te revela entera — es tu historia, escrita por ti.</p>
         </div>
       )}
 

@@ -4,6 +4,7 @@
  * contra Supabase (proyecto NUEVO de CdL) sin tocar las pantallas.
  */
 import type { CbiResultado } from '../data/cbi';
+import { TOTAL_DIAS } from '../data/camino';
 import type { Phq9Resultado } from '../data/phq9';
 import type { ZonaId } from '../data/zonas';
 
@@ -50,6 +51,8 @@ export interface ContextoLider {
   personas: string;
   edad: string;
   motivo: string;
+  /** Desde cuándo lo carga. Opcional: los chequeos viejos no lo tienen. */
+  desde?: string;
 }
 
 export interface ChequeoGuardado {
@@ -57,8 +60,27 @@ export interface ChequeoGuardado {
   contexto: ContextoLider;
   cbi: CbiResultado;
   phq9: Phq9Resultado;
-  rueda: Record<string, number>; // areaId -> 0-100
+  rueda: Record<string, number>; // medidaId -> 0-100 crudo (el Tablero)
   eneagramaTipos: number[];
+  /** El cuerpo el Día 0: la línea de la que se parte. */
+  cuerpo?: {
+    acoste: string;      // "HH:MM"
+    levante: string;     // "HH:MM"
+    despertares: number; // índice 0..3
+    energia0: number;    // 1..10
+    apagar: number[];    // índices de APAGADORES
+    ventanaAM: number;   // minutos reales
+    ventanaPM: number;
+  };
+  /** Sus palabras, tal como las escribió. Se le devuelven en el día 42 y el 84. */
+  palabras?: {
+    porquehoy: string;
+    costo: string;
+    oculto: string;
+    quien: string;
+    escena: string;
+  };
+  firma?: string;
   habitos: {
     horasSueno: number;
     entrenosSemana: number;
@@ -95,6 +117,9 @@ export interface BorradorChequeo {
   rueda: Record<string, number>;
   habitos: { horasSueno: number; entrenosSemana: number; horasTrabajo: number; cafeinaDia: number };
   eneaSel: number[];
+  cuerpo?: ChequeoGuardado['cuerpo'];
+  palabras?: Partial<NonNullable<ChequeoGuardado['palabras']>>;
+  firma?: string;
 }
 
 export function leerBorrador(): BorradorChequeo | null {
@@ -107,10 +132,10 @@ export function limpiarBorrador(): void {
   try { localStorage.removeItem(K.borrador); } catch { /* noop */ }
 }
 
-/** Fecha del Día 90 a partir de un ISO, formateada en castellano. */
+/** Fecha del último día del camino a partir de un ISO, formateada en castellano. */
 export function fechaDia90(desdeIso: string): string {
   const d = new Date(desdeIso);
-  d.setDate(d.getDate() + 90);
+  d.setDate(d.getDate() + TOTAL_DIAS_PROTOCOLO);
   return d.toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
@@ -286,7 +311,7 @@ export function getAcceso(): Acceso {
   return 'ninguno';
 }
 
-/* ── La Bitácora: las líneas honestas acumuladas (el testimonio del Día 91) ── */
+/* ── La Bitácora: las líneas honestas acumuladas (el testimonio del día 85) ── */
 export interface LineaBitacora { fecha: string; nota: string; }
 export function listarBitacora(): LineaBitacora[] {
   return listarDiario()
@@ -347,7 +372,7 @@ export function puedeGenerarInforme(): boolean {
   return new Date(y, m - 1, d) < new Date(hace6.getFullYear(), hace6.getMonth(), hace6.getDate());
 }
 
-const TOTAL_DIAS_PROTOCOLO = 90;
+const TOTAL_DIAS_PROTOCOLO = TOTAL_DIAS;
 
 /* ── EL MENSAJE AL DÍA 90: se sella al empezar, se abre en el Alta ── */
 export interface Mensaje90 { fecha: string; dia: number; texto: string; abierto?: string }
@@ -365,7 +390,7 @@ export function sellarMensaje90(texto: string): boolean {
   return true;
 }
 
-/** Solo el Día 90 (o después) y solo con Tratamiento activo. */
+/** Solo el último día (o después) y solo con Tratamiento activo. */
 export function puedeAbrirMensaje90(): boolean {
   const p = getProtocolo();
   if (!p || !getMensaje90()) return false;

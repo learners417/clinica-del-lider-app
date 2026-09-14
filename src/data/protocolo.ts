@@ -37,422 +37,444 @@ export const DOSIS: Dosis[] = [
   {
     dia: 1, titulo: 'El punto de partida', maestro: true, duracion: '8 min',
     senal: 'Ya tienes tu número. No te sorprendió lo que dice: te sorprendió verlo escrito. Llevabas tiempo sabiéndolo sin mirarlo. Hoy no cambiamos nada, y eso es a propósito. Los próximos ochenta y cuatro días empiezan por algo que casi ningún líder hace: mirar los propios números con la misma seriedad con la que mira los del negocio.',
-    accion: 'Abre tu resultado y léelo completo, despacio, una vez. Después escribe una sola línea: qué número te dolió más ver.',
+    accion: 'Abre tu resultado y léelo completo, despacio, una vez. Después escribe una sola línea: qué número te dolió más ver.'
   },
   {
     dia: 2, titulo: 'La hora de cierre', duracion: '5 min',
     senal: 'Tu jornada no termina cuando terminas: termina cuando decides que terminó. Sin una hora de cierre el trabajo se derrama sobre la cena, sobre tu pareja y sobre tu sueño, y encima lo llamas compromiso. Los que se recuperan no trabajan menos horas al principio. Trabajan horas con borde.',
     accion: 'Define tu hora de cierre para esta semana. Sé realista: si hoy cierras a las diez, pon las nueve y media. Escríbela y dísela a una persona: que alguien más la sepa es lo que la vuelve real.',
-    variante: 'Si hay días que no la puedes cumplir, elige cuatro de los siete. Cuatro cumplidos valen más que siete prometidos.',
+    variante: 'Si hay días que no la puedes cumplir, elige cuatro de los siete. Cuatro cumplidos valen más que siete prometidos.'
   },
   {
     dia: 3, titulo: 'El teléfono fuera', duracion: '10 min',
     senal: 'El teléfono en la mesa de luz hace dos cosas: te acompaña hasta el último segundo del día y te agarra en el primero del siguiente. Entre las dos, decide por ti qué piensas al dormirte y qué piensas al despertar. Tu cuarto tiene una sola función. Hoy se la devolvemos.',
     accion: 'Consigue un despertador que no sea tu teléfono; si no tienes uno, cómpralo hoy. Esta noche el teléfono carga en otra habitación.',
-    variante: 'Si estás de guardia o tienes hijos chicos, déjalo del otro lado del cuarto, boca abajo y en silencio, con el volumen alto solo para llamadas.',
+    variante: 'Si estás de guardia o tienes hijos chicos, déjalo del otro lado del cuarto, boca abajo y en silencio, con el volumen alto solo para llamadas.'
   },
   {
     dia: 4, titulo: 'El Apagado', duracion: '8 min',
     senal: 'No te desvela lo que pasó: te desvela que tu cuerpo sigue encendido cuando tú ya te acostaste. Estuvo todo el día preparándote para resolver, y a las once de la noche nadie le avisó que se terminó. Esto se apaga desde afuera. La exhalación larga es la palanca más directa que tienes sobre eso, y funciona en minutos.',
     accion: 'Con la luz baja, sentado o acostado: inhala cuatro segundos, exhala ocho. Sin forzar. Diez rondas. Si tienes el audio guiado, úsalo: hace el mismo trabajo y no tienes que contar.',
-    variante: 'Si dispones de menos tiempo, cinco rondas antes de apoyar la cabeza. La práctica corta hecha vale; la larga postergada no.',
+    variante: 'Si dispones de menos tiempo, cinco rondas antes de apoyar la cabeza. La práctica corta hecha vale; la larga postergada no.'
   },
   {
     dia: 5, titulo: 'La cafeína con horario', duracion: '2 min',
     senal: 'La cafeína no se va cuando dejas de sentirla. La mitad todavía está dando vueltas entre cinco y seis horas después, y una parte sigue ahí mucho más tiempo. Por eso te duermes igual y amaneces sin haber descansado: dormiste, pero más liviano toda la noche. No se trata de dejarla. Se trata de que trabaje para ti y no contra tu noche.',
     accion: 'Cuenta ocho horas hacia atrás desde tu hora de dormir: esa es tu última taza del día. Después de esa hora, agua o infusión sin cafeína.',
-    variante: 'Si tomas mucho, baja de a poco esta semana en vez de cortar de golpe. El objetivo es la hora, no la cantidad.',
+    variante: 'Si tomas mucho, baja de a poco esta semana en vez de cortar de golpe. El objetivo es la hora, no la cantidad.'
   },
   {
     dia: 6, titulo: 'La luz', duracion: '10 min',
     senal: 'Tu reloj interno no se ajusta con la hora del despertador: se ajusta con la luz. La de la mañana le avisa a tu cuerpo cuándo empieza el día, y con eso queda fijado, unas quince horas después, cuándo tiene que darte sueño. Esto es lo más barato y lo más ignorado de todo el protocolo.',
     accion: 'En la primera hora despierto, diez minutos afuera, sin lentes de sol y sin el teléfono en la mano. Alcanza con el balcón o la vereda. Y a la noche, una hora antes de dormir, baja las luces de la casa.',
-    variante: 'Si está nublado sirve igual: afuera hay muchísima más luz que adentro aunque no lo parezca. Si sales de noche, hazlo junto a la ventana más grande apenas amanezca.',
+    variante: 'Si está nublado sirve igual: afuera hay muchísima más luz que adentro aunque no lo parezca. Si sales de noche, hazlo junto a la ventana más grande apenas amanezca.'
   },
   {
     dia: 7, titulo: 'Las tres de la mañana', duracion: '2 min',
     senal: 'Despertarse de madrugada no es el problema. El problema es lo que haces en los tres minutos siguientes: miras la hora, calculas cuánto te queda, te acuerdas de algo pendiente y ahí sí ya no vuelves a dormir. Lo que te despierta es fisiología. Lo que te mantiene despierto son tus tres minutos, y esos los podemos entrenar.',
-    accion: 'Deja papel y lapicera al lado de la cama: si te despiertas y aparece un pendiente, lo escribes y lo sueltas. Tu cabeza lo sostiene solo porque tiene miedo de perderlo. No mires la hora, no toques el teléfono, exhalación larga hasta que se pase.',
+    accion: 'Deja papel y lapicera al lado de la cama: si te despiertas y aparece un pendiente, lo escribes y lo sueltas. Tu cabeza lo sostiene solo porque tiene miedo de perderlo. No mires la hora, no toques el teléfono, exhalación larga hasta que se pase.'
   },
   {
-    dia: 8, titulo: 'La cafeína tiene horario', duracion: '4 min',
-    senal: 'La cafeína tiene una vida media de ~6 horas: el café de las 17 sigue en tu sangre a las 23, sentado sobre tu sueño profundo. No hace falta dejarla — hace falta ponerle horario de oficina. El líder que "duerme mal desde hace años" muchas veces solo tiene un problema de agenda química.',
-    accion: 'Define tu hora de última cafeína (regla simple: 8 horas antes de tu hora de dormir objetivo). Escríbela en el Diario. Desde mañana, la respetas — hoy solo la firmas.',
+    dia: 8, titulo: 'Las horas reales', duracion: '12 min',
+    senal: 'Sabes exactamente cuánto facturó tu empresa el mes pasado. No sabes cuántas horas trabajaste la semana pasada. Si un socio te dijera que no lleva registro del recurso más caro del negocio, lo corregirías el mismo día. Tu tiempo es ese recurso, y hace años que no lo mides.',
+    accion: 'Abre tu agenda de los últimos siete días y suma las horas reales de trabajo: las de la oficina, las del teléfono a la noche y las del domingo. Anota el número.',
+    variante: 'Si no tienes la agenda cargada, reconstruye los siete días de atrás para adelante, a ojo. Un número aproximado sirve; ninguno no sirve.'
   },
   {
-    dia: 9, titulo: 'La conversación pendiente', duracion: '10 min',
-    senal: 'En tu Rueda hay un área humana golpeada — pareja, familia, amigos. Detrás de casi toda área humana golpeada hay una conversación que no está ocurriendo. No hace falta resolverla hoy. Hace falta dejar de fingir que no existe.',
-    accion: 'Identifica la conversación pendiente más importante de tu vida personal. Escribe en el Diario solo dos cosas: con quién es, y qué te frena. (No la tengas todavía — este protocolo prepara antes de exponer.)',
+    dia: 9, titulo: 'Lo que vale tu hora', duracion: '10 min',
+    senal: 'Ayer contaste las horas. Hoy les pones precio, porque un número sin precio no mueve a nadie y a ti los precios sí te mueven. Esto no se trata de cuánto ganas: se trata de en qué se va lo que ya estás ganando.',
+    accion: 'Divide tu facturación del último mes por las horas que trabajaste ese mes. Ese es el valor real de tu hora. Después escribe cuántas de esas horas hicieron algo que solo podías hacer tú.'
   },
   {
-    dia: 10, titulo: 'Cierre de fase: Ver', maestro: true, duracion: '6 min',
-    senal: '"Diez días mirando sin anestesia. Eso que sentiste esta semana — incomodidad, tal vez bronca, tal vez alivio — es la diferencia entre saber que estás fundido y VERLO. Ya tienes el mapa: tus números, tus drenajes, tus horarios reales, tu conversación pendiente. La fase que viene es quirúrgica: vamos a cortar. No todo. Lo que drena." — Javo',
-    accion: 'Relee tus notas de los días 5 y 9. Elige EL drenaje número uno — el que, si desapareciera, te devolvería más vida. Escríbelo en el Diario de hoy con esta forma exacta: "Esta semana interrumpo: ___".',
+    dia: 10, titulo: 'Tu primera semana medida', duracion: '8 min',
+    senal: 'Tienes siete días de Signos registrados. Eso es más información concreta sobre cómo funcionas que toda la que juntaste en los últimos cinco años. Hasta ahora tu estado era una sensación; desde hoy es una serie de datos.',
+    accion: 'Abre tu registro y mira las cuatro líneas juntas: sueño, energía, foco y actos de verdad. Escribe una sola frase con el patrón que ves.'
   },
   {
-    dia: 11, titulo: 'La regla de las pantallas', duracion: '5 min',
-    senal: 'Empieza Interrumpir. Primera cirugía: la última hora del día. Es la única hora que decide cómo van a ser las siguientes ocho (tu sueño) y por lo tanto las dieciséis de mañana. Una hora sin pantallas antes de dormir no es un lujo de monje: es mantenimiento de infraestructura crítica.',
-    accion: 'Hoy: última pantalla una hora antes de tu hora de dormir. Qué hacer con esa hora es libre (ducha caliente, papel, conversación, nada). Registra mañana el efecto en tus Signos.',
+    dia: 11, titulo: 'Cómo te ven', duracion: '15 min',
+    senal: 'Tu propia percepción de cómo estás es la menos confiable de todas las que hay disponibles, porque el que evalúa es el mismo que se acostumbró. La persona que te ve todos los días tiene datos que tú no tienes, y nunca se los pediste.',
+    accion: 'Pregúntale a alguien que viva contigo o trabaje contigo: cómo me viste este último año. Escucha hasta el final sin explicar, sin justificar y sin corregir. Cuando termine, solo di gracias.',
+    variante: 'Si hoy no tienes a esa persona cerca, mándale el mensaje y lee la respuesta dos veces antes de contestar.'
   },
   {
-    dia: 12, titulo: 'Una reunión menos', duracion: '10 min',
-    senal: 'Toda agenda de líder quemado tiene al menos una reunión recurrente que sobrevive por inercia: nadie recuerda por qué existe, nadie se anima a matarla. Cada semana te cobra una hora — y te la cobra en tu mejor horario. Las reuniones no son trabajo: son una de las formas del trabajo, y la más cara.',
-    accion: 'Abre tu calendario. Encuentra UNA reunión recurrente eliminable o convertible en mensaje. Cancélala hoy (o propón el cambio). Escribe en el Diario cuántas horas al año acabas de recuperar.',
+    dia: 12, titulo: 'Todo lo que sostienes', duracion: '10 min',
+    senal: 'Nadie sabe cuánto carga hasta que lo escribe. Mientras está en la cabeza se siente pesado pero indefinido, y lo indefinido no se puede repartir. En papel se vuelve una lista, y una lista sí se puede trabajar.',
+    accion: 'Diez minutos de reloj: escribe todo lo que hoy depende de que tú estés. Decisiones, aprobaciones, clientes, personas, cuentas, cosas de la casa. Sin filtrar y sin ordenar.'
   },
   {
-    dia: 13, titulo: 'El "no" ensayado', duracion: '8 min',
-    senal: 'Decir que no no es un rasgo de personalidad: es una habilidad, y como toda habilidad, se practica en frío. El líder agotado dice que sí en caliente porque no tiene un "no" preparado. Tener la frase lista es la mitad del límite.',
-    accion: 'Escribe en el Diario tu "no" ensayado — una sola frase, tuya, amable y sin excusas (ejemplo base: "No puedo tomarlo esta semana; puedo el [día] o puede hacerlo [persona]"). Dila en voz alta dos veces. En serio: en voz alta.',
+    dia: 13, titulo: 'Lo que no es tuyo', duracion: '8 min',
+    senal: 'De esa lista, una parte es tuya de verdad: nadie más puede hacerla. La otra parte la agarraste porque en su momento era más rápido hacerla que enseñarla. Eso fue una decisión razonable hace tres años y hoy es la mitad de tu carga.',
+    accion: 'Marca con una cruz todo lo de la lista que otra persona podría hacer si estuviera enseñada. No lo que haría igual de bien que tú: lo que podría hacer. Cuenta las cruces.'
   },
   {
-    dia: 14, titulo: 'Dos semanas: la primera evidencia', duracion: '6 min',
-    senal: 'Catorce días. Si registraste tus Signos, ya hay una curva — quizás pequeña, pero tuya y medida. Y algo más importante: llevás dos semanas haciendo algo que la versión tuya del Día 0 no hacía — sostener un protocolo. Eso es identidad en construcción, no motivación. La motivación se acaba; los sistemas no.',
-    accion: 'Compara tu energía promedio de esta semana con la anterior (el Diario lo muestra). Suba o baje, escribe la respuesta honesta a esto: ¿qué fue lo más difícil de sostener? Eso que escribiste es tu próximo hito.',
+    dia: 14, titulo: 'Cierre del primer bloque', maestro: true, duracion: '10 min',
+    senal: '"Dos semanas. No cambiaste tu vida todavía, y eso está bien: mediste. Hoy sabes cuántas horas trabajas de verdad, cuánto vale cada una, qué patrón tiene tu semana, cómo te ve la persona que convive contigo y cuánto de lo que cargas no te corresponde. La mayoría de los líderes que conozco no supo nunca ninguna de esas cinco cosas. Acá termina Ver. Lo que viene se llama Interrumpir, y ahí ya no se mira: se corta." — Javo',
+    accion: 'Elige una sola cruz de tu lista: la que más pesa. Escríbela, y al lado escribe el nombre de la persona que podría quedársela si estuviera enseñada.'
   },
   {
-    dia: 15, titulo: 'El inventario del teléfono', duracion: '8 min',
-    senal: 'Tu teléfono decide más veces por día que tu directorio. Cada notificación es alguien comprando tu atención sin pagarte. No hace falta tirarlo al lago: hace falta despedir a los que entran sin permiso.',
-    accion: 'Abre la configuración de notificaciones. Deja sonido solo para humanos que amas y emergencias reales. Todo lo demás — correo, grupos, noticias, redes — en silencio. 8 minutos que te devuelven años de atención.',
+    dia: 15, titulo: 'Nombrarlo', duracion: '8 min',
+    senal: 'Todos los que llegan acá tienen algo con lo que se apagan. No es un defecto de carácter: es la única salida que encontró tu cuerpo para bajar de un día que no baja solo. Funciona, por eso lo repites. Y tiene un precio, por eso estamos hablando de esto.',
+    accion: 'Escribe con qué te apagas y a qué hora empieza. Sin adjetivos y sin justificarlo: solo el qué y la hora. Hoy no se cambia nada.',
+    variante: 'Si aparece más de uno, escríbelos todos. Esta semana vamos a trabajar con uno solo, pero conviene ver la lista completa.'
   },
   {
-    dia: 16, titulo: 'El almuerzo sin pantalla', duracion: '20 min',
-    senal: 'Comes frente a una pantalla para "aprovechar el tiempo". Resultado: no comiste ni trabajaste — hiciste las dos cosas a medias, y tu sistema nervioso no tuvo ni una pausa real en todo el día.',
-    accion: 'Hoy: una comida sin ninguna pantalla. Solo tú, el plato, y mirar por la ventana si quieres. Nota qué incómodo es al principio — esa incomodidad es la medida de cuánto lo necesitas.',
+    dia: 16, titulo: 'El precio', duracion: '10 min',
+    senal: 'Hasta ahora la discusión sobre esto la tuviste siempre en el terreno de la culpa, y en ese terreno pierdes. Vamos a moverla al terreno donde ganas: los datos. Los tuyos, de quince días, no los de un estudio.',
+    accion: 'Abre tus Signos. Separa las noches en que usaste tu apagador de las que no, y compara las dos cosas de la mañana siguiente: las horas de sueño y la energía al despertar. Anota la diferencia.',
+    variante: 'Si todavía no tienes noches de las dos clases, anótalo igual y vuelve a este día el domingo. El dato existe, solo que aún no lo juntaste.'
   },
   {
-    dia: 17, titulo: 'Cierre: la semana de los bordes', duracion: '6 min',
-    senal: 'Tres semanas midiendo. Esta semana le pusiste borde a las pantallas, a las reuniones y a tu boca (el "no" ensayado). El sistema empieza a tener forma.',
-    accion: 'Mira tus horas de sueño de esta semana en Hoy y compáralas con la primera. Escribe en tu línea de hoy: ¿cuánto cambió el número — y qué lo cambió?',
+    dia: 17, titulo: 'El que eliges', duracion: '5 min',
+    senal: 'No se corta todo junto, porque el que corta todo junto vuelve a los cuatro días con todo junto. Se corta uno. Cinco noches. Empieza esta.',
+    accion: 'Elige uno solo de tu lista: el que tenga el precio más alto según lo que mediste ayer. Escribe la frase completa, con nombre y con fecha: durante cinco noches, desde hoy, no uso esto para apagarme.',
+    variante: 'Si lo que elegiste es una sustancia y ya intentaste cortarla antes sin poder, no lo hagas solo esta semana: llévalo a tu consulta y lo trabajamos ahí. Que cueste no es falta de voluntad, es información clínica.'
   },
   {
-    dia: 18, titulo: 'La auditoría de agenda', duracion: '12 min',
-    senal: 'Tu agenda es el documento más honesto de tu vida: dice en qué se va tu tiempo de verdad, no en qué crees que se va. Hoy la lees como leerías la de un empleado que está fundido — con frialdad y cariño a la vez.',
-    accion: 'Abre tu calendario de la semana pasada. Marca cada bloque con una letra: T (solo tú podías), D (delegable), I (inercia — nadie sabe por qué existe). Cuenta las horas I. Escríbelas en tu línea de hoy.',
+    dia: 18, titulo: 'Lo que aparece', duracion: '8 min',
+    senal: 'Noche dos. A la hora en que te apagabas va a aparecer algo, y ese algo es lo que el apagador venía tapando. Puede ser ansiedad, puede ser una conversación pendiente, puede ser aburrimiento, puede ser tristeza. No es una recaída ni un problema nuevo: es lo que estaba abajo y ahora se ve.',
+    accion: 'A esa hora, en vez de apagarte, escribe dos líneas: qué apareció y dónde lo sentiste en el cuerpo. Después haz el Apagado y vete a dormir.'
   },
   {
-    dia: 19, titulo: 'El bloque protegido', duracion: '5 min + 90 mañana',
-    senal: 'Tu mejor pensamiento vale más que tus mejores 40 respuestas de WhatsApp. Pero el pensamiento profundo necesita algo que tu agenda no tiene: 90 minutos seguidos sin que nadie te toque.',
-    accion: 'Agenda AHORA un bloque de 90 minutos mañana, en tu mejor horario, con nombre en el calendario ("bloque protegido") y teléfono en otra habitación. Es una reunión contigo: se cancela tan poco como una con tu mejor cliente.',
+    dia: 19, titulo: 'El reemplazo', duracion: '10 min',
+    senal: 'Un hábito no se saca: se reemplaza. El lugar que ocupaba queda vacío y el cuerpo lo llena con lo primero que encuentra, casi siempre con lo mismo de antes. Hoy decides tú qué va en ese lugar.',
+    accion: 'Elige una sola cosa concreta para hacer a esa hora: caminar diez minutos, una ducha, el Apagado más largo, leer en papel, llamar a alguien. Déjala preparada hoy, antes de que llegue la hora.',
+    variante: 'Que sea algo que ya tengas a mano. Si el reemplazo necesita que salgas a comprar algo, no lo vas a hacer.'
   },
   {
-    dia: 20, titulo: 'Delegar el drenaje n.º 1', duracion: '15 min',
-    senal: '"Es más rápido hacerlo yo" es la frase que te tiene acá. Es verdad hoy — y mentira en total: hacerlo tú 50 veces al año cuesta 50 veces; enseñarlo bien cuesta una. La delegación no es soltar: es transferir con instrucción.',
-    accion: 'Toma el drenaje n.º 1 que elegiste el Día 10. Escribe la instrucción en 5 pasos (como para alguien que no te puede preguntar nada) y entrégala HOY a quien corresponda, con fecha de primera revisión.',
+    dia: 20, titulo: 'La coartada', duracion: '8 min',
+    senal: 'Noche cuatro, y a esta altura ya apareció la frase. Todos tenemos una y es siempre razonable: me lo gané, fue un día bravo, mañana empiezo, una no hace nada. Esa frase no la dices tú: la dice la parte tuya que quiere que todo siga igual. Cuando la escuchas y la reconoces, deja de darte órdenes.',
+    accion: 'Escribe tu frase exacta, la que te dijiste esta semana. Debajo escribe qué te costó la última vez que le hiciste caso.'
   },
   {
-    dia: 21, titulo: 'El "no" en vivo', duracion: 'el momento que aparezca',
-    senal: 'Ensayaste tu "no" el Día 13. Hoy se estrena. El trabajo emocional que no se convierte en conducta se evapora en una semana — esta es la conversión.',
-    accion: 'Hoy dices tu "no" ensayado a UNA cosa real (un pedido, una reunión, un favor que no te toca). Amable, sin excusas, con tu frase. Después escribe en tu línea qué pasó de verdad — casi siempre, nada. Esa es la evidencia.',
+    dia: 21, titulo: 'Cinco noches, contadas', maestro: true, duracion: '10 min',
+    senal: '"Se terminaron las cinco noches. Cuenta cuántas cumpliste, sin redondear para arriba y sin castigarte. Tres de cinco es un resultado real y es muchísimo más que cero. Lo que importa no es el número: es que ahora sabes que puedes. Hasta hace tres semanas ni siquiera lo habías intentado, y te habías convencido de que era parte de quien eres. No lo era." — Javo',
+    accion: 'Cuenta las noches cumplidas y anótalas. Después decide una sola cosa: si esto sigue cortado, si vuelve con horario, o si lo llevas a la consulta. Escribe cuál de las tres.'
   },
   {
-    dia: 22, titulo: 'El sedante honesto', duracion: '4 min',
-    senal: 'El vaso de la noche "para bajar" funciona: te apaga. El problema es lo que hace después: fragmenta tu sueño profundo y te entrega a las 3AM con la cabeza encendida. No es un juicio moral — es farmacología. Alcohol es el somnífero que te despierta.',
-    accion: 'Esta noche, sin el vaso (o córtalo 3 horas antes de dormir). Mañana compara cómo despertaste. Con TU dato, decide tú — acá no hay sermones, hay mediciones.',
+    dia: 22, titulo: 'Cuánto entra', duracion: '10 min',
+    senal: 'Tu cabeza es el instrumento con el que te ganas la vida y es lo único que nunca le hiciste mantenimiento. Le exiges decisiones finas mientras le metes catorce horas de entrada sin filtro. Antes de sacarle peso, hay que ver cuánto peso tiene.',
+    accion: 'Busca el tiempo de uso de tu teléfono de los últimos siete días y anota el promedio diario. Después mira cuántas veces lo desbloqueaste ayer. Los dos números, escritos.',
+    variante: 'En iPhone está en Ajustes, Tiempo de uso. En Android, en Bienestar digital. Si nunca lo activaste, actívalo hoy y vuelve a este día mañana.'
   },
   {
-    dia: 23, titulo: 'Luz de mañana', duracion: '10 min',
-    senal: 'Tu reloj interno no se regula de noche: se ancla de mañana. 10 minutos de luz natural antes de las 10 le dicen a tu cerebro "el día empezó" — y esa señal, 14 horas después, es la que te ayuda a dormir. Es la herramienta de sueño más barata que existe.',
-    accion: 'Hoy, dentro de tus primeras 2 horas despierto: 10 minutos afuera (balcón, vereda, caminata corta). Sin anteojos de sol, sin mirar el sol de frente. Si puedes, combínalo con la caminata sin input.',
+    dia: 23, titulo: 'El silencio del bolsillo', duracion: '12 min',
+    senal: 'Cada notificación te cobra dos veces: una cuando la miras y otra cuando vuelves a lo que estabas haciendo, que tarda bastante más de lo que crees. No estás distraído porque te falte disciplina. Estás distraído porque configuraste un aparato para interrumpirte y nunca lo revisaste.',
+    accion: 'Apaga todas las notificaciones salvo llamadas y los mensajes de dos personas que elijas por su nombre. Todas las demás aplicaciones quedan sin sonido, sin vibración y sin globito.',
+    variante: 'Si te da miedo perderte algo del trabajo, define en qué momentos del día vas a revisar esa aplicación. Tres veces al día es revisar; cuarenta veces es que ella te revisa a ti.'
   },
   {
-    dia: 24, titulo: 'Cierre: la semana de la agenda', duracion: '6 min',
-    senal: 'Esta semana tu agenda dejó de ser algo que te pasa y empezó a ser algo que decides: la auditaste, protegiste un bloque, delegaste con instrucción, dijiste un "no" real.',
-    accion: 'Revisa: ¿el bloque protegido sobrevivió? ¿La delegación del Día 20 avanzó? Escribe en tu línea qué borde de esta semana vas a defender la próxima — uno solo.',
+    dia: 24, titulo: 'La primera hora', duracion: '5 min',
+    senal: 'Lo primero que entra en la mañana define el tono del día entero. Si lo primero es el pedido de otro, tu día arranca siendo de otro, y después pasas doce horas intentando recuperarlo. Ya sacaste el teléfono del cuarto en el día 3. Hoy extendemos eso a la primera hora despierto.',
+    accion: 'Hoy, hasta que pase una hora desde que abriste los ojos, no abres mensajes, ni mail, ni redes. La luz de la mañana, tu Dosis y el desayuno van primero.',
+    variante: 'Si una hora es imposible con tu casa y tus horarios, empieza con treinta minutos. Lo que se cumple se sostiene.'
   },
   {
-    dia: 25, titulo: 'La dieta de información', duracion: '5 min',
-    senal: 'Tu cabeza no para también por lo que le das de comer: noticias, mercados, el scroll "para despejarte" que te llena de todo menos despeje. La información sin decisión asociada es ruido con disfraz de responsabilidad.',
-    accion: 'Elige TU horario de información (una ventana de 20-30 min por día para noticias/redes/mercados). Fuera de esa ventana: nada. Borra hoy la app que más te chupa — la puedes reinstalar cuando quieras; ese es el punto.',
+    dia: 25, titulo: 'La bandeja no es tu agenda', duracion: '10 min',
+    senal: 'El que abre el correo antes de decidir su día trabaja todo el día para la agenda de otros, y a la noche siente que no hizo nada propio. No es una sensación: es exactamente lo que pasó. La bandeja de entrada es la lista de prioridades de otras personas.',
+    accion: 'Antes de abrir cualquier bandeja, escribe las tres cosas que quieres que pasen hoy. Después abre. Al final del día, marca cuántas de las tres pasaron.'
   },
   {
-    dia: 26, titulo: 'El medio día protegido', duracion: '4 min hoy',
-    senal: 'No recuerdas tu último medio día sin trabajar — sin "un mail cortito", sin "reviso algo". Tu empresa sobrevive medio día sin ti. Si no lo crees, ese es exactamente el problema que estamos tratando.',
-    accion: 'Elige medio día de este fin de semana (4-5 horas) y decláralo protegido: avísale HOY a tu equipo y a tu familia, en esas palabras. El teléfono, en un cajón. Qué hacer con esas horas es libre — el punto es de quién son.',
+    dia: 26, titulo: 'Un lugar para todo', duracion: '12 min',
+    senal: 'Tu cabeza está guardando cosas de memoria que no tendría que estar guardando, y por eso te despierta a las tres de la mañana: no confía en que estén anotadas en algún lado. El ruido no es solo lo que entra. Es todo lo abierto que nunca aterrizó en ningún lugar.',
+    accion: 'Elige un solo lugar para capturar todo lo que aparece: una libreta, una nota del teléfono, lo que sea, pero uno solo. Vacía ahí todo lo que tengas abierto, sin ordenarlo. Doce minutos de reloj.',
+    variante: 'Si ya tienes tres sistemas, ese es el problema. Elige uno y abandona los otros dos esta semana.'
   },
   {
-    dia: 27, titulo: 'La cena sin teléfonos', duracion: 'la cena de hoy',
-    senal: 'Tu familia no necesita un discurso sobre tu cambio. Necesita evidencia. La primera: una mesa donde estés entero. El teléfono de TODOS en una caja no es una regla contra tus hijos — es un regalo que empieza por ti.',
-    accion: 'Esta noche: cena sin teléfonos, los de todos, incluido el tuyo. Una caja o un cajón, hasta levantar la mesa. Si preguntan por qué, di la verdad: "quiero estar donde estoy". Escribe después qué pasó en la mesa.',
+    dia: 27, titulo: 'Veinte minutos sin nada', duracion: '20 min',
+    senal: 'Las mejores ideas que tuviste en tu vida no aparecieron mientras consumías información. Aparecieron manejando, en la ducha, caminando. Tu cabeza necesita períodos vacíos para conectar lo que ya sabe, y hace años que no le das ninguno. No es descanso: es el trabajo que solo puede hacer cuando la dejas sola.',
+    accion: 'Camina veinte minutos sin auriculares, sin teléfono y sin nadie al lado. Si aparece una idea, anótala al volver, no durante.',
+    variante: 'Si hoy no puedes salir, siéntate veinte minutos mirando por la ventana. Suena raro y funciona igual.'
   },
   {
-    dia: 28, titulo: 'La revisión de drenajes', duracion: '10 min',
-    senal: 'Hace 23 días hiciste tu mapa de drenajes. Hoy lo vuelves a mirar con otros ojos: cortaste cosas, delegaste una, dijiste que no. Lo que sigue vivo en la lista ya no está ahí por inercia — está ahí porque no decidiste. Eso también es un dato.',
-    accion: 'Relee tu mapa del Día 5. Marca: qué murió, qué delegaste, qué sigue drenando. Elige el próximo delegable y repite el método del Día 20 esta semana (instrucción de 5 pasos + entrega + fecha).',
+    dia: 28, titulo: 'La cabeza con espacio', maestro: true, duracion: '10 min',
+    senal: '"Cuatro semanas. Fíjate en algo: esta semana no te pedí que trabajaras más ni mejor, y sin embargo es probable que hayas decidido más rápido. No te volviste más inteligente en siete días. Le sacaste ruido al mismo instrumento de siempre. Eso es todo lo que pasó, y es lo que la mayoría no prueba nunca porque está convencida de que el problema es la capacidad." — Javo',
+    accion: 'Mira tu tiempo de uso de esta semana y compáralo con el número que anotaste el día 22. Después escribe una sola cosa de esta semana que se queda para siempre.'
   },
   {
-    dia: 29, titulo: 'La hora de cierre, renegociada', duracion: '5 min',
-    senal: 'Hace 4 semanas firmaste tu primera hora de cierre — realista para el que eras. Hoy tienes evidencia: sabes qué días la cumpliste y qué se lo impidió. Los sistemas no se sostienen por fuerza: se ajustan con datos.',
-    accion: 'Con tus 4 semanas de Signos a la vista, fija tu hora de cierre definitiva (puede ser más temprano — o más honesta). Escríbela en tu línea de hoy con esta forma: "Mi jornada termina a las ___. Firmado."',
+    dia: 29, titulo: 'De dónde sale tu agenda', duracion: '12 min',
+    senal: 'Tu agenda no la armaste tú. La armaron, de a un pedido por vez, personas que te pidieron algo en un momento en que decir que sí era más rápido que pensarlo. Cada una de esas veces fue razonable. La suma es la vida que tienes hoy.',
+    accion: 'Mira los compromisos de la semana que viene. Al lado de cada uno escribe quién lo pidió. Después marca los que habrías puesto tú si la agenda estuviera vacía.'
   },
   {
-    dia: 30, titulo: 'Cierre de fase: Interrumpir', maestro: true, duracion: '8 min',
-    senal: '"Un mes. Mira tu lista: pantallas con borde, reuniones muertas, un drenaje delegado, un no dicho en voz alta, medio día tuyo, una cena entera. Nadie aplaudió — así es esto: lo que cortaste no hace ruido, solo deja espacio. La fase que viene usa ese espacio para reconstruir: cuerpo, comida, orden, y las personas que te están esperando. Lo más difícil ya no es cortar. Es volver." — Javo',
-    accion: 'Escribe tu lista de lo interrumpido (todo lo real de estas 3 semanas, aunque sea imperfecto). Guárdala en tu línea de hoy. Mañana empieza Transformar — y empieza por tu cuerpo.',
+    dia: 30, titulo: 'El sí automático', duracion: '8 min',
+    senal: 'El problema no es que digas que sí. Es la velocidad: contestas antes de haber pensado, porque el silencio te resulta más incómodo que el compromiso. Y después cumples, porque cumplir es lo que eres. Entre el pedido y tu respuesta hay un lugar vacío, y ahí es donde se recupera una vida.',
+    accion: 'Hoy, a todo pedido que te llegue, respondes lo mismo: déjame verlo y te confirmo antes de esta noche. A todos, incluso a los que ibas a aceptar igual. Hoy entrenas la pausa, no la respuesta.',
+    variante: 'Si el pedido es de alguien a quien no le puedes pedir tiempo, igual tómate treinta segundos antes de contestar. La pausa corta también cuenta.'
   },
   {
-    dia: 31, titulo: 'El contrato de movimiento', duracion: '10 min',
-    senal: 'Empieza Transformar — y empieza por el cuerpo, porque el cuerpo es la batería de todo lo demás. No vamos a "ponerte en forma": vamos a devolverle movimiento a un sistema que lleva años sentado sosteniendo todo. El movimiento es tratamiento del ánimo con evidencia sólida — no un extra estético.',
-    accion: 'Firma tu contrato mínimo: 3 sesiones de 20-30 min esta semana (caminata rápida, fuerza básica, lo que SÍ vas a hacer). Agéndalas AHORA en el calendario, con nombre, como reuniones. La primera: hoy o mañana.',
+    dia: 31, titulo: 'El no que no ofende', duracion: '8 min',
+    senal: 'No dices que no porque crees que vas a quedar mal, y entonces explicas. La explicación larga es justamente lo que te hace quedar mal: abre la negociación, porque cada motivo que das es un motivo que el otro puede resolver. El no corto y amable se acepta. El no largo se discute.',
+    accion: 'Escribe tus dos frases y apréndelas. Una: gracias por pensar en mí, esta vez no voy a poder. Otra: eso no lo puedo, lo que sí puedo es esto. Sin motivos y sin disculpas largas.'
   },
   {
-    dia: 32, titulo: 'La regla de los 10 minutos', duracion: '20-30 min',
-    senal: 'Vas a tener días sin ganas — hoy quizás. La regla que salva el sistema: empieza, con permiso total de parar a los 10 minutos. El 90% de las veces sigues; el 10% que paras, cumpliste igual. La constancia no es intensidad: es no negociar el inicio.',
-    accion: 'Sesión 1 de tu contrato. Si no hay ganas, aplica la regla: 10 minutos y decides. Registra después en tu línea cómo entraste y cómo saliste — esa diferencia es el dato que te va a servir los próximos 60 días.',
+    dia: 32, titulo: 'El primero', duracion: '5 min',
+    senal: 'Hoy dices uno. No el más grande: el más chico de tu lista, el que no te va a costar la relación ni el negocio. Esto se entrena como cualquier otra cosa, y nadie empieza por el peso máximo.',
+    accion: 'Elige el pedido más chico de los que marcaste el día 29 y di que no, hoy, con una de tus dos frases. Anota a quién y qué sentiste al mandarlo.',
+    variante: 'Si hoy no aparece ninguno nuevo, cancela algo que ya habías aceptado y no quieres hacer. Cancelar también es decir que no, y cuesta más.'
   },
   {
-    dia: 33, titulo: 'Las respiraciones de arranque', duracion: '5 min',
-    senal: 'La respiración es el único control manual de tu sistema nervioso. Exhalar largo frena; inhalar fuerte acelera. Hoy sumas el arranque de mañana: 5 respiraciones profundas al despertar, antes del teléfono. Si quieres más voltaje: rondas de respiración fuerte — siempre SENTADO, nunca en el agua ni manejando, y no si tienes condición cardíaca.',
-    accion: 'Mañana al despertar, antes de cualquier pantalla: 5 respiraciones profundas (inhala hondo, exhala largo). 60 segundos. Se suma a la luz de mañana — juntas son tu encendido.',
+    dia: 33, titulo: 'Lo que pasó después', duracion: '8 min',
+    senal: 'Antes de decir que no, tu cabeza te mostró una película: la cara del otro, el enojo, la relación dañada. Vamos a comparar esa película con lo que efectivamente ocurrió. En la enorme mayoría de los casos no pasa nada, y esa es la información más cara que te vas a llevar de estas doce semanas.',
+    accion: 'Escribe dos líneas: qué imaginaste que iba a pasar cuando dijiste que no, y qué pasó de verdad.'
   },
   {
-    dia: 34, titulo: 'La ducha del líder', duracion: '1 min extra',
-    senal: 'El frío al final de la ducha es un entrenamiento de dos cosas que te faltan: energía real (descarga de noradrenalina, sin café) y tolerancia a la incomodidad elegida — el músculo exacto que se atrofió mientras evitabas todo lo difícil que no fuera trabajo. Es opcional. Como todo lo que funciona.',
-    accion: 'Hoy: los últimos 15 segundos de tu ducha, en frío. Respira lento — el que controla la respiración controla el frío. Esta semana: 15 seg. La próxima, si quieres: 30. Nunca es obligatorio; siempre es tuyo.',
+    dia: 34, titulo: 'La devolución', duracion: '20 min',
+    senal: 'El día 13 marcaste con una cruz todo lo que otra persona podría hacer si estuviera enseñada, y el día 14 escribiste un nombre. Delegar no es mandar la tarea: es enseñarla una vez, aceptar que las primeras veces va a salir peor que contigo, y no volver a agarrarla. La parte cara es la segunda, no la primera.',
+    accion: 'Busca a esa persona y entrégale esa tarea. Muéstrale cómo la haces, dile cuál es el resultado que esperas y cuándo lo revisan juntos. Hoy no delegas dos: una.',
+    variante: 'Si todavía no tienes a quién, hoy escribe qué tendría que saber alguien para poder quedársela. Esa lista es la búsqueda que tienes que abrir.'
   },
   {
-    dia: 35, titulo: 'Sesión 2 + el porqué', duracion: '20-30 min',
-    senal: 'Dato para tu cabeza escéptica: el ejercicio regular tiene efectos comparables a tratamientos de primera línea para el ánimo bajo en estudios clínicos. No es magia ni "endorfinas" de póster: es tu fisiología recuperando rango. Estás tomando tu medicación — se llama moverse.',
-    accion: 'Sesión 2 del contrato. Hoy presta atención a UNA cosa: tu energía 2 horas después de terminar, comparada con un día sin sesión. Escríbela.',
+    dia: 35, titulo: 'Tu agenda con tu firma', maestro: true, duracion: '10 min',
+    senal: '"Cinco semanas. Dijiste un no, no se rompió nada y devolviste algo que no te correspondía. Eso es todo lo que hace falta para que la próxima vez sea más fácil, porque el miedo no se va argumentando: se va cuando lo pruebas y no pasa lo que te habías imaginado. Acá termina el trabajo del borde. La semana que viene vamos al lugar donde el borde se te cae siempre, que no es la agenda: es quién crees que tienes que ser." — Javo',
+    accion: 'Cuenta cuántas horas te devolvieron los noes de esta semana y la tarea que delegaste. Escribe el número, y al lado escribe en qué las vas a usar.'
   },
   {
-    dia: 36, titulo: 'El cuerpo en la agenda de viaje', duracion: '6 min',
-    senal: 'Tu sistema tiene que sobrevivir a tu vida real: viajes, semanas de locura, cenas de trabajo. La versión mínima viable de todo: 10 sentadillas + 10 flexiones + caminar al aeropuerto no necesita gimnasio ni ropa. Un sistema que exige condiciones perfectas es un sistema muerto.',
-    accion: 'Escribe tu "versión de viaje" del contrato de movimiento (qué haces cuando no puedes lo normal — mínimo absurdo de 7 minutos). Guárdala. La vas a necesitar, y ahora existe.',
+    dia: 36, titulo: 'El Personaje', maestro: true, duracion: '10 min',
+    senal: '"Hay una versión tuya que sale cuando te están mirando. El que puede con todo, el que no se queja, el que resuelve. No es falso: es una parte tuya real, y te sirvió para llegar hasta aquí. El problema no es que exista. El problema es que ya no se apaga, y sostenerlo veinticuatro horas por día es la mitad de tu cansancio." — Javo',
+    accion: 'Escribe en tercera persona cómo es ese que sale cuando te miran: qué dice, qué nunca admite, cómo se para. Después ponle un nombre. Cualquiera, el primero que aparezca.',
+    variante: 'Si te suena ridículo ponerle nombre, hazlo igual. Lo que tiene nombre se puede ver venir; lo que no tiene nombre eres tú.'
   },
   {
-    dia: 37, titulo: 'Cierre: la semana del cuerpo', duracion: '6 min',
-    senal: 'Una semana con el cuerpo de vuelta en el equipo. No importa si fueron 3 sesiones perfectas o 2 a medias: importa que el sistema existe, tiene contrato, regla de arranque y versión de viaje.',
-    accion: 'Cuenta tus sesiones reales de la semana y tu energía promedio (está en Hoy). Escribe: ¿qué le cambió el movimiento a tus noches? Ajusta el contrato de la próxima semana si hace falta — con datos, no con culpa.',
+    dia: 37, titulo: 'Cuándo se pone el traje', duracion: '8 min',
+    senal: 'No aparece todo el tiempo: aparece en momentos precisos, y esos momentos se repiten todas las semanas. Reunión de equipo, llamada con un cliente grande, mesa familiar, alguien que te pregunta cómo estás. Si conoces los momentos, lo ves venir.',
+    accion: 'Escribe los tres momentos de tu semana en los que ese Personaje sale sí o sí. Hoy solo los anotas: no hay que hacer nada distinto todavía.'
   },
   {
-    dia: 38, titulo: 'El desayuno con proteína', duracion: '5 min',
-    senal: 'Semana de comida. Sin dieta, sin pesar nada: 4 movimientos que estabilizan tu energía. El primero: proteína a la mañana. El desayuno de harinas y café te da un pico y un pozo a las 11 — y ese pozo lo tapas con más café, que a la noche te cobra el sueño. Es una cadena. Se corta en el eslabón uno.',
-    accion: 'Mañana: desayuno con proteína real (huevos, yogur, queso, lo que te guste). Nota tu energía a las 11 — la hora del pozo. Ese es tu experimento de la semana.',
+    dia: 38, titulo: 'Lo que cuesta sostenerlo', duracion: '10 min',
+    senal: 'Actuar consume. No es una metáfora: mostrar por fuera algo distinto de lo que pasa por dentro tiene un costo de energía medible, y tú llevas años pagándolo todos los días sin haberlo contado nunca.',
+    accion: 'Abre tus Signos y busca los días que tuvieron alguno de esos tres momentos. Compara la energía del día siguiente con la de los días que no los tuvieron. Anota la diferencia.'
   },
   {
-    dia: 39, titulo: 'El agua a mano', duracion: '2 min',
-    senal: 'La fatiga de las 16 muchas veces es sed con disfraz. No hace falta contar litros: hace falta que el agua esté MÁS CERCA que el café. La conducta sigue a la distancia — eso es diseño de ambiente, no fuerza de voluntad.',
-    accion: 'Pon una botella grande en tu escritorio, llena, ahora. Regla simple: se termina antes de la tarde. El café sigue existiendo — pero con su horario del Día 8, y después del agua.',
+    dia: 39, titulo: 'Quién dijo todos esos síes', duracion: '8 min',
+    senal: 'La semana pasada trabajaste tus síes automáticos. Hoy aparece quién los decía. El que no puede decir que no es el Personaje, porque un no lo desarma: si dice que no, deja de ser el que puede con todo. Por eso el límite no se sostenía con voluntad. No era un problema de agenda.',
+    accion: 'Mira la lista del día 29 y escribe al lado de tres compromisos qué habría pasado con la imagen que tienen de ti si hubieras dicho que no.'
   },
   {
-    dia: 40, titulo: 'Un ultraprocesado menos', duracion: '3 min',
-    senal: 'No vamos a limpiarte la alacena — vamos a sacar UNO: el que comes en piloto automático (el paquete de la tarde, lo dulce de la noche). Un cambio sostenido vale más que diez prometidos. Y el azúcar de la noche también es un impuesto al sueño.',
-    accion: 'Identifica tu ultraprocesado automático n.º 1 y decide su reemplazo concreto (fruta, frutos secos, nada). Hoy no lo compras más — la batalla se gana en el supermercado, no frente a la alacena.',
+    dia: 40, titulo: 'Para quién', duracion: '12 min',
+    senal: 'Esa versión tuya se construyó para alguien. Siempre hay una primera persona a la que había que demostrarle algo: un padre, una madre, un socio, un profesor, alguien de quien dependía que te fuera bien. Y hay algo que casi nadie se detiene a mirar: muchas veces esa persona ya no está mirando. A veces ya no está. Y el Personaje sigue trabajando para una audiencia que se fue.',
+    accion: 'Escribe el nombre de la primera persona a la que le mostraste ese Personaje. Después escribe una sola pregunta y respóndela: hoy, esa persona, qué necesitaría de ti de verdad.',
+    variante: 'Si esto te mueve más de lo que esperabas, es esperable y es el punto de la semana. Llévalo a tu consulta.'
   },
   {
-    dia: 41, titulo: 'La cena que deja dormir', duracion: '5 min',
-    senal: 'Cenar mucho y tarde es entregarle tu sueño profundo a la digestión. La regla: cenar más temprano y más liviano las noches normales — tu cuerpo se va a dormir a dormir, no a procesar. (Las cenas de trabajo y los asados existen; el sistema los absorbe si son la excepción.)',
-    accion: 'Esta noche: cena 3 horas antes de acostarte, liviana. Mañana mira tus horas de sueño y cómo despertaste. Otra vez: tu dato decide, no mi sermón.',
+    dia: 41, titulo: 'Un lugar sin traje', duracion: '15 min',
+    senal: 'No se trata de andar por la vida sin ninguna armadura: eso ni es posible ni es deseable. Se trata de que exista al menos un lugar donde no la uses. Con una persona alcanza. Sin ese lugar, el Personaje no descansa nunca, y lo que no descansa se rompe.',
+    accion: 'Elige una persona y dile hoy, en una frase, algo que el Personaje nunca admitiría. No hace falta una conversación larga. Una frase verdadera alcanza.',
+    variante: 'Si hoy no hay nadie, escríbela igual y guárdala. Lo que se escribe se puede decir después; lo que no se escribió nunca se dice.'
   },
   {
-    dia: 42, titulo: 'La compra del líder', duracion: '15 min',
-    senal: 'Tu alimentación de la semana se decide una vez: en la compra. Después solo ejecutas lo que hay. Si en tu casa hay proteína, fruta y agua, comes eso. El ambiente vence a la voluntad — a favor o en contra. Elige a favor.',
-    accion: 'Haz (o encarga) la compra de la semana con la lista nueva: proteínas que te gusten, fruta visible, tu reemplazo del Día 40, sin tu ultraprocesado n.º 1. 15 minutos que deciden 21 comidas.',
+    dia: 42, titulo: 'LA MEDICIÓN DEL DÍA 42', maestro: true, duracion: '15 min',
+    senal: '"Se terminó el primer viaje. Cuarenta y dos días sacando lo que no era tuyo: lo que te apagaba, el ruido, los síes que eran no, el traje. Hoy volvemos a medir con el mismo instrumento del primer día, y quiero que lo respondas igual que entonces: para saber, no para aprobar. Después te va a aparecer algo que escribiste el Día 0 y no volviste a leer. Léelo despacio. De aquí en adelante ya no se saca: se construye." — Javo',
+    accion: 'Haz tu medición del día 42 desde el Tratamiento: el Tablero completo y el CBI. Cuando termines, compara las diez medidas con las del Día 0 y mira cuál se movió más.'
   },
   {
-    dia: 43, titulo: 'Sesión 3 + la comida junta', duracion: '25 min',
-    senal: 'El cuerpo y la comida son el mismo sistema: el que se mueve duerme mejor, el que duerme come mejor, el que come mejor tiene energía para moverse. No estás haciendo 4 cosas — estás girando una sola rueda.',
-    accion: 'Sesión de movimiento de hoy. Y en tu línea: ¿qué cambió en tu energía esta semana con los 4 movimientos de comida? Un número del 1 al 5 y una frase.',
+    dia: 43, titulo: 'El cuerpo que dejaste', duracion: '10 min',
+    senal: 'Empieza el segundo viaje. Durante seis semanas sacaste; a partir de hoy se construye, y se empieza por el cuerpo porque es lo que sostiene todo lo demás. Y porque es lo primero que soltaste: hace años que lo tratas como un medio de transporte para llevar tu cabeza a las reuniones.',
+    accion: 'Escribe tres cosas que tu cuerpo hacía hace cinco años y hoy no hace. Sin nostalgia y sin culpa: es un inventario, igual que el del día 12.'
   },
   {
-    dia: 44, titulo: 'Cierre: la semana de la comida', duracion: '6 min',
-    senal: 'Sin dieta, sin app de calorías, sin culpa: proteína, agua, un ultraprocesado menos, cena que deja dormir, compra decidida. Sistemas, no promesas.',
-    accion: 'Compara tu energía promedio de esta semana con la de la Fase V (está en Hoy). Escribe el número. Mañana es un día grande: la medición oficial del Día 45. Duerme bien esta noche — pero como todas: sin estudiar para el examen.',
+    dia: 44, titulo: 'Caminar', duracion: '30 min',
+    senal: 'Antes de cualquier plan de entrenamiento hay algo más básico que casi todos los que llegan acá perdieron: moverse todos los días. Caminar no es poco ejercicio. Es la base sobre la que el resto se puede construir, y es lo único que vas a poder sostener incluso en tus peores semanas.',
+    accion: 'Camina treinta minutos hoy. Si puedes, que sean a la mañana y afuera: se junta con la luz del día 6 y haces las dos cosas de una vez.',
+    variante: 'Si hoy no tienes treinta, camina quince. Lo que no sirve es no caminar.'
   },
   {
-    dia: 45, titulo: 'LA MEDICIÓN DEL DÍA 45', maestro: true, duracion: '10 min',
-    senal: '"Mitad de camino. Hoy no hay consigna: hay instrumento. El mismo del Día 0, las mismas preguntas, tu verdad de hoy. No respondas como el que quiere haber mejorado — responde como el que quiere SABER. Si el número bajó, es tuyo: lo construiste día por día. Si no bajó lo que esperabas, también es tuyo — y es exactamente la información que tu tratamiento necesita para la segunda mitad. Acá no se aprueba ni se desaprueba. Acá se mide." — Javo',
-    accion: 'Haz tu medición oficial ahora (desde el Tratamiento). Cuando veas la comparación D0 → D45, escribe en tu línea la frase que te salga — la primera, sin editar.',
+    dia: 45, titulo: 'La fuerza', duracion: '25 min',
+    senal: 'Después de los treinta y cinco, la masa muscular se va sola si nadie hace nada, y con ella se van la energía del día y la calidad de tu sueño. No hablamos de estética: hablamos de la estructura que sostiene tu capacidad de trabajo en los próximos veinte años.',
+    accion: 'Elige dos días fijos de la semana para hacer fuerza y ponlos en el calendario como una reunión con nombre. Hoy haz la primera sesión, aunque sea corta y en tu casa.',
+    variante: 'Si nunca hiciste fuerza o tienes alguna lesión, empieza con peso corporal y consulta a un profesional del movimiento antes de cargar peso.'
   },
   {
-    dia: 46, titulo: 'La captura externa', duracion: '10 min',
-    senal: 'Semana de orden. Tu cabeza no para en parte porque la usas de depósito: pendientes, ideas, miedos, "no me olvide de". Un depósito no se apaga — se vacía. La regla de oro del orden: la cabeza es para DECIDIR; el papel (o la app de notas, UNA) es para GUARDAR.',
-    accion: 'Elige tu único lugar de captura (una libreta o una app de notas — una sola). Vuelca ahora TODO lo que da vueltas: 10 minutos, sin ordenar, solo vaciar. Desde hoy, todo lo que aparezca va ahí en el momento. La descarga nocturna del Día 5 de Apaga la Cabeza era esto — ahora es sistema diurno.',
+    dia: 46, titulo: 'El mediodía decide tu tarde', duracion: '8 min',
+    senal: 'Hay una hora del día que explica casi toda tu tarde y no le prestas atención: el almuerzo. Comes cualquier cosa, rápido, frente a la pantalla, y a las cuatro te preguntas por qué no puedes pensar. No es la edad ni la agenda. Es lo que hiciste a la una.',
+    accion: 'Hoy come sentado, sin pantalla, y que el plato tenga proteína y verduras. Después anota cómo estuvo tu foco entre las tres y las seis.'
   },
   {
-    dia: 47, titulo: 'La bandeja a cero (una vez)', duracion: '25 min',
-    senal: 'Tu bandeja de entrada es la lista de tareas que otros escriben por ti. No vamos a mantenerla en cero para siempre — vamos a que la veas vacía UNA vez, para que tu cabeza registre que se puede, y a darte la regla de los 2 minutos: lo que toma menos de 2, se hace ya; el resto, a la captura o al calendario.',
-    accion: 'Bloque de 25 minutos: procesa tu bandeja principal con la regla de los 2 minutos (hacer / capturar / archivar / borrar). No respondas largo nada — procesar no es trabajar. Llega a cero o cerca. Mira eso. Respira.',
+    dia: 47, titulo: 'Lo que tomas sin pensar', duracion: '8 min',
+    senal: 'Entre el café, las bebidas del mediodía y lo que hay en la heladera de la oficina, entra una cantidad de azúcar que nunca contaste porque ninguna de esas veces fue una comida. Los picos y las caídas que eso produce se sienten exactamente igual que el agotamiento, y por eso los confundiste durante años.',
+    accion: 'Escribe todo lo que tomaste ayer además de agua. Hoy reemplaza la mitad por agua y fíjate en cómo llegas a las seis de la tarde.'
   },
   {
-    dia: 48, titulo: 'La segunda delegación', duracion: '15 min',
-    senal: 'La delegación del Día 20, ¿sigue delegada o la recuperaste "porque era más fácil"? La recaída de delegación es normal — el sistema se sostiene revisando, no confiando. Y hoy toca soltar la segunda.',
-    accion: 'Revisa la delegación n.º 1 (ajusta la instrucción si volvió a ti). Toma el siguiente delegable de tu mapa y repite el método: instrucción de 5 pasos + entrega + fecha de revisión. Dos sistemas delegados = horas semanales tuyas de vuelta, para siempre.',
+    dia: 48, titulo: 'Los días que no quieres', duracion: '10 min',
+    senal: 'Todo esto funciona hasta el primer día malo, y el primer día malo llega siempre. La diferencia entre el que sostiene y el que abandona no es la fuerza de voluntad: es tener decidido de antemano qué hace en ese día, cuando no tiene ganas de decidir nada.',
+    accion: 'Escribe tu versión mínima de cada cosa: la caminata mínima, la comida mínima, el Apagado mínimo. Esa es la que haces los días malos, y cuenta igual.'
   },
   {
-    dia: 49, titulo: 'El número de horas', duracion: '5 min',
-    senal: 'Trabajas "mucho". ¿Cuánto es mucho? Tus Signos lo saben: llevas 7 semanas registrando horas. Hoy le pones objetivo al número — no por pereza: porque las horas 55 a 70 son las de peor calidad de decisión de tu semana, y las que pagan tu casa y tu cuerpo.',
-    accion: 'Mira tu promedio real de horas de trabajo en Hoy. Fija tu objetivo de la semana próxima (realista: si estás en 62, apunta a 55, no a 45). Escríbelo. La semana que viene lo comparamos contra los Signos — número contra número.',
+    dia: 49, titulo: 'El cuerpo vuelve al equipo', maestro: true, duracion: '10 min',
+    senal: '"Siete semanas. Lo que hiciste esta semana no fue ponerte en forma: fue devolverle al cuerpo el lugar que tenía antes de que empezaras a usarlo como un medio de transporte. Y fíjate en algo: ninguna de estas cinco cosas te pidió una hora libre que no tienes. Caminar, comer sentado, tomar agua, hacer fuerza dos veces, tener una versión mínima. Eso es todo, y es lo que te va a sostener los próximos veinte años." — Javo',
+    accion: 'Compara tu energía al despertar de esta semana con la de la semana 1. Escribe el número de las dos y la diferencia.'
   },
   {
-    dia: 50, titulo: 'El orden de la noche anterior', duracion: '5 min',
-    senal: 'La mejor mañana se fabrica la noche anterior: las 3 cosas de mañana, elegidas hoy. No 20 — 3. El que arranca sabiendo qué toca no le regala la primera hora al correo. Este micro-hábito cierra tu jornada (Día 2) y abre la siguiente: el círculo completo.',
-    accion: 'Esta noche, al cerrar tu jornada: escribe las 3 de mañana en tu captura (la 1 va al bloque protegido). Desde hoy, es parte de tu hora de cierre.',
+    dia: 50, titulo: 'Las tres horas que valen', duracion: '10 min',
+    senal: 'En un día de doce horas hay unas tres en las que produces lo que realmente mueve tu negocio. Las otras nueve son sostenimiento. El problema no es que existan las nueve: es que las tres están repartidas entre ellas, en pedazos de quince minutos, y ahí no se piensa nada bueno.',
+    accion: 'Mira tu última semana y escribe en qué franja horaria hiciste el trabajo que más valor produjo. Sé específico: días y horas.'
   },
   {
-    dia: 51, titulo: 'Cierre: la semana del orden', duracion: '6 min',
-    senal: 'Captura única, bandeja procesada, segunda delegación, objetivo de horas, las 3 de mañana. Tu cabeza tiene cada vez menos que sostener — por eso se apaga mejor de noche. No era un misterio: era carga.',
-    accion: 'Escribe en tu línea: ¿cuántas veces esta semana tu cabeza intentó "acordarse de algo" y lo mandaste a la captura? Ese reflejo nuevo es el sistema funcionando. La semana que viene es la más importante de los 90 días: las personas.',
+    dia: 51, titulo: 'El bloque protegido', duracion: '10 min',
+    senal: 'Esa franja tiene que dejar de ser una casualidad. Si no está en el calendario con nombre, alguien la va a ocupar, y ese alguien casi siempre eres tú aceptando una reunión.',
+    accion: 'Pon en tu calendario dos bloques de noventa minutos en tu mejor franja, esta semana, con un nombre concreto. Durante esos bloques el teléfono queda lejos y la puerta cerrada.',
+    variante: 'Si dos bloques es imposible, pon uno. Un bloque cumplido vale más que tres agendados.'
   },
   {
-    dia: 52, titulo: 'Preparar la conversación', duracion: '15 min',
-    senal: 'La semana de conexión empieza por la conversación pendiente — la que nombraste el Día 9 y esperó 43 días a propósito: hoy llegas durmiendo, con bordes y con cuerpo. Prepararla no es escribir un guion: es saber qué quieres DECIR (tu verdad, en primera persona), qué quieres PREGUNTAR (y escuchar de verdad), y qué NO es esta conversación (no es un juicio, no es una negociación, no se gana).',
-    accion: 'Escribe tres líneas: "Quiero decirte que yo…" / "Quiero preguntarte…" / "Esta conversación no es para…". Elige el momento (mañana o pasado, sin apuro, sin teléfonos, sin hijos despiertos). No la tengas hoy. Hoy solo la preparas.',
+    dia: 52, titulo: 'La reunión que no existe', duracion: '12 min',
+    senal: 'Toda empresa tiene al menos una reunión que se sigue haciendo porque se venía haciendo. Nadie la defiende y nadie la cancela. Suele ser semanal, suele durar una hora, y suele estar llena de personas que podrían estar produciendo.',
+    accion: 'Elige una reunión recurrente de tu semana y cancélala o redúcela a la mitad. Avísalo hoy, con la frase del día 31: corta y sin justificación larga.'
   },
   {
-    dia: 53, titulo: 'La conversación', duracion: 'lo que necesite',
-    senal: 'Hoy o mañana, la tienes. Vas a querer postergarla — es el Personaje defendiendo su última frontera: la de no mostrarse. Recuerda: no vas a resolver años en una charla. Vas a ABRIR una puerta que llevaba años cerrada. Con eso alcanza. Habla en primera persona ("yo sentí", "yo me alejé"), pregunta, y aguanta los silencios sin llenarlos.',
-    accion: 'Ten la conversación. Después — solo, con tiempo — escribe en tu línea qué se abrió. Si necesitas hablarlo, el Clínico está; y si eres paciente Acompañado, tu clínico de cabecera la va a leer esta semana.',
+    dia: 53, titulo: 'La segunda devolución', duracion: '20 min',
+    senal: 'En el día 34 entregaste una tarea. Hoy va la segunda, y esta es la que cuenta de verdad, porque la primera se puede hacer con entusiasmo y la segunda solo se hace si el sistema funciona.',
+    accion: 'Toma otra cruz de tu lista del día 13 y entrégala. Enseña una vez, define el resultado esperado y fija cuándo lo revisan. Y revisa cómo va la primera.',
+    variante: 'Si la primera volvió a tus manos, eso es lo que hay que trabajar hoy, no la segunda. Llévalo a tu consulta.'
   },
   {
-    dia: 54, titulo: 'El día después', duracion: '6 min',
-    senal: 'Las conversaciones importantes siguen trabajando 48 horas después — en ti y en el otro. Hoy no se fuerza nada: se sostiene lo abierto con un gesto simple, no con más palabras.',
-    accion: 'Un gesto hacia esa persona, hoy, sin mensaje explicativo: el mate a la mañana, un "pensé en ti", volver temprano. Pequeño y real. Las palabras ya se dijeron; ahora hablan los días.',
+    dia: 54, titulo: 'Decidir en el día', duracion: '10 min',
+    senal: 'Las decisiones que no tomas no desaparecen: se quedan abiertas consumiendo capacidad, y son la razón por la que terminas el día cansado sin haber hecho nada pesado. El día 3 de tu chequeo medía exactamente esto.',
+    accion: 'Haz la lista de las decisiones que tienes abiertas. Elige las tres más chicas y ciérralas hoy, aunque la respuesta no sea perfecta. Una decisión mediana tomada rinde más que una excelente pendiente.'
   },
   {
-    dia: 55, titulo: 'La cita', duracion: '2 horas',
-    senal: 'Con tu pareja: dos horas, cero logística (prohibido hablar de hijos, obras, cuentas y calendario), cero teléfonos. No es "salir a cenar": es que la persona con la que vives te vuelva a tener enfrente, entero. Si no hay pareja, la cita es con quien elijas — o contigo, en serio, haciendo algo que amabas.',
-    accion: 'Agenda y ten la cita esta semana (ideal: hoy o el fin de semana). Regla de oro: preguntas que no haces hace años ("¿en qué andas tú, de verdad?"). Escucha el doble de lo que hablas.',
+    dia: 55, titulo: 'Medio día sin ti', duracion: '5 min',
+    senal: 'Una empresa que no puede funcionar media jornada sin ti no es una empresa: es un empleo que te compraste y del que no te puedes ir. Esto no se arregla pensándolo. Se arregla probándolo, en chico, y viendo qué se rompe.',
+    accion: 'Elige una franja de cuatro horas de esta semana y avisa que en ese rato no estás disponible. Cuando vuelvas, anota qué pasó de verdad y qué se resolvió sin ti.'
   },
   {
-    dia: 56, titulo: 'Una hora en su mundo', duracion: '1 hora',
-    senal: 'Con tus hijos, la presencia no se mide en horas compartiendo techo: se mide en entrar a SU mundo, con sus reglas. Una hora en su juego vale más que un sábado entero de "estar" mirando el teléfono. Si no tienes hijos: la hora es para un sobrino, un ahijado, o el hijo que fuiste (esa cosa que amabas a los 12 — hazla).',
-    accion: 'Una hora, hoy o mañana, en el mundo de ellos: su juego, su música, su serie, sus reglas. Tu único trabajo: no dirigir, no corregir, no mirar la hora.',
+    dia: 56, titulo: 'Tu empresa deja de depender de tu resistencia', maestro: true, duracion: '10 min',
+    senal: '"Ocho semanas. Delegaste dos veces, cancelaste una reunión, cerraste decisiones y desapareciste medio día sin que se cayera nada. Quiero que registres lo que eso significa, porque es más grande de lo que parece: tu empresa dejó de depender de que aguantes. Mientras dependía de eso, cualquier cosa que te pasara a ti le pasaba a ella." — Javo',
+    accion: 'Cuenta las horas que te devolvieron el bloque protegido, la reunión cancelada y la tarea delegada. Escribe el número y en qué las usaste realmente.'
   },
   {
-    dia: 57, titulo: 'La llamada', duracion: '20 min',
-    senal: 'Ese amigo al que "tienes que llamar" hace meses. La amistad adulta se muere de agenda, no de afecto — y los hombres que dirigen se quedan sin pares con quienes no ser el que dirige. Una llamada revive lo que diez "tenemos que juntarnos" entierran.',
-    accion: 'Llámalo hoy. Sin motivo, sin agenda. "Me acordé de ti" es razón completa. Si sale juntarse, agenda fecha antes de cortar.',
+    dia: 57, titulo: 'Con quién quieres llegar', duracion: '10 min',
+    senal: 'Trabajaste ocho semanas para tener energía y horas. Ahora viene la pregunta que decide para qué sirvió todo esto: con quién las vas a usar. Porque el agotamiento tiene una característica silenciosa y es que a las personas que más quieres les tocó siempre lo que sobraba.',
+    accion: 'Escribe los nombres de las tres personas con las que quieres llegar al final de tu vida. Al lado de cada uno, cuánto tiempo real y presente le diste el mes pasado.'
   },
   {
-    dia: 58, titulo: 'Pedir ayuda', duracion: 'el momento',
-    senal: 'El músculo más atrofiado del que sostiene a todos: pedir. No delegar (eso es dar órdenes) — PEDIR ayuda, esa que te deja en deuda chica y en humanidad grande. El Personaje no pide nunca; por eso hoy pides.',
-    accion: 'Pide ayuda una vez hoy, en algo real (una opinión, una mano, un consejo, un favor). Nota qué se siente en el cuerpo justo antes de pedirla — eso que se aprieta es lo que estamos tratando.',
+    dia: 58, titulo: 'La hora sin pantalla', duracion: '10 min',
+    senal: 'Estar en la misma habitación no es estar con alguien. Tu chequeo lo midió el primer día: cuando estás con las personas que amas, tu cabeza sigue en el trabajo. Para ellos eso no se ve como que estás ocupado: se ve como que no estás.',
+    accion: 'Hoy, una hora con una de esas personas, con el teléfono en otra habitación. Sin plan y sin conversación importante. Solo estar.'
   },
   {
-    dia: 59, titulo: 'Lo que cambió en casa', duracion: '8 min',
-    senal: 'Una semana de conexión: la conversación, la cita, su mundo, la llamada, el pedido. Nada de esto salió perfecto — no era el punto. El punto es que el hombre que llegaba vacío empezó a llegar.',
-    accion: 'Escribe en tu línea (más larga hoy, si quieres): ¿qué cambió en tu casa esta semana? ¿Qué viste en ellos que hacía tiempo no veías? Esa línea va a ser una de las que leas el Día 91.',
+    dia: 59, titulo: 'La pregunta que no hiciste', duracion: '15 min',
+    senal: 'Sabes lo que les pasa por arriba. No sabes lo que les pasa por adentro, porque hace mucho que no preguntas de verdad, y ellos dejaron de contarte para no sumarte peso. Eso pasó despacio y por cuidarte.',
+    accion: 'Elige a una de esas personas y hazle una pregunta que no le hiciste nunca. Escucha sin resolver nada: no eres su director, eres su persona.'
   },
   {
-    dia: 60, titulo: 'Cierre de fase: Transformar', maestro: true, duracion: '8 min',
-    senal: '"Treinta días de reconstrucción: el cuerpo volvió al equipo, la comida dejó de sabotearte, el orden le sacó peso a tu cabeza, y las personas — las personas te vieron volver. Quiero decirte algo del Día 45 y de todo esto: no eras vago, ni frío, ni desordenado. Eras un sistema desbordado haciendo lo que podía. Ahora eres un sistema con recursos. La fase que viene no agrega casi nada nuevo — hace algo más difícil: que todo esto no dependa de tu voluntad. Porque la voluntad se acaba. Los sistemas no." — Javo',
-    accion: 'Relee tu línea del Día 30 (la lista de lo interrumpido) y escribe hoy la lista de lo reconstruido. Dos listas, 60 días. Mañana empieza Anclar.',
+    dia: 60, titulo: 'El dolor y lo que le agregas', duracion: '10 min',
+    senal: 'Hay una distinción vieja, la dijeron muchos maestros de tradiciones distintas, y es de lo más útil que existe para alguien como tú: el dolor es lo que pasa, el sufrimiento es lo que tu cabeza le agrega encima. El primero es inevitable. El segundo es discutible, y ahí sí puedes intervenir.',
+    accion: 'Escribe una situación que te está pesando. Separa en dos columnas lo que efectivamente pasó y lo que tu cabeza le agregó: interpretaciones, futuros imaginados, culpas. Mira el tamaño de cada columna.'
   },
   {
-    dia: 61, titulo: 'Los 3 innegociables', duracion: '10 min',
-    senal: 'Empieza Anclar. De todo lo instalado en 60 días, hoy eliges los TRES que no se negocian nunca más — ni en semana de locura, ni de viaje, ni en crisis. No diez: tres. Los innegociables no son los más lindos: son los que sostienen a todos los demás (para la mayoría: la hora de cierre, el teléfono fuera, el movimiento — pero los tuyos los eliges tú, con tus datos).',
-    accion: 'Elige tus 3 innegociables y escríbelos en tu línea de hoy con esta forma exacta: "Pase lo que pase: 1___, 2___, 3___. Firmado." Mañana los haces públicos.',
+    dia: 61, titulo: 'La conversación que debes', duracion: '20 min',
+    senal: 'Todos los que llegan acá tienen una conversación pendiente, y casi siempre es con alguien de la lista del día 57. No la tuviste porque no encontraste el momento, y el momento nunca aparece: se fabrica.',
+    accion: 'Ten esa conversación hoy. Empieza sin reproche y con una sola frase honesta sobre cómo estuviste tú. No hace falta que quede resuelta; hace falta que empiece.',
+    variante: 'Si la persona no está disponible, o no está, escríbele la carta igual. Lo que se dice de verdad cambia al que lo dice, aunque nadie lo lea.'
   },
   {
-    dia: 62, titulo: 'El límite se declara', duracion: '10 min',
-    senal: 'Un límite privado no existe: es una intención. El límite nace cuando lo DICES — a tu familia y a tu equipo, en voz alta, con fecha. No pides permiso ni das explicaciones largas: informas cómo operas ahora. Los que te quieren lo van a cuidar; los que te usaban lo van a testear. Ambas cosas son información.',
-    accion: 'Hoy, di tus 3 innegociables en voz alta a tu familia Y a tu equipo (en persona o audio, no texto): "Desde ahora, pase lo que pase, yo ___". Escribe después cómo reaccionó cada mundo.',
+    dia: 62, titulo: 'Algo en el calendario', duracion: '8 min',
+    senal: 'Las buenas intenciones con la familia no sobreviven a una semana complicada. Lo que sobrevive es lo que está agendado, tiene hora y otra persona lo espera.',
+    accion: 'Agenda dos cosas con esas personas: una esta semana y una dentro de un mes. Con hora, y avisadas. No tienen que ser grandes.'
   },
   {
-    dia: 63, titulo: 'El gatillo de cada uno', duracion: '8 min',
-    senal: 'Los hábitos que sobreviven al cansancio no dependen de decidir: dependen de un gatillo. La fórmula (con décadas de evidencia detrás): "después de X, hago Y". Después de cerrar la computadora, salgo a caminar. Después de cenar, el teléfono a la caja. El gatillo decide por ti cuando tú ya no puedes.',
-    accion: 'Escribe el gatillo de cada innegociable: "Después de ___, hago ___" (los tres). Pégalos donde los veas (nota en el espejo, fondo de pantalla). Desde hoy, el gatillo manda.',
+    dia: 63, titulo: 'Las personas te vieron volver', maestro: true, duracion: '10 min',
+    senal: '"Nueve semanas. Esta es la parte que no aparece en ningún número de la app y es la que más va a importar dentro de diez años. Nadie llega al final de su vida contando reuniones. Lo que estuviste haciendo estas tres semanas es la única razón por la que vale la pena tener energía: para dársela a alguien." — Javo',
+    accion: 'Pregúntale a una de esas tres personas si notó algo distinto en las últimas semanas. Escribe lo que te diga, textual.'
   },
   {
-    dia: 64, titulo: 'La semana ideal realista', duracion: '15 min',
-    senal: 'No la semana perfecta de LinkedIn: la TUYA, con tus reuniones reales y tu caos real — pero con los innegociables puestos PRIMERO en el calendario y todo lo demás acomodándose alrededor. El que agenda primero lo importante, lo protege; el que lo deja "para cuando se pueda", lo pierde.',
-    accion: 'Diseña tu semana próxima en el calendario, en este orden: 1) innegociables, 2) bloque protegido, 3) reuniones reales, 4) el resto. 15 minutos. Es la primera semana de tu vida diseñada por ti y no por tu bandeja de entrada.',
+    dia: 64, titulo: 'Lo que se queda', duracion: '10 min',
+    senal: 'Diez semanas instalando cosas. No todas se van a sostener el año que viene, y está bien: no hace falta que se sostengan todas. Hacen falta tres que no se negocien nunca más, ni en la peor semana, ni con el mejor argumento.',
+    accion: 'Mira todo lo que instalaste desde el día 1 y elige tres. Solo tres. Escríbelas.',
   },
   {
-    dia: 65, titulo: 'La Señal, entrenada', duracion: '8 min',
-    senal: 'Llevas semanas caminando sin input. Ahí abajo del ruido hay una voz que no argumenta, no compara y no corre: habla bajo, corto, en presente, y vuelve siempre igual. La llamamos la Señal. Lo otro — lo urgente, lo que amenaza, lo que exige — es el Ruido. Hoy empiezas a distinguirlos a propósito: es un músculo, no un don.',
-    accion: 'Hoy, después de tu caminata: 3 minutos quieto, respirando 5-5 (inhala 5, exhala 5). Después, una sola pregunta en tu línea: "¿Qué dijo la Señal hoy?" — una frase. Si solo hubo Ruido, escribe eso: también es el entrenamiento.',
+    dia: 65, titulo: 'Escritos como reglas', duracion: '10 min',
+    senal: 'Una intención se negocia; una regla no. La diferencia está en cómo está escrita: intentar dormir mejor no es una regla, apagar a las once es una regla. Lo que se puede interpretar se termina interpretando a favor del cansancio.',
+    accion: 'Reescribe tus tres como reglas: con hora, con número y sin adverbios. Nada de más, mejor, en lo posible. Léelas en voz alta: si alguna se puede interpretar, todavía no es una regla.',
   },
   {
-    dia: 66, titulo: 'El interruptor de estado', duracion: '5 min',
-    senal: 'Tu estado no es el clima: tiene tres perillas — postura, respiración, foco. Antes de lo difícil (la reunión pesada, la llamada que evitas), 60 segundos de interruptor: cuerpo erguido, 3 exhalaciones largas, y una frase TUYA que te devuelve al eje. No es pensamiento positivo: es fisiología aplicada.',
-    accion: 'Escribe tu frase de eje (corta, tuya, en tus palabras — la que te dirías antes de entrar a lo difícil). Hoy usa el interruptor completo una vez antes de algo real. Ya vive también en tu Botiquín (Pre-Reunión): ahora es tuyo con nombre.',
+    dia: 66, titulo: 'Dichos en voz alta', duracion: '15 min',
+    senal: 'Un innegociable que solo conoces tú dura hasta el primer martes complicado. Cuando otras personas lo saben pasan dos cosas: te cuesta más romperlo y ellas dejan de pedirte lo que va en contra.',
+    accion: 'Dile tus tres reglas a las personas a las que les afectan: tu pareja, tu equipo, tu socio. No pidas permiso: informa, con la frase corta del día 31.',
   },
   {
-    dia: 67, titulo: 'Cierre: la semana de los anclajes', duracion: '6 min',
-    senal: 'Innegociables firmados, declarados y con gatillo. Semana diseñada por ti. La Señal con su primer entrenamiento. El sistema ya no vive en tu memoria: vive en tu calendario, tus gatillos y tu gente.',
-    accion: 'Revisa: ¿cuál de los 3 innegociables estuvo más en riesgo esta semana, y qué lo salvó (o no)? Escríbelo — esa respuesta es materia prima del plan anti-recaída que armamos la semana que viene.',
+    dia: 67, titulo: 'La primera prueba', duracion: '8 min',
+    senal: 'Esta semana algo va a chocar con una de tus reglas. No es mala suerte: es lo normal, y es la única forma de saber si son reglas de verdad. La primera vez que la sostienes delante de otra persona, tu regla se vuelve real para todos.',
+    accion: 'Cuando aparezca el choque, sostén la regla y anota qué pasó: quién pidió, qué dijiste y cuál fue la consecuencia real.',
   },
   {
-    dia: 68, titulo: 'Tus señales tempranas', duracion: '10 min',
-    senal: 'La zona roja no vuelve de golpe: vuelve en cuotas, y siempre con las mismas tres primeras señales — las TUYAS. Tus 9 semanas de Signos las tienen escritas: qué pasa con tu sueño, tu energía y tus horas justo antes de que se te desarme todo. El que conoce sus señales tempranas no necesita fuerza: necesita mirarlas.',
-    accion: 'Mira tus datos en Hoy y en Mi Zona. Escribe tus 3 señales tempranas con números: "Cuando duermo menos de ___ dos noches seguidas / cuando trabajo más de ___ tres días / cuando cancelo ___ dos veces". Esas son TUS alarmas.',
+    dia: 68, titulo: 'Lo que pasa si la rompes', duracion: '8 min',
+    senal: 'Vas a romper alguna, y conviene decidir ahora qué pasa entonces, cuando todavía estás tranquilo. Si no lo decides hoy, en el momento vas a elegir entre dos cosas malas: castigarte o hacer como si nada.',
+    accion: 'Escribe qué haces si rompes una: no el castigo, la reparación. Qué acción concreta la vuelve a poner de pie al día siguiente.',
   },
   {
-    dia: 69, titulo: 'El protocolo de emergencia', duracion: '12 min',
-    senal: 'Todo tratamiento serio incluye qué hacer en la recaída — porque va a haber semanas de caos: se llama tu vida. El plan anti-recaída no promete que no vuelvas a hundirte: promete que sepas nadar. Es una hoja: si suenan 2 de mis 3 alarmas → qué corto primero, qué innegociable defiendo a muerte, a quién llamo, y qué NO decido en ese estado.',
-    accion: 'Escribe tu protocolo de emergencia (4 líneas: corto / defiendo / llamo a / no decido). Guárdalo en tu captura Y en tu línea de hoy. Es la única dosis que deseo que nunca uses — y la que más vale.',
+    dia: 69, titulo: 'El calendario que las sostiene', duracion: '12 min',
+    senal: 'La voluntad se acaba todos los días alrededor de las seis de la tarde. Los sistemas no. Todo lo que quieras que sobreviva tiene que estar en algún lado que no seas tu memoria.',
+    accion: 'Pon tus tres reglas en el calendario con repetición: la hora de cierre, los dos días de fuerza, el bloque protegido, lo que corresponda. Con alarma y con nombre.',
   },
   {
-    dia: 70, titulo: 'El testigo', duracion: '10 min',
-    senal: 'Un plan que solo conoces tú es un plan a medias. El compromiso dicho frente a otro pesa distinto — no es magia: es cómo funciona el animal social que eres. Tu testigo no te controla: te espeja. Una persona, no cinco.',
-    accion: 'Elige tu testigo (pareja o un par de confianza) y compártele HOY tus 3 alarmas y tu protocolo de emergencia, en voz alta: "Si me ves así, recordame esto". Diez minutos incómodos que valen un tratamiento entero.',
+    dia: 70, titulo: 'Tres cosas que no se tocan', maestro: true, duracion: '10 min',
+    senal: '"Diez semanas. Estas tres reglas son lo que queda cuando yo ya no esté mandándote una Dosis por día, y por eso son la parte más importante del camino. Lo que construimos hasta aquí se sostuvo porque había alguien empujando. Lo que sigue tiene que sostenerse solo." — Javo',
+    accion: 'Escribe tus tres reglas en un lugar que veas todos los días. La pantalla de bloqueo sirve, la puerta de la heladera también.',
   },
   {
-    dia: 71, titulo: 'La agenda del mes que viene', duracion: '12 min',
-    senal: 'Anclar también es futuro: tu próximo mes ya tiene semillas de caos plantadas (ese viaje, ese cierre, esa semana triple). Hoy las miras ANTES de que lleguen y les pones el sistema encima — la versión de viaje, el innegociable que no se toca, el medio día protegido movido pero no borrado.',
-    accion: 'Abre el mes que viene en tu calendario. Detecta las 2 semanas de mayor riesgo y déjales escrito el plan (qué versión mínima del sistema corre esos días). El caos avisado no desarma: desafía.',
+    dia: 71, titulo: 'Pedir antes del límite', duracion: '10 min',
+    senal: 'Tu chequeo midió esto el primer día: con qué frecuencia pides ayuda antes de estar al límite. Pedir cuando ya explotaste no es pedir ayuda, es pedir rescate, y llega tarde para todos. La diferencia entre las dos cosas son unas tres semanas.',
+    accion: 'Escribe las tres señales que aparecen cuando estás llegando al límite. Las tuyas, las de este año: cómo duermes, cómo hablas, qué dejas de hacer.',
   },
   {
-    dia: 72, titulo: 'La Señal, segunda ronda', duracion: '8 min',
-    senal: 'Segunda semana de entrenamiento del discernimiento. Hoy, un criterio más para distinguir: el Ruido siempre EMPUJA ("tienes que, ya, o si no…"); la Señal siempre INVITA ("es por acá"). Y una regla de seguridad que no se negocia: la Señal jamás pide dañarte ni dañar a nadie — lo que empuje al daño no es la Señal, y se habla con un profesional.',
-    accion: 'Caminata + 3 minutos de quietud + la pregunta. Hoy suma: ¿hubo esta semana una decisión donde el Ruido gritaba una cosa y la Señal decía otra? Escribe cuál fue y a quién le hiciste caso.',
+    dia: 72, titulo: 'Quién está de tu lado', duracion: '10 min',
+    senal: 'Nadie sostiene esto solo, y los que llegan al año son siempre los que tienen a alguien mirando. No hace falta un grupo: hace falta una persona que sepa cómo estás de verdad.',
+    accion: 'Escribe el nombre de una persona que pueda saber cómo estás realmente, cada semana. Puede ser alguien de tu familia, un amigo, un colega o un profesional.',
   },
   {
-    dia: 73, titulo: 'Lo que vuelve a gustarte', duracion: '1 hora',
-    senal: 'El Personaje eliminó todo lo que no producía: la guitarra, la pesca, los fierros, leer novelas, lo que fuera TUYO. No era un lujo — era tu recreo, y sin recreo el sistema nervioso no tiene dónde soltarse. Hoy recuperas uno. No para ser bueno: para que sea tuyo de nuevo.',
-    accion: 'Una hora, esta semana (agéndala hoy), para eso que amabas y abandonaste. Sin convertirlo en proyecto, sin métricas, sin mostrarlo. Escribe después qué se sintió en el cuerpo.',
+    dia: 73, titulo: 'El pedido concreto', duracion: '10 min',
+    senal: 'Los pedidos vagos no se pueden cumplir. Si dices necesito que me acompañes, el otro no sabe qué hacer y termina sin hacer nada, y tú concluyes que no hay nadie. Había, pero no sabía qué hacías falta.',
+    accion: 'Pídele hoy algo concreto a esa persona: que te pregunte cómo dormiste una vez por semana, que te avise cuando te vea acelerado, lo que necesites. Con frecuencia y con palabras exactas.',
   },
   {
-    dia: 74, titulo: 'Cierre: la semana del plan', duracion: '6 min',
-    senal: 'Alarmas con números, protocolo de emergencia, testigo, el mes que viene preparado, y algo tuyo de vuelta. Ya no dependes de estar bien para sostenerte: tienes sistema para cuando estés mal. Eso es anclar.',
-    accion: 'Escribe en tu línea la frase que le dirías a tu yo del Día 0 sobre lo que es tener un plan. La semana que viene: la prueba de fuego — el sistema completo, solo, en tu vida real.',
+    dia: 74, titulo: 'Recibir sin devolver', duracion: '8 min',
+    senal: 'Cuando alguien te da algo, devuelves enseguida: un favor, un pago, una invitación. Parece generosidad y muchas veces es lo contrario: es no tolerar quedar en deuda, porque el que debe no es el que puede con todo. Devolver rápido es una forma elegante de no recibir.',
+    accion: 'Hoy alguien te va a dar algo: tiempo, atención, un favor. Recíbelo, di gracias, y no devuelvas nada. Fíjate qué te pasa en el cuerpo.',
   },
   {
-    dia: 75, titulo: 'La prueba de fuego: reglas', duracion: '5 min',
-    senal: 'Seis días sin dosis nuevas. Solo tu sistema completo — innegociables, gatillos, Signos, Señal — corriendo en tu semana real, con su caos real. Yo me corro a un lado: esta semana el tratamiento eres tú. Tu único trabajo extra: registrar qué aguanta y qué se cae, sin maquillar.',
-    accion: 'Lee tus 3 innegociables y tus gatillos una vez. Y a vivir la semana. Cada noche: Signos + una línea honesta de qué aguantó y qué se cayó hoy.',
+    dia: 75, titulo: 'Cuando el caos vuelva', duracion: '12 min',
+    senal: 'Va a volver. Un cierre de año, una crisis, un socio que se va, alguien que se enferma. No estamos construyendo una vida sin caos: estamos construyendo a alguien que atraviesa el caos sin perderse adentro.',
+    accion: 'Escribe qué pasa con tus tres reglas cuando llegue una semana así. Cuáles se sostienen igual y cuál se suspende con fecha de vuelta. Decidirlo hoy es lo que evita que se caigan todas juntas.',
   },
   {
-    dia: 76, titulo: 'Prueba de fuego · día 2', duracion: '2 min',
-    senal: 'Sin consigna. El sistema corre. Si algo se cayó ayer, no se compensa con culpa: se retoma con el gatillo. Caerse un día es dato; abandonar es decisión. Hoy solo hay una: seguir.',
-    accion: 'Signos + tu línea: ¿qué aguantó, qué se cayó, qué lo salvó?',
+    dia: 76, titulo: 'Tu plan en una página', duracion: '15 min',
+    senal: 'Todo lo que aprendiste en once semanas tiene que caber en una página que puedas leer en un minuto malo. Si no cabe, en el minuto malo no la vas a leer.',
+    accion: 'Escribe una página con cuatro cosas: tus tres señales de límite, tus tres reglas, el nombre de tu persona y la primera acción que haces cuando reconoces una señal. Guárdala donde la encuentres rápido.',
   },
   {
-    dia: 77, titulo: 'Prueba de fuego · día 3', duracion: '2 min',
-    senal: 'Mitad de la prueba. Dato curioso que quizás ya notaste: el sistema no se sostiene por disciplina — se sostiene porque cada pieza le hace la vida más fácil a la siguiente. Cerrar temprano hace dormir; dormir hace entrenar; entrenar hace llegar entero a casa. La rueda gira sola si no le pones el pie.',
-    accion: 'Signos + tu línea. Si un innegociable está en riesgo mañana, aplica lo del Día 71: plan antes que fuerza.',
+    dia: 77, titulo: 'Ya no dependes de tu voluntad', maestro: true, duracion: '10 min',
+    senal: '"Once semanas. Tienes reglas escritas, alguien que te mira, señales que reconoces y un plan para el día que se complique. Eso es un sistema, y un sistema es lo único que funciona cuando la motivación no está. La motivación va a faltar muchas veces: no es un defecto tuyo, es cómo funciona." — Javo',
+    accion: 'Lee tu página completa una vez y corrige lo que no sea exacto. Después mándasela a la persona del día 72.',
   },
   {
-    dia: 78, titulo: 'Prueba de fuego · día 4', duracion: '2 min',
-    senal: 'Sin consigna. Una pregunta para la caminata de hoy, nada más: ¿quién estás siendo esta semana, sin que yo te diga qué hacer?',
-    accion: 'Signos + tu línea. Y la respuesta de la caminata, si vino.',
+    dia: 78, titulo: 'Para qué lideras', duracion: '12 min',
+    senal: 'Última semana. La primera medida de tu Tablero pregunta con qué frecuencia lo que haces te acerca a algo que elegiste tú, y es la que está arriba de todas las demás por una razón: sin eso, las otras nueve son un motor muy bueno girando sin destino.',
+    accion: 'Escribe para qué lideras. No la respuesta que dirías en una entrevista: la que dirías a las dos de la mañana. Tres líneas alcanzan.',
   },
   {
-    dia: 79, titulo: 'Prueba de fuego · día 5', duracion: '2 min',
-    senal: 'Penúltimo día solo. Mira algo: hace 79 días necesitabas que alguien te dijera que apagaras el teléfono. Esta semana operaste un sistema completo sin instrucciones. Eso no es motivación — es que ya no eres el mismo sistema.',
-    accion: 'Signos + tu línea. Mañana cerramos la prueba y ajustamos con la evidencia.',
+    dia: 79, titulo: 'La carta al Personaje', duracion: '15 min',
+    senal: 'En la semana 6 le pusiste nombre. No se trata de matarlo: te sirvió durante años y te trajo hasta aquí. Se trata de darle el lugar que le corresponde, que es adentro y a tu servicio, no manejando.',
+    accion: 'Escríbele una carta. Agradécele lo que hizo por ti, dile qué le vas a seguir pidiendo y en qué situaciones ya no lo necesitas.',
   },
   {
-    dia: 80, titulo: 'Cierre de fase: Anclar', maestro: true, duracion: '10 min',
-    senal: '"Se terminó la prueba de fuego. Lee tus seis líneas de la semana: eso que ves ahí — lo que aguantó solo, lo que se cayó y volvió — ese es tu sistema real, no el ideal. Ajústalo con lo que la semana te enseñó, sin vergüenza por lo caído: los planes perfectos son de los que no viven. Te queda la última fase, y es distinta a todas: ya no vamos a tocar tu agenda ni tu sueño. Vamos a hablar con el que sostuvo todo estos años. Le debes una carta." — Javo',
-    accion: 'Ajusta tus innegociables o gatillos con la evidencia de la semana (si hace falta). Escribe en tu línea qué aguantó SOLO — sin ti empujando. Mañana empieza Liderarte.',
+    dia: 80, titulo: 'Lo que escribiste el primer día', duracion: '12 min',
+    senal: 'El Día 0 escribiste dónde ibas a estar dentro de un año si no cambiaba nada. Lo escribiste tú, con tus palabras, cuando todavía no sabías nada de todo esto.',
+    accion: 'Abre tu chequeo del Día 0 y lee lo que escribiste. Después escribe, abajo, dónde estás hoy. Las dos cosas juntas en la misma hoja.',
   },
   {
-    dia: 81, titulo: 'La carta al Personaje · escribir', maestro: true, duracion: '25 min',
-    senal: '"Hoy le escribes al Personaje — esa versión tuya que rinde, aparenta y nunca se apaga. Antes de despedirlo, míralo bien: te sacó adelante. Sostuvo la empresa cuando no había nada, te hizo respetar, pagó esta casa. También te costó tu sueño, tus 3AM y casi te cuesta tu mesa. La carta tiene tres partes, y las tres son verdad: qué le agradeces (en serio, sin ironía) · qué te costó sostenerlo · qué ya no le pides. No la escribas bien. Escríbela cierta." — Javo',
-    accion: 'Escribe la carta a mano si puedes (25 min, sin teléfono cerca). Empieza como quieras — "A ti, que sostuviste todo:" funciona. No se comparte hoy, no se relee hoy. Se guarda.',
+    dia: 81, titulo: 'El martes a las siete', duracion: '10 min',
+    senal: 'También escribiste una escena: un martes cualquiera a las siete de la tarde, doce semanas después. Hoy es el momento de compararla con tu vida real, sin maquillar para ningún lado.',
+    accion: 'Lee tu escena y escribe qué parte ya está pasando, qué parte falta y qué vas a hacer con lo que falta.',
   },
   {
-    dia: 82, titulo: 'La carta · releer y completar', maestro: true, duracion: '15 min',
-    senal: '"Relee tu carta con un día de distancia. Vas a encontrar una frase que ayer no pudiste escribir — casi siempre es la del agradecimiento verdadero, o la del costo que más duele nombrar. Hoy la agregas. Una carta a medias despide a medias." — Javo',
-    accion: 'Relee, completa lo que falte, y escribe la última línea: quién queda a cargo ahora (con nombre: el tuyo). Mañana se lee en voz alta.',
+    dia: 82, titulo: 'A quién le enseñas esto', duracion: '10 min',
+    senal: 'Hay algo que se sabe de cualquier aprendizaje: lo que enseñas se te queda de otra manera. Y además tienes alrededor a otros como eras tú hace tres meses, convencidos de que aguantar es parte del trabajo.',
+    accion: 'Elige una sola cosa de estas doce semanas y enséñasela a alguien esta semana. Una conversación de diez minutos alcanza.',
   },
   {
-    dia: 83, titulo: 'La carta · en voz alta', maestro: true, duracion: '15 min',
-    senal: '"Leerla en silencio es entenderla. Leerla EN VOZ ALTA es otra cosa: el cuerpo escucha tu propia voz decir lo que nunca dijo, y algo se ordena adentro que ningún pensamiento ordena. Hazlo solo si quieres — o frente a tu testigo, tu pareja, o tu clínico si eres Acompañado: la presencia de otro multiplica el corte. No es teatro. Es la firma." — Javo',
-    accion: 'Lee tu carta en voz alta, entera, sin apuro. Solo o con testigo — tu decisión. Después escribe en tu línea una sola cosa: qué sentiste en el cuerpo al leer la última línea.',
+    dia: 83, titulo: 'La víspera', duracion: '8 min',
+    senal: 'Mañana vuelves a responder el mismo instrumento del primer día. No estudies para el examen y no vivas hoy distinto: el instrumento no mide tu mejor día, mide tus últimas semanas, y esas ya están hechas.',
+    accion: 'Hoy no hay tarea nueva. Haz tu Apagado, registra tus Signos y duerme como cualquier noche.',
   },
   {
     dia: 84, titulo: 'LA MEDICIÓN DEL CONTRATO', maestro: true, duracion: '12 min',

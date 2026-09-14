@@ -75,7 +75,7 @@ export default function CeremoniaMedicion({ onCerrar }: { onCerrar: () => void }
         </div>
       )}
 
-      {/* Las puertas del Día 90 — las dos son dignas */}
+      {/* Las puertas del día 84 — las dos son dignas */}
       {esAlta && (
         <div className="mb-4">
           <p className="voz-maestro text-center mb-4">"El que responde hoy no es el que respondió el Día 0."</p>

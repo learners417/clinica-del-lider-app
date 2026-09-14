@@ -1,5 +1,6 @@
 /** Mi Zona — evolución medida: Zona Vital, CBI, racha y el Tratamiento. */
 import { Stethoscope, Flame } from 'lucide-react';
+import { HITO_MEDIO, HITO_CONTRATO } from '../data/camino';
 import { CBI_SUBESCALA_LABEL } from '../data/cbi';
 import { ZONAS, zonaDesdeCbi } from '../data/zonas';
 import { listarChequeos, calcularRacha, fechaDia90, getProtocolo, diaDelProtocolo } from '../lib/estadoCdl';
@@ -35,7 +36,7 @@ export default function Zona({ irAlChequeo }: { irAlChequeo: () => void }) {
         <ZonaBadge zona={zona} grande />
         <p className="t-cuerpo mt-4">{zona.descripcion}</p>
         <p className="flex items-center justify-center gap-1.5 t-micro mt-3" style={{ color: 'var(--texto-tenue)' }}>
-          <Flame size={13} /> Racha de Signos: {racha} {racha === 1 ? 'día' : 'días'}{protocolo ? ` · Tu Día 90: ${fechaDia90(protocolo.fechaInicio + 'T12:00:00')}` : ''}
+          <Flame size={13} /> Racha de Signos: {racha} {racha === 1 ? 'día' : 'días'}{protocolo ? ` · Tu último día: ${fechaDia90(protocolo.fechaInicio + 'T12:00:00')}` : ''}
         </p>
       </div>
 
@@ -98,7 +99,7 @@ export default function Zona({ irAlChequeo }: { irAlChequeo: () => void }) {
 
       {protocolo ? (
         <button className="btn-secundario w-full" disabled={diaTrat < 45} onClick={irAlChequeo}>
-          {diaTrat < 45 ? `Tu próxima medición oficial: Día 45 (faltan ${45 - diaTrat})` : 'Hacer mi medición oficial'}
+          {diaTrat < HITO_MEDIO ? `Tu próxima medición oficial: día ${HITO_MEDIO} (faltan ${HITO_MEDIO - diaTrat})` : 'Hacer mi medición oficial'}
         </button>
       ) : (
         <button className="btn-secundario w-full" onClick={irAlChequeo}>Repetir mi Chequeo</button>

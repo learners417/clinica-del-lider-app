@@ -101,7 +101,7 @@ export default function Hoy({ navegar }: { navegar: (p: PaginaId) => void }) {
               </span>
               <div className="flex-1">
                 <p className="t-micro" style={{ color: 'var(--acento)' }}>El Tratamiento · Fase {fase.id} · Día {dia} de {TOTAL_DIAS}</p>
-                <p className="t-sub mt-0.5" style={{ fontSize: 16 }}>{completo ? 'Tratamiento completo. Tu Día 91 te espera.' : alDia ? 'Dosis de hoy: hecha. Mañana sigue.' : 'Tu Dosis de hoy te espera'}</p>
+                <p className="t-sub mt-0.5" style={{ fontSize: 16 }}>{completo ? 'Tratamiento completo. Tu día 85 te espera.' : alDia ? 'Dosis de hoy: hecha. Mañana sigue.' : 'Tu Dosis de hoy te espera'}</p>
               </div>
               <ChevronRight size={18} color="var(--texto-tenue)" className="flex-none" />
             </div>
