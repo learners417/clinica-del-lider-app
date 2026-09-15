@@ -106,10 +106,10 @@ export default function DosisPage({ navegar }: { navegar: (p: PaginaId) => void 
           </div>
         );
       })()}
-      {[2, 3, 4, 8, 11].includes(dosis.dia) && <AudioJavo id="apagado" titulo="El Apagado" />}
-      {dosis.dia >= 65 && [65, 72, 84].includes(dosis.dia) && <AudioJavo id="senal" titulo="La Señal" />}
-      {dosis.dia === 81 && <AudioJavo id="carta" titulo="La Carta, guiada" />}
-      {[31, 32, 35, 43].includes(dosis.dia) && <AudioJavo id="despliegue" titulo="El Despliegue" />}
+      {[4, 7, 18, 19].includes(dosis.dia) && <AudioJavo id="apagado" titulo="El Apagado" />}
+      {[27, 60, 76].includes(dosis.dia) && <AudioJavo id="senal" titulo="La Señal" />}
+      {dosis.dia === 79 && <AudioJavo id="carta" titulo="La Carta, guiada" />}
+      {[44, 45, 48].includes(dosis.dia) && <AudioJavo id="despliegue" titulo="El Despliegue" />}
       {necesitaChequeo && (
         <button className="btn-primario w-full mb-3" onClick={() => navegar('chequeo')}>Hacer mi Chequeo primero (7 min)</button>
       )}

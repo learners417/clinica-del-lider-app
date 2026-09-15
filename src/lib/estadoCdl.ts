@@ -22,6 +22,58 @@ const K = {
   mensaje90: 'cdl_mensaje_90',
 };
 
+/* ── Respaldo y restauración ──
+   Todo el estado clínico vive en este dispositivo. Si el paciente limpia el
+   navegador o cambia de teléfono, se pierde. Estas dos funciones son el seguro:
+   un archivo que puede guardar donde quiera y volver a cargar. */
+
+export interface Respaldo {
+  version: 1;
+  fecha: string;
+  datos: Record<string, unknown>;
+}
+
+/** Junta todo el estado guardado en un solo objeto. */
+export function armarRespaldo(): Respaldo {
+  const datos: Record<string, unknown> = {};
+  for (const clave of Object.values(K)) {
+    try {
+      const raw = localStorage.getItem(clave);
+      if (raw !== null) datos[clave] = JSON.parse(raw);
+    } catch { /* noop */ }
+  }
+  return { version: 1, fecha: new Date().toISOString(), datos };
+}
+
+/** Descarga el respaldo como archivo. Devuelve el nombre del archivo. */
+export function descargarRespaldo(nombre = 'clinica'): string {
+  const r = armarRespaldo();
+  const archivo = `${nombre.toLowerCase().replace(/[^a-z0-9]+/g, '-')}-respaldo-${r.fecha.slice(0, 10)}.json`;
+  const url = URL.createObjectURL(new Blob([JSON.stringify(r)], { type: 'application/json' }));
+  const a = document.createElement('a');
+  a.href = url; a.download = archivo; a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+  return archivo;
+}
+
+/** Restaura desde un respaldo. Pisa lo que haya en este dispositivo. */
+export function restaurarRespaldo(texto: string): { ok: boolean; error?: string } {
+  let r: Respaldo;
+  try { r = JSON.parse(texto) as Respaldo; }
+  catch { return { ok: false, error: 'El archivo no se puede leer.' }; }
+  if (!r || r.version !== 1 || typeof r.datos !== 'object') {
+    return { ok: false, error: 'Ese archivo no es un respaldo de la Clínica.' };
+  }
+  const validas = new Set<string>(Object.values(K));
+  let escritas = 0;
+  for (const [clave, valor] of Object.entries(r.datos)) {
+    if (!validas.has(clave)) continue;
+    try { localStorage.setItem(clave, JSON.stringify(valor)); escritas++; } catch { /* noop */ }
+  }
+  if (escritas === 0) return { ok: false, error: 'El respaldo no traía datos de la Clínica.' };
+  return { ok: true };
+}
+
 function leer<T>(key: string, fallback: T): T {
   try {
     const raw = localStorage.getItem(key);

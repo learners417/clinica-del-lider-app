@@ -54,6 +54,25 @@ export default function Hoy({ navegar }: { navegar: (p: PaginaId) => void }) {
   const ultimos7 = listarDiario().slice(-7);
   const prom = (f: (e: EntradaDiario) => number) => ultimos7.length ? (ultimos7.reduce((a, e) => a + f(e), 0) / ultimos7.length) : 0;
 
+  // Sin Chequeo no hay punto de partida: el camino empieza ahí y no en la Dosis 1.
+  if (!chequeo) {
+    return (
+      <div className="pantalla pt-10 pb-28 pagina-anim">
+        <p className="t-micro" style={{ color: 'var(--acento)' }}>Antes de empezar</p>
+        <h1 className="t-display mt-3 mb-4">Tu punto de partida.</h1>
+        <p className="t-cuerpo mb-3">
+          El camino son doce semanas medidas, y para medir hace falta saber de dónde partes.
+          Eso es el Chequeo: diez medidas, tu carga, tu cuerpo y cinco preguntas que solo respondes tú.
+        </p>
+        <p className="t-cuerpo mb-7">
+          Toma unos veinte minutos y se hace una sola vez. Puedes cortar por la mitad y seguir después:
+          queda guardado donde lo dejaste.
+        </p>
+        <button className="btn-primario w-full" onClick={() => navegar('chequeo')}>Hacer mi Chequeo</button>
+      </div>
+    );
+  }
+
   return (
     <div className="pantalla pt-6 pb-28">
       <div className="flex items-center justify-between mb-4">

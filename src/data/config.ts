@@ -10,18 +10,18 @@ export const PRECIO_ACOMP = 999;
 /** AUDIOS de Javo — pegar la URL (mp3/m4a hosteado) y aparecen solos en la app. Vacío = no se muestra. */
 export const AUDIOS = {
   apagado: '',      // EL APAGADO (8-10 min) — se ofrece en todas las Noches y en las Dosis de sueño
-  despliegue: '',   // EL DESPLIEGUE (2 min de movilidad) — Dosis de cuerpo (D31+)
+  despliegue: '',   // EL DESPLIEGUE (2 min de movilidad) — Dosis de cuerpo (semana 7 en adelante)
   pausa3: '',       // LA PAUSA DE 3' guiada — Botiquín
   senal: '',        // LA SEÑAL (5 min de quietud) — desde Fase A
-  carta: '',        // LA CARTA guiada — D81
+  carta: '',        // LA CARTA guiada — día 79
 };
 
 /** VIDEOS de Javo (YouTube no listado / Wistia) — por día del Tratamiento. Vacío = no se muestra. */
 export const VIDEOS: Record<number, string> = {
   1: '',   // Bienvenida + apertura de VER
-  11: '',  // Apertura de INTERRUMPIR
-  31: '',  // Apertura de TRANSFORMAR
-  61: '',  // Apertura de ANCLAR
-  81: '',  // Apertura de LIDERARTE
-  90: '',  // El Alta
+  15: '',  // Apertura de INTERRUMPIR
+  43: '',  // Apertura de TRANSFORMAR — arranca el viaje dos
+  64: '',  // Apertura de ANCLAR
+  78: '',  // Apertura de LIDERARTE
+  84: '',  // El Alta
 };

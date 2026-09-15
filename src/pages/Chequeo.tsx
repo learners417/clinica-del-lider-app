@@ -12,7 +12,7 @@ import { PHQ9_INTRO, PHQ9_ITEMS, PHQ9_OPCIONES, calcularPhq9 } from '../data/phq
 import { ENEAGRAMA_TIPOS } from '../data/eneagrama';
 import { MEDIDAS, FRECUENCIA, indiceJugador, lectura, focos as focosTablero,
   promedioColumna, puntaje as puntajeMedida, colorPuntaje } from '../data/arbol';
-import { HITO_MEDIO, HITO_CONTRATO, SUBIDA_CONTRATO } from '../data/camino';
+import { HITO_MEDIO, HITO_CONTRATO, SUBIDA_CONTRATO, VIAJES, SEMANAS } from '../data/camino';
 import { APAGADORES, VENTANA, VENTANA_MIN, horasDormidas, avisaAlClinico } from '../data/onboarding';
 import ArbolTablero from '../components/ArbolTablero';
 import { CONTEXTO } from '../data/contexto';
@@ -23,7 +23,6 @@ import {
 } from '../lib/estadoCdl';
 import ZonaBadge from '../components/ZonaBadge';
 import { Opcion, Chips, Stepper, BarraActos, PuntoZona } from '../components/ui';
-import { OfertasReinicio } from '../components/Ofertas';
 import { getProtocolo } from '../lib/estadoCdl';
 import CeremoniaMedicion from '../components/CeremoniaMedicion';
 
@@ -683,23 +682,75 @@ export default function Chequeo({ onTerminado, onSalir }: { onTerminado: () => v
   }
 
   if (fase === 'dia90' && guardado) {
+    const tab = guardado.rueda;
+    const tresFocos = focosTablero(tab);
     return (
       <Marco acto={acto} progreso={100}>
-        <p className="t-micro" style={{ color: 'var(--calido)' }}>Tu camino</p>
-        <h2 className="t-display mt-2 mb-1">Tu día 84 es el</h2>
-        <p className="t-display mb-4" style={{ color: 'var(--acento)' }}>{fechaDia90(guardado.fecha)}.</p>
-        <p className="t-cuerpo mb-6">
-          Ese día tu agotamiento se vuelve a medir con el mismo instrumento de hoy.
-          La promesa de esta clínica: <b>fuera de la zona roja — o seguimos trabajando gratis hasta lograrlo. Por contrato.</b>
+        <p className="t-micro" style={{ color: 'var(--acento)' }}>Tu camino</p>
+        <h2 className="t-display mt-3 mb-5">Doce semanas. Doce sesiones.</h2>
+        <p className="t-cuerpo mb-3">
+          Ya sabes dónde estás. Ahora lo que sigue, para que sepas exactamente en qué te metiste.
         </p>
-        {getProtocolo() ? (
-          <CeremoniaMedicion onCerrar={onTerminado} />
-        ) : (
-          <OfertasReinicio onElegida={() => { toast('Los cupos se abren en el vivo. Si ya tienes tu código, actívalo en el Tratamiento.'); }} />
-        )}
-        <button className="w-full mt-4 t-sub py-3" style={{ color: 'var(--texto-tenue)' }} onClick={onTerminado}>
-          Lo pienso hasta el vivo — sigo con mis noches
-        </button>
+        <p className="t-cuerpo mb-9">
+          Ochenta y cuatro días partidos en dos mitades. Cada semana trabaja una cosa y nos vemos
+          una vez por semana para revisarla. Una Dosis por día, entre cinco y veinte minutos.
+          Nada de esto te va a pedir una hora libre que no tienes.
+        </p>
+
+        {VIAJES.map((v) => (
+          <div key={v.id} className="mb-9">
+            <div style={{ borderTop: '2px solid var(--acento)', paddingTop: 20 }}>
+              <p className="t-micro" style={{ color: 'var(--acento)' }}>
+                Viaje {v.id === 1 ? 'uno' : 'dos'} · días {v.dias[0]} al {v.dias[1]}
+              </p>
+              <h3 className="t-display mt-2 mb-2" style={{ fontSize: 34 }}>{v.nombre}</h3>
+              <p className="t-cuerpo mb-5">{v.promesa}</p>
+            </div>
+            {SEMANAS.filter((x) => x.viaje === v.id).map((x) => (
+              <div key={x.n} className="flex gap-4 py-4" style={{ borderBottom: '1px solid var(--borde)' }}>
+                <span className="t-dato flex-none" style={{ color: 'var(--acento)', width: 34, fontSize: 21 }}>
+                  {String(x.n).padStart(2, '0')}
+                </span>
+                <div>
+                  <p className="t-sub">{x.nombre}</p>
+                  <p className="t-cuerpo" style={{ fontSize: 16 }}>{x.resumen}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        ))}
+
+        <div className="tarjeta p-6 mb-6">
+          <h3 className="t-titulo mb-3">Por qué toca toda tu vida</h3>
+          <p className="t-cuerpo mb-4">
+            Tu Tablero mide diez cosas y ninguna vive sola: la noche que duermes decide la cabeza con
+            la que decides, y la cabeza con la que decides decide cómo llegas a tu casa. Por eso el
+            orden importa. Primero se ordena lo que te está drenando, y recién después se construye.
+          </p>
+          <p className="t-cuerpo">
+            Las doce semanas son las mismas para todos. Lo tuyo es el acento, y hoy quedó definido:
+            <b> {tresFocos.map((f) => f.nombre).join(', ')}</b>. Vas a encontrar esas tres apareciendo
+            una y otra vez a lo largo del camino.
+          </p>
+        </div>
+
+        <div className="tarjeta p-6 mb-8">
+          <h3 className="t-titulo mb-3">Lo que medimos, y cuándo</h3>
+          <p className="t-cuerpo mb-3">
+            Todos los días, en sesenta segundos: sueño, energía, foco y actos de verdad.
+          </p>
+          <p className="t-cuerpo mb-3">
+            El día {HITO_MEDIO}, al cerrar el primer viaje, y el día {HITO_CONTRATO}, al final:
+            este mismo Chequeo otra vez. Los tres juntos, uno al lado del otro.
+          </p>
+          <p className="t-cuerpo">
+            Tu día {HITO_CONTRATO} es el <b>{fechaDia90(guardado.fecha)}</b>.
+          </p>
+        </div>
+
+        {getProtocolo() && <CeremoniaMedicion onCerrar={onTerminado} />}
+
+        <button className="btn-primario w-full mt-4" onClick={onTerminado}>Empezar mi Día 1</button>
       </Marco>
     );
   }
@@ -710,10 +761,10 @@ export default function Chequeo({ onTerminado, onSalir }: { onTerminado: () => v
 /* ─── Pantalla de procesamiento (el pago del compromiso) ─── */
 function Procesando({ onListo }: { onListo: () => void }) {
   const pasos = [
-    'Calculando tus 3 subescalas de agotamiento…',
-    'Cruzando tus hábitos con tu Rueda de la Vida…',
-    'Definiendo tu Zona Vital…',
-    'Preparando tu día 84…',
+    'Calculando tus tres subescalas de carga…',
+    'Armando tu Árbol con las diez medidas…',
+    'Buscando el desbalance entre tus columnas…',
+    'Definiendo tus tres focos…',
   ];
   const [visibles, setVisibles] = useState(1);
   useEffect(() => {

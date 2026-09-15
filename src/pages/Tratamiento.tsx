@@ -8,7 +8,6 @@ import { Mensaje90Reveal } from '../components/Mensaje90';
 import { getMensaje90 } from '../lib/estadoCdl';
 import { zonaDesdeCbi } from '../data/zonas';
 import { getNombre } from '../lib/estadoCdl';
-import { OfertasReinicio } from '../components/Ofertas';
 import { PuntoZona } from '../components/ui';
 import { validarCodigo } from '../lib/codigosFundador';
 import { FASES_VITAL, HITOS, DOSIS_ESCRITAS, TOTAL_DIAS, faseDeDia } from '../data/protocolo';
@@ -23,11 +22,25 @@ import {
 
 export default function Tratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
   const protocolo = getProtocolo();
+  // Sin Chequeo no hay línea de partida contra la cual medir nada.
+  if (protocolo && listarChequeos().length === 0) {
+    return (
+      <div className="pantalla pt-10 pb-28 pagina-anim">
+        <p className="t-micro" style={{ color: 'var(--acento)' }}>Antes de empezar</p>
+        <h1 className="t-display mt-3 mb-4">Primero, tu punto de partida.</h1>
+        <p className="t-cuerpo mb-7">
+          Tu camino ya está activo. Empieza por el Chequeo: sin esa medición no hay contra qué comparar
+          el día 42 ni el día 84.
+        </p>
+        <button className="btn-primario w-full" onClick={() => navegar('chequeo')}>Hacer mi Chequeo</button>
+      </div>
+    );
+  }
   if (protocolo) return <MiTratamiento navegar={navegar} />;
   return <OfertaTratamiento navegar={navegar} />;
 }
 
-/* ═══ Comprador del $33 (o sin protocolo): la oferta + código de tier superior ═══ */
+/* ═══ Sin camino activo: no se vende nada acá, se activa con código ═══ */
 function OfertaTratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
   const [codigo, setCodigo] = useState('');
 
@@ -50,7 +63,10 @@ function OfertaTratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
       </p>
       <p className="t-sub mb-6">No te enseñamos a liderar. Te devolvemos el liderazgo sobre ti mismo.</p>
 
-      <OfertasReinicio onElegida={() => toast('Los cupos se abren en el vivo. Si ya tienes tu código, actívalo aquí abajo.')} />
+      <div className="tarjeta p-6">
+        <p className="t-sub mb-2">Tu camino todavía no está activo.</p>
+        <p className="t-cuerpo">Escribe a la clínica y lo activamos con tu código.</p>
+      </div>
 
       <div className="tarjeta p-5 mt-4">
         <p className="t-sub mb-2">¿Tienes tu código del Tratamiento?</p>

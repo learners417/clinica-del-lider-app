@@ -1,6 +1,9 @@
 /** Mi Zona — evolución medida: Zona Vital, CBI, racha y el Tratamiento. */
 import { Stethoscope, Flame } from 'lucide-react';
 import { HITO_MEDIO, HITO_CONTRATO } from '../data/camino';
+import { descargarRespaldo, restaurarRespaldo, getNombre } from '../lib/estadoCdl';
+import { useRef } from 'react';
+import { toast } from 'sonner';
 import { CBI_SUBESCALA_LABEL } from '../data/cbi';
 import { ZONAS, zonaDesdeCbi } from '../data/zonas';
 import { listarChequeos, calcularRacha, fechaDia90, getProtocolo, diaDelProtocolo } from '../lib/estadoCdl';
@@ -8,6 +11,8 @@ import ZonaBadge from '../components/ZonaBadge';
 import { PuntoZona } from '../components/ui';
 
 export default function Zona({ irAlChequeo }: { irAlChequeo: () => void }) {
+  const archivoRef = useRef<HTMLInputElement>(null);
+  const nombrePaciente = getNombre();
   const chequeos = listarChequeos();
   const ultimo = chequeos.length ? chequeos[chequeos.length - 1] : null;
   const racha = calcularRacha();
@@ -98,12 +103,44 @@ export default function Zona({ irAlChequeo }: { irAlChequeo: () => void }) {
       )}
 
       {protocolo ? (
-        <button className="btn-secundario w-full" disabled={diaTrat < 45} onClick={irAlChequeo}>
+        <button className="btn-secundario w-full" disabled={diaTrat < HITO_MEDIO} onClick={irAlChequeo}>
           {diaTrat < HITO_MEDIO ? `Tu próxima medición oficial: día ${HITO_MEDIO} (faltan ${HITO_MEDIO - diaTrat})` : 'Hacer mi medición oficial'}
         </button>
       ) : (
         <button className="btn-secundario w-full" onClick={irAlChequeo}>Repetir mi Chequeo</button>
       )}
+
+      <div className="tarjeta p-5 mt-8">
+        <p className="t-sub mb-2">Tu respaldo</p>
+        <p className="t-cuerpo" style={{ fontSize: 16 }}>
+          Todo lo que respondes se guarda en este teléfono. Si cambias de equipo o borras los datos del navegador, se pierde.
+          Descarga tu respaldo de vez en cuando y guárdalo donde guardas lo importante.
+        </p>
+        <div className="flex gap-3 mt-4">
+          <button className="btn-secundario flex-1" style={{ minHeight: 52, fontSize: 16 }}
+            onClick={() => { const a = descargarRespaldo(nombrePaciente || 'clinica'); toast.success(`Respaldo descargado: ${a}`); }}>
+            Descargar
+          </button>
+          <button className="btn-secundario flex-1" style={{ minHeight: 52, fontSize: 16 }}
+            onClick={() => archivoRef.current?.click()}>
+            Restaurar
+          </button>
+        </div>
+        <input ref={archivoRef} type="file" accept="application/json" style={{ display: 'none' }}
+          onChange={(e) => {
+            const f = e.target.files?.[0];
+            if (!f) return;
+            if (!confirm('Restaurar va a reemplazar lo que haya en este teléfono. ¿Seguimos?')) { e.target.value = ''; return; }
+            const lector = new FileReader();
+            lector.onload = () => {
+              const r = restaurarRespaldo(String(lector.result));
+              if (r.ok) { toast.success('Respaldo restaurado.'); setTimeout(() => location.reload(), 900); }
+              else toast.error(r.error ?? 'No se pudo restaurar.');
+            };
+            lector.readAsText(f);
+            e.target.value = '';
+          }} />
+      </div>
     </div>
   );
 }
