@@ -15,7 +15,7 @@ import Clinico from './pages/Clinico';
 import BotiquinFab from './components/BotiquinFab';
 import Arranque from './components/Arranque';
 import Logo from './components/Logo';
-import { getPagina, setPagina, getAcceso, sembrarAccesoLocal, type PaginaId } from './lib/estadoCdl';
+import { getPagina, setPagina, getAcceso, sembrarAccesoLocal, puedeGuardar, type PaginaId } from './lib/estadoCdl';
 import { supabase, MODO_NUBE, getAccesoNube, type AccesoNube } from './lib/supabase';
 
 const NAV: { id: PaginaId; label: string; Icon: typeof Home }[] = [
@@ -67,6 +67,30 @@ export default function App() {
     window.history.replaceState(null, '', window.location.pathname);
     setEstadoNube('cargando');
     cargarAcceso();
+  }
+
+  // ══ Sin almacenamiento no hay app: todo el camino vive en este dispositivo ══
+  if (!puedeGuardar()) {
+    return (
+      <div className="min-h-screen">
+        <header className="pantalla pt-5"><Logo onClick={() => {}} /></header>
+        <main className="pantalla pt-12 pagina-anim">
+          <h1 className="t-display mb-5">Tu navegador no nos deja guardar nada.</h1>
+          <p className="t-cuerpo mb-4">
+            Todo tu camino —tus mediciones, tus días, lo que escribes— vive en este teléfono.
+            Sin permiso para guardar, nada de eso se conserva.
+          </p>
+          <p className="t-cuerpo mb-4">
+            Suele pasar por dos motivos: estás en una ventana de incógnito, o el navegador tiene
+            bloqueados los datos de este sitio.
+          </p>
+          <p className="t-cuerpo">
+            Abre este enlace en una ventana normal e instálalo como app desde el menú del navegador.
+            Después vuelve a entrar y sigues donde estabas.
+          </p>
+        </main>
+      </div>
+    );
   }
 
   // ══ MODO NUBE: pantallas de acceso ══

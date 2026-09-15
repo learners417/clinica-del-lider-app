@@ -83,10 +83,30 @@ function leer<T>(key: string, fallback: T): T {
   }
 }
 
-function guardar(key: string, valor: unknown): void {
+function guardar(key: string, valor: unknown): boolean {
   try {
     localStorage.setItem(key, JSON.stringify(valor));
-  } catch { /* noop */ }
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * ¿Este navegador nos deja guardar? Sin esto la app no puede funcionar:
+ * todo el camino del paciente vive en este dispositivo.
+ * Falla en incógnito y con el almacenamiento del sitio bloqueado.
+ */
+export function puedeGuardar(): boolean {
+  try {
+    const prueba = '__cdl_prueba__';
+    localStorage.setItem(prueba, '1');
+    const ok = localStorage.getItem(prueba) === '1';
+    localStorage.removeItem(prueba);
+    return ok;
+  } catch {
+    return false;
+  }
 }
 
 /* ── Perfil invitado ── */

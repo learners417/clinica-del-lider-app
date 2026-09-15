@@ -3,19 +3,27 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { KeyRound } from 'lucide-react';
 import { validarCodigo } from '../lib/codigosFundador';
-import { activarProtocolo, activarApaga, setNombre } from '../lib/estadoCdl';
+import { activarProtocolo, activarApaga, setNombre, getAcceso, puedeGuardar } from '../lib/estadoCdl';
 import PulsoAmbiente from '../components/PulsoAmbiente';
 
 export default function Puerta({ onActivado }: { onActivado: () => void }) {
   const [nombre, setNombreLocal] = useState('');
   const [codigo, setCodigo] = useState('');
+  const [bloqueado, setBloqueado] = useState(false);
 
   function entrar() {
     const tier = validarCodigo(codigo);
     if (!tier) { toast.error('Ese código no lo reconozco. Revísalo con la clínica.'); return; }
+
+    if (!puedeGuardar()) { setBloqueado(true); return; }
+
     if (nombre.trim().length > 1) setNombre(nombre);
     if (tier === 'apaga') activarApaga();
     else activarProtocolo(tier);
+
+    // Verificamos que haya quedado guardado de verdad antes de avanzar.
+    if (getAcceso() === 'ninguno') { setBloqueado(true); return; }
+
     toast.success(`Bienvenido${nombre.trim() ? ', ' + nombre.trim().split(' ')[0] : ''}.`);
     onActivado();
   }
@@ -56,6 +64,17 @@ export default function Puerta({ onActivado }: { onActivado: () => void }) {
         />
 
         <button className="btn-primario w-full mt-6" onClick={entrar}>Entrar</button>
+
+        {bloqueado && (
+          <div className="mt-5 p-5" style={{ border: '1px solid var(--zona-roja)', borderRadius: 18 }}>
+            <p className="t-sub mb-2">Tu navegador no nos deja guardar nada.</p>
+            <p className="t-cuerpo" style={{ fontSize: 16 }}>
+              Todo tu camino vive en este teléfono, así que sin permiso para guardar no podemos empezar.
+              Suele pasar en modo incógnito o con los datos del sitio bloqueados. Abre este enlace en una
+              ventana normal, o instala la app desde el menú del navegador, y vuelve a entrar.
+            </p>
+          </div>
+        )}
       </div>
 
       <p className="t-cuerpo text-center mt-10" style={{ fontSize: 15 }}>
