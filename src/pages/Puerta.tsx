@@ -25,7 +25,12 @@ export default function Puerta({ onActivado }: { onActivado: () => void }) {
     if (getAcceso() === 'ninguno') { setBloqueado(true); return; }
 
     toast.success(`Bienvenido${nombre.trim() ? ', ' + nombre.trim().split(' ')[0] : ''}.`);
-    onActivado();
+    // Recargamos la app entera: así el acceso se relee desde cero y no dependemos
+    // de que la pantalla se redibuje sola. Es la entrada, pasa una sola vez.
+    setTimeout(() => {
+      try { window.location.replace(window.location.pathname); }
+      catch { onActivado(); }
+    }, 700);
   }
 
   return (
