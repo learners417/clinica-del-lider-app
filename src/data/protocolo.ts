@@ -258,7 +258,7 @@ export const DOSIS: Dosis[] = [
   {
     dia: 41, titulo: 'Un lugar sin traje', duracion: '15 min',
     senal: 'No se trata de andar por la vida sin ninguna armadura: eso ni es posible ni es deseable. Se trata de que exista al menos un lugar donde no la uses. Con una persona alcanza. Sin ese lugar, el Personaje no descansa nunca, y lo que no descansa se rompe.',
-    accion: 'Elige una persona y dile hoy, en una frase, algo que el Personaje nunca admitiría. No hace falta una conversación larga. Una frase verdadera alcanza.',
+    accion: 'Antes de hablar con nadie, abre el Iceberg y termina la última capa: qué le dices a esa parte tuya que se inventó el Personaje para cuidarte. Después elige una persona y dile, en una frase, algo que el Personaje nunca admitiría.',
     variante: 'Si hoy no hay nadie, escríbela igual y guárdala. Lo que se escribe se puede decir después; lo que no se escribió nunca se dice.'
   },
   {

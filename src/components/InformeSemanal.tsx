@@ -70,18 +70,18 @@ Escribe el informe.`;
       {informe && !puede ? (
         <>
           <p className="t-micro mb-3" style={{ color: 'var(--texto-tenue)' }}>El Clínico · {new Date(informe.fecha + 'T12:00:00').toLocaleDateString('es')} · basado en tus Signos</p>
-          <p className="t-cuerpo" style={{ whiteSpace: 'pre-wrap', fontSize: 14.5 }}>{informe.texto}</p>
+          <p className="t-cuerpo" style={{ whiteSpace: 'pre-wrap', fontSize: 16 }}>{informe.texto}</p>
           <p className="t-micro mt-3" style={{ color: 'var(--texto-tenue)' }}>Tu próxima lectura: cuando la semana esté completa.</p>
         </>
       ) : puede ? (
         <>
-          <p className="t-cuerpo mb-4" style={{ fontSize: 13.5 }}>Tienes {registros.length} días registrados. El Clínico puede leer tu semana: qué mejoró, qué se cayó, y tu ajuste para la próxima.</p>
+          <p className="t-cuerpo mb-4" style={{ fontSize: 16 }}>Tienes {registros.length} días registrados. El Clínico puede leer tu semana: qué mejoró, qué se cayó, y tu ajuste para la próxima.</p>
           <button className="btn-secundario w-full" disabled={cargando} onClick={generar}>
             {cargando ? 'El Clínico está leyendo tu semana…' : 'Generar mi informe semanal'}
           </button>
         </>
       ) : (
-        <p className="t-cuerpo" style={{ fontSize: 13 }}>Registra al menos 5 días de la semana y el Clínico te escribe la lectura completa.</p>
+        <p className="t-cuerpo" style={{ fontSize: 16 }}>Registra al menos 5 días de la semana y el Clínico te escribe la lectura completa.</p>
       )}
     </div>
   );

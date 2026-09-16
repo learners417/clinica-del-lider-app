@@ -61,7 +61,7 @@ export default function DiarioLider() {
                 minWidth: 56,
               }}>
               <e.Icono size={26} strokeWidth={estado === i + 1 ? 2.2 : 1.7} />
-              <span style={{ fontSize: 10, fontWeight: 700 }}>{e.label}</span>
+              <span style={{ fontSize: 16, fontWeight: 700 }}>{e.label}</span>
             </button>
           ))}
         </div>
@@ -74,7 +74,7 @@ export default function DiarioLider() {
         <p className="t-sub mt-4 mb-2">Una línea honesta (opcional)</p>
         <textarea value={nota} onChange={(e) => setNota(e.target.value)} rows={2}
           placeholder="¿Qué te llevó energía hoy? ¿Qué te la devolvió?"
-          className="w-full px-3 py-3 resize-none" style={{ fontSize: 15 }} />
+          className="w-full px-3 py-3 resize-none" style={{ fontSize: 16 }} />
         <button className="btn-primario w-full mt-4" onClick={guardar}>{existente ? 'Actualizar registro' : 'Registrar mis Signos Vitales'}</button>
       </div>
 
@@ -98,7 +98,7 @@ export default function DiarioLider() {
                   <E size={20} color="var(--texto-suave)" className="mt-0.5" />
                   <div>
                     <p className="t-sub">{e.fecha}</p>
-                    {e.nota && <p className="t-cuerpo" style={{ fontSize: 13 }}>{e.nota}</p>}
+                    {e.nota && <p className="t-cuerpo" style={{ fontSize: 16 }}>{e.nota}</p>}
                   </div>
                 </div>
                 <p className="t-micro text-right flex-none" style={{ color: 'var(--texto-tenue)' }}>{e.horasSueno}h sueño<br />{e.horasTrabajo}h trabajo</p>

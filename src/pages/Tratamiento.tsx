@@ -14,7 +14,8 @@ import { FASES_VITAL, HITOS, DOSIS_ESCRITAS, TOTAL_DIAS, faseDeDia } from '../da
 import { SISTEMAS, estadoSistema, ESTADO_SISTEMA_LABEL } from '../data/sistemas';
 import { calcularFocos } from '../lib/enfasis';
 import { estadoMedida as descriptorArea } from '../data/arbol';
-import { HITO_MEDIO, HITO_CONTRATO } from '../data/camino';
+import { HITO_MEDIO, HITO_CONTRATO, SUBIDA_CONTRATO } from '../data/camino';
+import { indiceJugador } from '../data/arbol';
 import {
   getProtocolo, activarProtocolo, diaDelProtocolo, proximaDosis, listarChequeos,
   listarBitacora, listarDiario, calcularRacha, fechaDia90, type PaginaId,
@@ -110,7 +111,7 @@ function MiTratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
 
   return (
     <div className="pantalla pt-6 pb-28">
-      <p className="t-micro" style={{ color: 'var(--acento)' }}>El Tratamiento · {p.tier === 'acompanado' ? 'Acompañado' : 'El Reinicio'}</p>
+      <p className="t-micro" style={{ color: 'var(--acento)' }}>EL EJE · {p.tier === 'acompanado' ? 'Acompañado' : 'Solo'}</p>
       <h1 className="t-titulo mt-1 mb-1">Día {dia} de {TOTAL_DIAS}</h1>
       <p className="t-cuerpo mb-4">Fase {fase.id} · {fase.nombre} — {fase.resumen}</p>
       <div className="barra mb-5"><div style={{ width: `${Math.round((dia / TOTAL_DIAS) * 100)}%`, background: 'var(--acento)' }} /></div>
@@ -119,10 +120,10 @@ function MiTratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
       {dia91 && bitacora.length > 0 && (
         <div className="tarjeta p-5 mb-4" style={{ borderColor: 'var(--acento)', borderWidth: 2 }}>
           <p className="flex items-center gap-2 t-sub mb-2"><Award size={17} color="var(--acento)" /> día 85 · Tu historia, escrita por ti</p>
-          <p className="t-cuerpo mb-3" style={{ fontSize: 13 }}>A lo largo del camino dejaste {bitacora.length} líneas honestas. Léelas en orden — esa es tu historia real, sin guion. Si quieres, grábate noventa segundos contándola: ese es tu testimonio.</p>
+          <p className="t-cuerpo mb-3" style={{ fontSize: 16 }}>A lo largo del camino dejaste {bitacora.length} líneas honestas. Léelas en orden — esa es tu historia real, sin guion. Si quieres, grábate noventa segundos contándola: ese es tu testimonio.</p>
           <div className="space-y-2" style={{ maxHeight: 260, overflowY: 'auto' }}>
             {bitacora.map((l) => (
-              <p key={l.fecha} className="t-cuerpo" style={{ fontSize: 13 }}><span className="t-micro" style={{ color: 'var(--texto-tenue)' }}>{l.fecha}</span> — {l.nota}</p>
+              <p key={l.fecha} className="t-cuerpo" style={{ fontSize: 16 }}><span className="t-micro" style={{ color: 'var(--texto-tenue)' }}>{l.fecha}</span> — {l.nota}</p>
             ))}
           </div>
         </div>
@@ -149,7 +150,7 @@ function MiTratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
             );
           })}
         </div>
-        <p className="t-cuerpo mt-3" style={{ fontSize: 12 }}>Las {DOSIS_ESCRITAS} Dosis del Tratamiento están escritas. Se dosifican: una por día, siempre.</p>
+        <p className="t-cuerpo mt-3" style={{ fontSize: 16 }}>Las {DOSIS_ESCRITAS} Dosis del Tratamiento están escritas. Se dosifican: una por día, siempre.</p>
       </div>
 
       {(() => {
@@ -159,12 +160,12 @@ function MiTratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
         return (
           <div className="tarjeta p-5 mb-4">
             <p className="t-sub mb-1">Tus 3 focos</p>
-            <p className="t-cuerpo mb-3" style={{ fontSize: 12.5 }}>Tu Chequeo marcó estas tres áreas como las más caídas. El Tratamiento es el mismo para todos — en tus días clave, el acento va aquí.</p>
+            <p className="t-cuerpo mb-3" style={{ fontSize: 16 }}>Tu Chequeo marcó estas tres áreas como las más caídas. El Tratamiento es el mismo para todos — en tus días clave, el acento va aquí.</p>
             <div className="space-y-2">
               {focos.map((f) => (
                 <div key={f.id} className="flex items-center gap-3">
                   <PuntoZona color={f.color} size={10} />
-                  <p className="t-sub flex-1" style={{ fontSize: 14 }}>{f.nombre}</p>
+                  <p className="t-sub flex-1" style={{ fontSize: 16 }}>{f.nombre}</p>
                   <span className="t-micro" style={{ color: 'var(--texto-tenue)' }}>{descriptorArea(f.valor)}</span>
                 </div>
               ))}
@@ -176,7 +177,7 @@ function MiTratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
       {/* Los Sistemas Instalados */}
       <div className="tarjeta p-5 mb-4">
         <p className="t-sub mb-1">Tus Sistemas Instalados</p>
-        <p className="t-cuerpo mb-3" style={{ fontSize: 12.5 }}>El Tratamiento no son 90 acciones sueltas: son 10 sistemas que quedan operando. Instalado → sostenido 14 días → tuyo.</p>
+        <p className="t-cuerpo mb-3" style={{ fontSize: 16 }}>El Tratamiento no son 90 acciones sueltas: son 10 sistemas que quedan operando. Instalado → sostenido 14 días → tuyo.</p>
         <div className="space-y-2.5">
           {SISTEMAS.map((s) => {
             const est = estadoSistema(s, p.dosisHechas, dia);
@@ -185,8 +186,8 @@ function MiTratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
               <div key={s.id} className="flex items-start gap-2.5" style={{ opacity: activo ? 1 : 0.45 }}>
                 {activo ? <Check size={17} color={est === 'tuyo' ? 'var(--acento)' : 'var(--texto-suave)'} className="mt-0.5 flex-none" /> : <Circle size={14} color="var(--texto-tenue)" className="mt-1 flex-none" />}
                 <div className="flex-1">
-                  <p className="t-sub" style={{ fontSize: 14 }}>{s.nombre}</p>
-                  <p className="t-cuerpo" style={{ fontSize: 12 }}>{activo ? s.descripcion : ''}</p>
+                  <p className="t-sub" style={{ fontSize: 16 }}>{s.nombre}</p>
+                  <p className="t-cuerpo" style={{ fontSize: 16 }}>{activo ? s.descripcion : ''}</p>
                 </div>
                 <span className="t-micro flex-none" style={{ color: est === 'tuyo' ? 'var(--acento)' : 'var(--texto-tenue)' }}>{ESTADO_SISTEMA_LABEL[est]}</span>
               </div>
@@ -202,8 +203,8 @@ function MiTratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
             <div key={h.id} className="flex items-start gap-2.5">
               {hitos[h.id] ? <Check size={17} color="var(--acento)" className="mt-0.5 flex-none" /> : <Circle size={15} color="var(--texto-tenue)" className="mt-1 flex-none" />}
               <div>
-                <p className="t-sub" style={{ fontSize: 14, opacity: hitos[h.id] ? 1 : 0.7 }}>{h.nombre}</p>
-                <p className="t-cuerpo" style={{ fontSize: 12.5 }}>{h.descripcion}</p>
+                <p className="t-sub" style={{ fontSize: 16, opacity: hitos[h.id] ? 1 : 0.7 }}>{h.nombre}</p>
+                <p className="t-cuerpo" style={{ fontSize: 16 }}>{h.descripcion}</p>
               </div>
             </div>
           ))}
@@ -212,7 +213,7 @@ function MiTratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
 
       <div className="tarjeta p-5 mb-4">
         <p className="flex items-center gap-2 t-sub mb-1"><Activity size={16} color="var(--acento)" /> Tus mediciones</p>
-        <p className="t-cuerpo mb-3" style={{ fontSize: 13 }}>Día {HITO_MEDIO} y día {HITO_CONTRATO}, el mismo instrumento. Tu último día: <b>{fechaDia90(p.fechaInicio + 'T12:00:00')}</b>.</p>
+        <p className="t-cuerpo mb-3" style={{ fontSize: 16 }}>Día {HITO_MEDIO} y día {HITO_CONTRATO}, el mismo instrumento. Tu último día: <b>{fechaDia90(p.fechaInicio + 'T12:00:00')}</b>.</p>
         <button className="btn-secundario w-full" disabled={dia < 45} onClick={() => navegar('chequeo')}>
           {dia < HITO_MEDIO ? `La medición se abre el día ${HITO_MEDIO} (faltan ${HITO_MEDIO - dia})` : 'Hacer mi medición oficial'}
         </button>
@@ -221,7 +222,7 @@ function MiTratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
       {bitacora.length > 0 && !dia91 && (
         <div className="tarjeta p-4 mb-4 flex items-center gap-3">
           <BookOpen size={18} color="var(--calido)" className="flex-none" />
-          <p className="t-cuerpo" style={{ fontSize: 13 }}>Tu bitácora lleva <b>{bitacora.length} líneas</b>. El día 85 se te revela entera — es tu historia, escrita por ti.</p>
+          <p className="t-cuerpo" style={{ fontSize: 16 }}>Tu bitácora lleva <b>{bitacora.length} líneas</b>. El día 85 se te revela entera — es tu historia, escrita por ti.</p>
         </div>
       )}
 
@@ -243,7 +244,8 @@ function MiAlta() {
   if (!p || chequeos.length < 2) return null;
   const dia = diaDelProtocolo(p);
   const ultimo = chequeos[chequeos.length - 1];
-  const ganado = dia >= 85 && zonaDesdeCbi(ultimo.cbi.promedio).nombre !== 'Zona Roja';
+  const base = chequeos[0];
+  const ganado = dia >= HITO_CONTRATO && indiceJugador(ultimo.rueda) - indiceJugador(base.rueda) >= SUBIDA_CONTRATO;
   if (!ganado) return null;
   return (
     <div className="tarjeta p-5 mb-4" style={{ borderColor: 'var(--acento)' }}>
@@ -251,7 +253,7 @@ function MiAlta() {
       {abierto ? (
         <>
           {getMensaje90()?.abierto && <Mensaje90Reveal compacto />}
-          <CertificadoAlta nombre={getNombre()} cbiInicial={chequeos[0].cbi.promedio} cbiFinal={ultimo.cbi.promedio} fecha={ultimo.fecha.slice(0, 10)} />
+          <CertificadoAlta nombre={getNombre()} indiceInicial={indiceJugador(base.rueda)} indiceFinal={indiceJugador(ultimo.rueda)} fecha={ultimo.fecha.slice(0, 10)} />
         </>
       ) : (
         <button className="btn-secundario w-full" onClick={() => setAbierto(true)}>Ver mi certificado del Alta</button>

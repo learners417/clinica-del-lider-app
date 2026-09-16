@@ -4,8 +4,8 @@ import { Download } from 'lucide-react';
 
 interface Props {
   nombre: string;
-  cbiInicial: number;
-  cbiFinal: number;
+  indiceInicial: number;
+  indiceFinal: number;
   fecha: string; // yyyy-mm-dd
 }
 
@@ -19,14 +19,8 @@ function dibujar(p: Props): Promise<string> {
     // Fondo con las capas de la casa
     ctx.fillStyle = '#F0EBE0';
     ctx.fillRect(0, 0, W, H);
-    const g1 = ctx.createRadialGradient(W / 2, -100, 50, W / 2, -100, 900);
-    g1.addColorStop(0, 'rgba(63,207,142,0.10)');
-    g1.addColorStop(1, 'rgba(63,207,142,0)');
-    ctx.fillStyle = g1;
-    ctx.fillRect(0, 0, W, H);
-
-    // Marco hairline
-    ctx.strokeStyle = 'rgba(238,244,240,0.14)';
+    // Marco de una línea, oro mate
+    ctx.strokeStyle = 'rgba(169,139,79,0.45)';
     ctx.lineWidth = 2;
     ctx.strokeRect(48, 48, W - 96, H - 96);
 
@@ -44,7 +38,7 @@ function dibujar(p: Props): Promise<string> {
       }
     };
 
-    centro('LA CLÍNICA DEL LÍDER', 170, '700 30px system-ui, sans-serif', 'rgba(201,118,79,0.95)', 10);
+    centro('LA CLÍNICA DEL LÍDER', 170, '700 30px system-ui, sans-serif', '#A98B4F', 10);
 
     // La línea de pulso
     ctx.strokeStyle = '#A98B4F';
@@ -57,30 +51,30 @@ function dibujar(p: Props): Promise<string> {
     ctx.stroke();
 
     centro('EL ALTA', 520, '700 128px system-ui, sans-serif', '#15130F');
-    centro(p.nombre || 'Paciente de la clínica', 620, '600 44px system-ui, sans-serif', 'rgba(238,244,240,0.85)');
+    centro(p.nombre || 'Paciente de la clínica', 620, '600 44px system-ui, sans-serif', 'rgba(21,19,15,0.78)');
 
     // Los números del contrato
     ctx.textAlign = 'center';
     ctx.font = '700 96px system-ui, sans-serif';
-    ctx.fillStyle = 'rgba(228,87,76,0.95)';
-    ctx.fillText(String(p.cbiInicial), W / 2 - 190, 810);
+    ctx.fillStyle = 'rgba(21,19,15,0.45)';
+    ctx.fillText(String(p.indiceInicial), W / 2 - 190, 810);
     ctx.fillStyle = '#A98B4F';
-    ctx.fillText(String(p.cbiFinal), W / 2 + 190, 810);
+    ctx.fillText(String(p.indiceFinal), W / 2 + 190, 810);
     ctx.font = '700 60px system-ui, sans-serif';
-    ctx.fillStyle = 'rgba(238,244,240,0.55)';
+    ctx.fillStyle = 'rgba(21,19,15,0.40)';
     ctx.fillText('→', W / 2, 800);
     ctx.font = '700 24px system-ui, sans-serif';
-    ctx.fillStyle = 'rgba(238,244,240,0.5)';
+    ctx.fillStyle = 'rgba(21,19,15,0.42)';
     ctx.fillText('DÍA 0', W / 2 - 190, 860);
-    ctx.fillText('DÍA 90', W / 2 + 190, 860);
+    ctx.fillText('DÍA 84', W / 2 + 190, 860);
     ctx.textAlign = 'left';
 
-    centro('Agotamiento medido con el mismo instrumento clínico, dos veces.', 950, '400 30px system-ui, sans-serif', 'rgba(238,244,240,0.65)');
-    centro('Fuera de la zona roja. Por contrato, cumplido.', 1000, '600 30px system-ui, sans-serif', 'rgba(238,244,240,0.85)');
-    centro('Duerme. Volvió a su casa. Volvió a sí.', 1105, 'italic 600 38px Georgia, serif', 'rgba(201,118,79,0.95)');
+    centro('Tu Índice del Jugador, medido con el mismo instrumento, dos veces.', 950, '400 30px system-ui, sans-serif', 'rgba(21,19,15,0.62)');
+    centro('El Índice subió lo que decía el contrato. Cumplido.', 1000, '600 30px system-ui, sans-serif', 'rgba(21,19,15,0.80)');
+    centro('Se mide, se sostiene, se vuelve.', 1105, 'italic 600 38px Georgia, serif', '#9C5B3C');
 
     const f = new Date(p.fecha + 'T12:00:00');
-    centro(f.toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'numeric' }), 1230, '400 28px system-ui, sans-serif', 'rgba(238,244,240,0.45)');
+    centro(f.toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'numeric' }), 1230, '400 28px system-ui, sans-serif', 'rgba(21,19,15,0.42)');
 
     resolver(c.toDataURL('image/png'));
   });
@@ -95,7 +89,7 @@ export default function CertificadoAlta(props: Props) {
       ?? dibujar(props).then((u) => vivo && setUrl(u));
     return () => { vivo = false; };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.cbiInicial, props.cbiFinal, props.fecha, props.nombre]);
+  }, [props.indiceInicial, props.indiceFinal, props.fecha, props.nombre]);
 
   if (!url) return <p className="t-micro pulso-latido text-center py-8" style={{ color: 'var(--texto-tenue)' }}>Preparando tu certificado…</p>;
 
@@ -105,7 +99,7 @@ export default function CertificadoAlta(props: Props) {
       <a href={url} download="mi-alta-clinica-del-lider.png" className="btn-primario w-full flex items-center justify-center gap-2" style={{ textDecoration: 'none' }}>
         <Download size={18} /> Descargar mi Alta
       </a>
-      <p className="t-cuerpo mt-3 text-center" style={{ fontSize: 12 }}>Compártela si quieres — o guárdala para ti. Las dos cosas son victoria.</p>
+      <p className="t-cuerpo mt-3 text-center" style={{ fontSize: 16 }}>Compártela si quieres — o guárdala para ti. Las dos cosas son victoria.</p>
     </div>
   );
 }

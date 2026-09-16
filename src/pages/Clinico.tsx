@@ -58,6 +58,8 @@ function sistemaClinico(): string {
   }
   return `Eres EL CLÍNICO de La Clínica del Líder — el acompañante clínico digital de líderes agotados (dueños de empresa, 35-55 años, escépticos, sin tiempo).
 
+EL MÉTODO SE LLAMA EL EJE. Viene de la columna del medio del Árbol: la que reconcilia la expansión con la contención. Ni desbordarse ni endurecerse. Y es el ciclo de cada día: ESPEJO (ver lo que es, sin interpretación y sin látigo), JUGADA (un movimiento concreto, uno solo, hoy) y EVIDENCIA (comprobar en el registro, no en la sensación). Cuando el paciente se pierde, lo devuelves a ese ciclo: qué ves, qué vas a mover hoy, y cómo vas a saber si pasó. Nunca nombras la cábala ni explicas la columna del medio: el paciente vive el ciclo, no la teoría.
+
 TU VOZ: sobria, directa, cálida sin ser blanda. Castellano neutro (tú/tienes). Respuestas CORTAS (2-5 oraciones; máximo 120 palabras). Sin emojis, sin exclamaciones, sin frases de coach. Hablas como un buen médico de cabecera: claro, humano, sin humo.
 
 TUS LÍMITES (innegociables):
@@ -75,7 +77,7 @@ TU TRABAJO: responder sobre su informe, acompañar la Dosis o la Noche del día,
 
 VOCABULARIO PROHIBIDO: coach, nivel, embudo, marketing, gurú. Se dice: el Chequeo, la Dosis, Signos Vitales, tu Zona, el protocolo, consulta clínica.
 
-CONTEXTO DEL PACIENTE: ${contexto || 'Aún no hizo el Chequeo — invítalo a hacerlo primero: sin medición no hay acompañamiento serio.'} ${p ? `Tratamiento activo: El Reinicio (${p.tier === 'acompanado' ? 'Acompañado' : 'Solo'}), inició ${p.fechaInicio}, ${p.dosisHechas.length} Dosis hechas.` : 'Está en Apaga la Cabeza (las 5 noches, aún sin el Tratamiento completo).'} ${esMadrugada() ? 'AHORA MISMO ES DE MADRUGADA: usa el MODO MADRUGADA.' : ''} ${(() => { const paso = pasoActual(); return paso ? `EL PASO EXACTO EN EL QUE ESTÁ HOY (úsalo en MODO DOSIS): ${paso.detalle}` : ''; })()}`;
+CONTEXTO DEL PACIENTE: ${contexto || 'Aún no hizo el Chequeo — invítalo a hacerlo primero: sin medición no hay acompañamiento serio.'} ${p ? `Camino activo: EL EJE (${p.tier === 'acompanado' ? 'Acompañado' : 'Solo'}), inició ${p.fechaInicio}, ${p.dosisHechas.length} Dosis hechas.` : 'Está en Apaga la Cabeza (las 5 noches, aún sin el Tratamiento completo).'} ${esMadrugada() ? 'AHORA MISMO ES DE MADRUGADA: usa el MODO MADRUGADA.' : ''} ${(() => { const paso = pasoActual(); return paso ? `EL PASO EXACTO EN EL QUE ESTÁ HOY (úsalo en MODO DOSIS): ${paso.detalle}` : ''; })()}`;
 }
 
 export default function Clinico({ navegar }: { navegar: (p: PaginaId) => void }) {
@@ -138,7 +140,7 @@ export default function Clinico({ navegar }: { navegar: (p: PaginaId) => void })
           </p>
         </div>
       </div>
-      <p className="t-cuerpo mb-3" style={{ fontSize: 12.5 }}>No diagnostica ni reemplaza a un profesional. Acompaña, con tus datos a la vista.</p>
+      <p className="t-cuerpo mb-3" style={{ fontSize: 16 }}>No diagnostica ni reemplaza a un profesional. Acompaña, con tus datos a la vista.</p>
       {paso && (
         <p className="t-micro mb-4 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5" style={{ background: 'var(--acento-tinte)', color: 'var(--acento)' }}>
           Acompañando: {paso.etiqueta}
@@ -151,7 +153,7 @@ export default function Clinico({ navegar }: { navegar: (p: PaginaId) => void })
             <p className="t-cuerpo mb-3">Respuestas cortas, sin humo. Empieza por aquí si quieres:</p>
             <div className="flex flex-wrap gap-2">
               {(paso?.chips ?? ['¿Qué significa mi Zona?', '¿Por qué mi subescala más alta pesa tanto?', '¿Por dónde empiezo?']).map((c) => (
-                <button key={c} className="chip" style={{ minHeight: 42, fontSize: 13 }} disabled={cargando || sinCupo} onClick={() => enviar(c)}>{c}</button>
+                <button key={c} className="chip" style={{ minHeight: 42, fontSize: 16 }} disabled={cargando || sinCupo} onClick={() => enviar(c)}>{c}</button>
               ))}
             </div>
           </div>

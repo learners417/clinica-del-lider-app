@@ -12,6 +12,7 @@ import Chequeo from './pages/Chequeo';
 import Botiquin from './pages/Botiquin';
 import Zona from './pages/Zona';
 import Clinico from './pages/Clinico';
+import IcebergPage from './pages/Iceberg';
 import BotiquinFab from './components/BotiquinFab';
 import Arranque from './components/Arranque';
 import Logo from './components/Logo';
@@ -171,6 +172,7 @@ export default function App() {
           {pagina === 'chequeo' && <Chequeo onTerminado={() => navegar('hoy')} onSalir={() => navegar('hoy')} />}
           {pagina === 'botiquin' && <Botiquin />}
           {pagina === 'zona' && <Zona irAlChequeo={() => navegar('chequeo')} />}
+          {pagina === 'iceberg' && <IcebergPage navegar={navegar} />}
           {pagina === 'clinico' && <Clinico navegar={navegar} />}
           {pagina === 'admin' && (esAdmin ? <Admin /> : <Hoy navegar={navegar} />)}
         </main>

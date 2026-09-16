@@ -1,5 +1,8 @@
 /** LA CEREMONIA DE LA MEDICIÓN — D0 → hoy en pantalla completa: números, Zona, y la puerta que toque. */
 import { useEffect } from 'react';
+import ArbolTablero from './ArbolTablero';
+import { HITO_CONTRATO, TOTAL_DIAS, SUBIDA_CONTRATO } from '../data/camino';
+import { indiceJugador } from '../data/arbol';
 import { zonaDesdeCbi } from '../data/zonas';
 import { vibrar, LATIDO_HITO } from '../lib/haptics';
 import { PuntoZona } from './ui';
@@ -27,17 +30,27 @@ export default function CeremoniaMedicion({ onCerrar }: { onCerrar: () => void }
   const zBase = zonaDesdeCbi(base.cbi.promedio);
   const zActual = zonaDesdeCbi(actual.cbi.promedio);
   const delta = actual.cbi.promedio - base.cbi.promedio;
-  const dia = Math.min(diaDelProtocolo(protocolo), 90);
-  const esContrato = dia >= 85;
+  const dia = Math.min(diaDelProtocolo(protocolo), TOTAL_DIAS);
+  const esContrato = dia >= HITO_CONTRATO;
   const cambioZona = zActual.nombre !== zBase.nombre;
-  const fueraDeRoja = zActual.nombre !== 'Zona Roja';
-  const esAlta = esContrato && fueraDeRoja;
+  // El contrato es el Índice del Jugador, no la zona: hay pacientes que entran
+  // en verde y su trabajo es otro. Lo que se firmó fue una subida de puntos.
+  const indiceBase = indiceJugador(base.rueda);
+  const indiceActual = indiceJugador(actual.rueda);
+  const subida = indiceActual - indiceBase;
+  const esAlta = esContrato && subida >= SUBIDA_CONTRATO;
 
   return (
     <div className="text-left">
       <p className="t-micro text-center mb-6" style={{ color: 'var(--calido)' }}>
-        {esContrato ? 'LA MEDICIÓN DEL CONTRATO · DÍA 90' : `LA MEDICIÓN DEL DÍA ${dia}`}
+        {esContrato ? `LA MEDICIÓN DEL CONTRATO · DÍA ${HITO_CONTRATO}` : `LA MEDICIÓN DEL DÍA ${dia}`}
       </p>
+
+      <div className="mb-6">
+        <p className="t-micro text-center mb-3" style={{ color: 'var(--acento)' }}>Tu Árbol, entonces y ahora</p>
+        <ArbolTablero tablero={actual.rueda} previo={base.rueda} />
+        <p className="t-cuerpo text-center mt-2">Lo lleno es hoy. El contorno punteado es tu Día 0.</p>
+      </div>
 
       {/* Los dos números, frente a frente */}
       <div className="tarjeta p-6 mb-4">
@@ -78,15 +91,18 @@ export default function CeremoniaMedicion({ onCerrar }: { onCerrar: () => void }
       {/* Las puertas del día 84 — las dos son dignas */}
       {esAlta && (
         <div className="mb-4">
+          <p className="t-micro text-center mb-2" style={{ color: 'var(--acento)' }}>
+            Tu Índice subió {subida} puntos
+          </p>
           <p className="voz-maestro text-center mb-4">"El que responde hoy no es el que respondió el Día 0."</p>
           {(() => { abrirMensaje90(); return getMensaje90() ? <Mensaje90Reveal /> : null; })()}
-          <CertificadoAlta nombre={getNombre()} cbiInicial={base.cbi.promedio} cbiFinal={actual.cbi.promedio} fecha={hoyIso()} />
+          <CertificadoAlta nombre={getNombre()} indiceInicial={indiceBase} indiceFinal={indiceActual} fecha={hoyIso()} />
         </div>
       )}
-      {esContrato && !fueraDeRoja && (
+      {esContrato && !esAlta && (
         <div className="tarjeta p-5 mb-4" style={{ borderColor: 'var(--calido)' }}>
           <p className="t-sub mb-2">El número dice que falta. El contrato habla.</p>
-          <p className="t-cuerpo">Seguimos trabajando, sin costo, hasta lograrlo — porque esto era por contrato, no por marketing. La clínica te va a escribir esta semana para armar tu extensión.</p>
+          <p className="t-cuerpo">Tu Índice se movió {subida >= 0 ? `+${subida}` : subida} puntos y el contrato decía {SUBIDA_CONTRATO}. Seguimos trabajando, sin costo, hasta lograrlo — porque esto era por contrato, no por marketing. La clínica te va a escribir esta semana para armar tu extensión.</p>
         </div>
       )}
       {!esContrato && delta >= 0 && (

@@ -1,7 +1,7 @@
 /** HOY — la pantalla diaria: arriba tu Noche o tu Dosis, abajo tus Signos Vitales. Un solo ritual. */
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { Angry, Frown, Meh, Smile, Laugh, Flame, Moon, Pill, ChevronRight, Stethoscope, type LucideIcon } from 'lucide-react';
+import { Angry, Frown, Meh, Smile, Laugh, Flame, Moon, Pill, ChevronRight, Stethoscope, type LucideIcon , Layers} from 'lucide-react';
 import {
   getAcceso, getApaga, proximaNoche, nocheDeHoyHecha, getProtocolo, proximaDosis, diaDelProtocolo,
   getEntradaHoy, guardarEntradaDiario, listarDiario, calcularRacha, hoyIso, getUltimoChequeo,
@@ -145,7 +145,7 @@ export default function Hoy({ navegar }: { navegar: (p: PaginaId) => void }) {
           <p className="t-cuerpo">
             {ESTADOS[(existente!.estado) - 1].label} · energía {existente!.energia}/5 · {existente!.horasSueno} hs de sueño · {existente!.horasTrabajo} hs de trabajo
           </p>
-          {existente!.nota && <p className="t-cuerpo mt-2" style={{ fontSize: 13, fontStyle: 'italic' }}>"{existente!.nota}"</p>}
+          {existente!.nota && <p className="t-cuerpo mt-2" style={{ fontSize: 16, fontStyle: 'italic' }}>"{existente!.nota}"</p>}
           <button className="btn-fantasma pl-0 mt-2" onClick={() => setEditando(true)}>Editar el registro de hoy</button>
         </div>
       ) : (
@@ -165,7 +165,7 @@ export default function Hoy({ navegar }: { navegar: (p: PaginaId) => void }) {
                 minWidth: 56,
               }}>
               <e.Icono size={26} strokeWidth={estado === i + 1 ? 2.2 : 1.7} />
-              <span style={{ fontSize: 10, fontWeight: 700 }}>{e.label}</span>
+              <span style={{ fontSize: 16, fontWeight: 700 }}>{e.label}</span>
             </button>
           ))}
         </div>
@@ -178,7 +178,7 @@ export default function Hoy({ navegar }: { navegar: (p: PaginaId) => void }) {
         <p className="t-sub mt-4 mb-2">Una línea honesta <span className="t-micro" style={{ color: 'var(--texto-tenue)' }}>· tu bitácora</span></p>
         <textarea value={nota} onChange={(e) => setNota(e.target.value)} rows={2}
           placeholder="¿Qué te llevó energía hoy? ¿Qué te la devolvió?"
-          className="w-full px-3 py-3 resize-none" style={{ fontSize: 15 }} />
+          className="w-full px-3 py-3 resize-none" style={{ fontSize: 16 }} />
         <button className="btn-primario w-full mt-4" onClick={guardarSignos}>{existente ? 'Actualizar registro' : 'Registrar mis Signos'}</button>
       </div>
       )}
@@ -197,6 +197,12 @@ export default function Hoy({ navegar }: { navegar: (p: PaginaId) => void }) {
       <Mensaje90Tarjeta />
 
       <InformeSemanal />
+
+      <button className="tarjeta tarjeta-hover w-full text-left p-4 flex items-center gap-3 mb-3" onClick={() => navegar('iceberg')}>
+        <Layers size={19} color="var(--acento)" className="flex-none" />
+        <span className="t-sub">Trabajar un bloqueo · El Iceberg</span>
+        <ChevronRight size={17} className="ml-auto flex-none" color="var(--texto-tenue)" />
+      </button>
 
       <button className="tarjeta tarjeta-hover w-full text-left p-4 flex items-center gap-3" onClick={() => navegar('clinico')}>
         <Stethoscope size={19} color="var(--acento)" className="flex-none" />

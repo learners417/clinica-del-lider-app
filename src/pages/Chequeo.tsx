@@ -13,6 +13,7 @@ import { ENEAGRAMA_TIPOS } from '../data/eneagrama';
 import { MEDIDAS, FRECUENCIA, indiceJugador, lectura, focos as focosTablero,
   promedioColumna, puntaje as puntajeMedida, colorPuntaje } from '../data/arbol';
 import { HITO_MEDIO, HITO_CONTRATO, SUBIDA_CONTRATO, VIAJES, SEMANAS } from '../data/camino';
+import { CICLO, EN_UNA_LINEA } from '../data/metodo';
 import { APAGADORES, VENTANA, VENTANA_MIN, horasDormidas, avisaAlClinico } from '../data/onboarding';
 import ArbolTablero from '../components/ArbolTablero';
 import { CONTEXTO } from '../data/contexto';
@@ -40,7 +41,7 @@ type Fase =
   | 'phqIntro' | 'phq' | 'derivacion'
   | 'rueda' | 'habitos' | 'eneagrama'
   | 'cuerpo' | 'ventana' | 'palabrasIntro' | 'palabras' | 'firma'
-  | 'procesando' | 'resultado' | 'dia90';
+  | 'procesando' | 'cuidado' | 'resultado' | 'dia90';
 
 const HABITOS_INICIAL = { horasSueno: 6, entrenosSemana: 0, horasTrabajo: 55, cafeinaDia: 2 };
 
@@ -97,6 +98,7 @@ export default function Chequeo({ onTerminado, onSalir }: { onTerminado: () => v
     (borrador?.palabras as Record<string, string>) ?? {}
   );
   const [palIdx, setPalIdx] = useState(0);
+  const [resIdx, setResIdx] = useState(0);
   const [firma, setFirma] = useState(borrador?.firma ?? '');
   const [guardado, setGuardado] = useState<ChequeoGuardado | null>(null);
 
@@ -140,7 +142,8 @@ export default function Chequeo({ onTerminado, onSalir }: { onTerminado: () => v
       contexto: {
         lidera: ctx.lidera ?? '', personas: ctx.personas ?? '', edad: ctx.edad ?? '', motivo: ctx.motivo ?? '',
       },
-      cbi, phq9, rueda, eneagramaTipos: eneaSel, habitos, cuerpo,
+      cbi, phq9, rueda, eneagramaTipos: eneaSel, cuerpo,
+      habitos: { ...habitos, horasSueno: horasDormidas(cuerpo.acoste, cuerpo.levante) },
       palabras: {
         porquehoy: palabras.porquehoy ?? '', costo: palabras.costo ?? '',
         oculto: palabras.oculto ?? '', quien: palabras.quien ?? '', escena: palabras.escena ?? '',
@@ -188,7 +191,7 @@ export default function Chequeo({ onTerminado, onSalir }: { onTerminado: () => v
         <button className="btn-primario w-full" disabled={!nombre.trim()} onClick={() => { setCtxIdx(0); setFase('contexto'); }}>
           Empezar mi Chequeo
         </button>
-        <p className="t-cuerpo mt-4 text-center" style={{ fontSize: 12 }}>
+        <p className="t-cuerpo mt-4 text-center" style={{ fontSize: 16 }}>
           Tus respuestas son tuyas: quedan guardadas solo en este dispositivo y no se comparten.
         </p>
       </Marco>
@@ -259,7 +262,7 @@ export default function Chequeo({ onTerminado, onSalir }: { onTerminado: () => v
         <p className="t-cuerpo mb-3">
           {parcial >= 50
             ? 'Por encima de 50 es zona roja. La mayoría de los líderes que llegan aquí están ahí — no es debilidad: es la consecuencia lógica de cómo estás viviendo. Y de ahí se sale.'
-            : 'Por debajo de 50. Buena señal — ahora veamos qué pasa con tu trabajo y tu equipo.'}
+            : 'Por debajo de 50. Buena señal, y no significa que no haya trabajo: significa que el tuyo es otro. Veamos qué pasa con tu trabajo y con tu equipo.'}
         </p>
         <p className="t-cuerpo mb-6">Faltan 13 preguntas para tu Zona Vital.</p>
         <button className="btn-primario w-full" onClick={() => setFase('cbi')}>Seguir midiendo</button>
@@ -392,13 +395,13 @@ export default function Chequeo({ onTerminado, onSalir }: { onTerminado: () => v
   if (fase === 'habitos') {
     return (
       <Marco acto={acto} progreso={progreso} onSalir={onSalir}>
-        <Encabezado etiqueta="Tus hábitos" titulo="Los números de tu semana real" sub="Promedios honestos, no los que te gustaría tener." />
+        <Encabezado etiqueta="Tu semana" titulo="Los números de tu semana real" sub="Promedios honestos, no los que te gustaría tener." />
         <div className="tarjeta px-4 py-2">
-          <Stepper label="Horas de sueño por noche" valor={habitos.horasSueno} min={3} max={10} paso={0.5} onChange={(v) => setHabitos({ ...habitos, horasSueno: v })} />
           <Stepper label="Entrenamientos por semana" valor={habitos.entrenosSemana} min={0} max={7} onChange={(v) => setHabitos({ ...habitos, entrenosSemana: v })} />
           <Stepper label="Horas de trabajo por semana" valor={habitos.horasTrabajo} min={20} max={100} paso={5} onChange={(v) => setHabitos({ ...habitos, horasTrabajo: v })} />
           <Stepper label="Cafés o estimulantes por día" valor={habitos.cafeinaDia} min={0} max={10} onChange={(v) => setHabitos({ ...habitos, cafeinaDia: v })} />
         </div>
+        <p className="t-cuerpo mt-4" style={{ fontSize: 16 }}>Tu sueño ya lo mediste con las horas exactas de anoche, así que acá no te lo vuelvo a preguntar.</p>
         <button className="btn-primario w-full mt-5" onClick={() => setFase('eneagrama')}>Seguir</button>
       </Marco>
     );
@@ -410,7 +413,7 @@ export default function Chequeo({ onTerminado, onSalir }: { onTerminado: () => v
     };
     return (
       <Marco acto={acto} progreso={progreso} onSalir={onSalir}>
-        <Encabezado etiqueta="Autoconocimiento · último paso" titulo="¿Con cuáles te identificas más?" sub="Elige hasta 3. Es un espejo, no una etiqueta." />
+        <Encabezado etiqueta="Autoconocimiento · último paso" titulo="¿Con cuáles te identificas más?" sub="Elige hasta 3. Es un patrón que reconoces, no una etiqueta que te ponemos." />
         <div className="space-y-2.5">
           {ENEAGRAMA_TIPOS.map((t) => (
             <Opcion key={t.tipo} label={t.afirmacion} activa={eneaSel.includes(t.tipo)} onClick={() => toggle(t.tipo)} />
@@ -563,7 +566,38 @@ export default function Chequeo({ onTerminado, onSalir }: { onTerminado: () => v
   /* ═══════════ ACTO 4 · TU ZONA ═══════════ */
 
   if (fase === 'procesando') {
-    return <Procesando onListo={() => setFase('resultado')} />;
+    return <Procesando onListo={() => setFase(guardado?.phq9.derivar ? 'cuidado' : 'resultado')} />;
+  }
+
+  if (fase === 'cuidado' && guardado) {
+    return (
+      <Marco acto={acto} progreso={100}>
+        <div className="pt-6">
+          <p className="t-micro" style={{ color: 'var(--calido)' }}>Antes de ver tus números</p>
+          <h2 className="t-display mt-3 mb-6">Hay algo que quiero decirte primero.</h2>
+          <p className="t-cuerpo mb-4">
+            En una de las preguntas marcaste algo que no se trabaja con este camino. No es una alarma
+            y no cambia nada de lo que sigue: es simplemente de otra categoría.
+          </p>
+          <p className="t-cuerpo mb-4">
+            Esta clínica no reemplaza a un profesional de la salud mental, y este instrumento no
+            diagnostica nada. Lo que sí hace es avisarte cuando algo merece una mirada que no es la nuestra.
+          </p>
+          <p className="t-cuerpo mb-6">
+            Te pido una cosa concreta: esta semana habla de esto con un psicólogo o un médico. En paralelo
+            a todo lo demás, no en lugar de.
+          </p>
+          <div className="tarjeta p-5 mb-8" style={{ borderColor: 'var(--calido)' }}>
+            <p className="t-sub mb-2">Si en algún momento sientes que estás en peligro</p>
+            <p className="t-cuerpo" style={{ fontSize: 17 }}>
+              No esperes a la próxima sesión ni a mañana. Llama al servicio de emergencias de tu país o
+              habla ahora con alguien de confianza que esté cerca.
+            </p>
+          </div>
+          <button className="btn-primario w-full" onClick={() => setFase('resultado')}>Entendido, seguimos</button>
+        </div>
+      </Marco>
+    );
   }
 
   if (fase === 'resultado' && guardado) {
@@ -572,111 +606,139 @@ export default function Chequeo({ onTerminado, onSalir }: { onTerminado: () => v
     const indice = indiceJugador(tab);
     const lect = lectura(tab);
     const tresFocos = focosTablero(tab);
-    const espejos = ENEAGRAMA_TIPOS.filter((t) => guardado.eneagramaTipos.includes(t.tipo));
+    const patrones = ENEAGRAMA_TIPOS.filter((t) => guardado.eneagramaTipos.includes(t.tipo));
     const columnas = [
       { id: 'izq' as const, nombre: 'Contención', valor: promedioColumna('izq', tab) },
       { id: 'eje' as const, nombre: 'Eje', valor: promedioColumna('eje', tab) },
       { id: 'der' as const, nombre: 'Expansión', valor: promedioColumna('der', tab) },
     ];
-    return (
-      <Marco acto={acto} progreso={100}>
-        <p className="t-display mb-8">{nombre}, este es tu punto de partida.</p>
 
-        <div className="text-center my-8 reveal-zona">
-          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 'clamp(88px, 28vw, 140px)', lineHeight: 0.9, color: colorPuntaje(indice), fontVariantNumeric: 'tabular-nums' }}>
+    // Una idea por pantalla. El resultado no es un documento: es un recorrido.
+    const pantallas = [
+      // 1 · El número
+      <div key="n" className="pagina-anim">
+        <p className="t-display mb-10">{nombre}, este es tu punto de partida.</p>
+        <div className="text-center reveal-zona">
+          <div style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 'clamp(96px, 30vw, 150px)', lineHeight: 0.88, color: colorPuntaje(indice), fontVariantNumeric: 'tabular-nums' }}>
             {indice}
           </div>
-          <p className="t-sub mt-4" style={{ color: 'var(--texto-suave)' }}>Índice del Jugador · Día 0</p>
+          <p className="t-sub mt-5" style={{ color: 'var(--texto-suave)' }}>Índice del Jugador · Día 0</p>
         </div>
+        <p className="t-cuerpo mt-12">
+          Es el promedio de tus diez medidas, con un descuento por lo torcido que esté tu tablero.
+          Hoy no significa nada por sí solo: significa todo cuando lo compares el día {HITO_CONTRATO}.
+        </p>
+      </div>,
 
+      // 2 · El Árbol
+      <div key="a" className="pagina-anim">
+        <p className="t-micro" style={{ color: 'var(--acento)' }}>El Espejo</p>
+        <h3 className="t-display mt-3 mb-2">Tu Árbol</h3>
+        <p className="t-cuerpo mb-6">Diez medidas. Verde está vivo, ámbar responde, rojo está apagado.</p>
         <ArbolTablero tablero={tab} revelar />
+      </div>,
 
-        <div className="mt-10 pt-7" style={{ borderTop: '1px solid var(--acento)' }}>
-          <h3 className="t-titulo mb-3">{lect.titulo}</h3>
-          <p className="t-cuerpo">{lect.texto}</p>
-          <div className="flex gap-3 mt-6">
-            {columnas.map((c) => (
-              <div key={c.id} className="flex-1 text-center tarjeta py-5">
-                <div className="t-dato" style={{ fontSize: 32, color: colorPuntaje(c.valor) }}>{c.valor}</div>
-                <div className="t-micro mt-1" style={{ color: 'var(--texto-tenue)' }}>{c.nombre}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="mt-10 pt-7" style={{ borderTop: '1px solid var(--acento)' }}>
-          <h3 className="t-titulo mb-2">Tus tres focos</h3>
-          <p className="t-cuerpo mb-3">Las doce semanas son las mismas para todos. El acento va aquí.</p>
-          {tresFocos.map((m) => (
-            <div key={m.id} className="flex justify-between items-baseline py-4" style={{ borderBottom: '1px solid var(--borde)' }}>
-              <span className="t-sub">{m.nombre}</span>
-              <span className="t-dato" style={{ color: colorPuntaje(puntajeMedida(m, tab)) }}>{puntajeMedida(m, tab)}</span>
+      // 3 · Las columnas
+      <div key="c" className="pagina-anim">
+        <p className="t-micro" style={{ color: 'var(--acento)' }}>Tu lectura</p>
+        <h3 className="t-display mt-3 mb-5">{lect.titulo}</h3>
+        <p className="t-cuerpo mb-8">{lect.texto}</p>
+        <div className="flex gap-3">
+          {columnas.map((c) => (
+            <div key={c.id} className="flex-1 text-center tarjeta py-6">
+              <div className="t-dato" style={{ fontSize: 34, color: colorPuntaje(c.valor) }}>{c.valor}</div>
+              <div className="t-micro mt-2" style={{ color: 'var(--texto-tenue)' }}>{c.nombre}</div>
             </div>
           ))}
         </div>
+      </div>,
 
-        {guardado.contexto.motivo && (
-          <div className="mt-8 tarjeta p-5">
-            <p className="t-cuerpo">Llegaste diciendo: <b>«{guardado.contexto.motivo}»</b>. Tu Chequeo le pone números a esa sensación, y un camino.</p>
+      // 4 · Los focos
+      <div key="f" className="pagina-anim">
+        <p className="t-micro" style={{ color: 'var(--acento)' }}>Tus tres focos</p>
+        <h3 className="t-display mt-3 mb-5">Aquí va el acento.</h3>
+        <p className="t-cuerpo mb-6">Las doce semanas son las mismas para todos. Estas tres medidas van a aparecer una y otra vez en tu camino.</p>
+        {tresFocos.map((m) => (
+          <div key={m.id} className="py-5" style={{ borderBottom: '1px solid var(--borde)' }}>
+            <div className="flex justify-between items-baseline">
+              <span className="t-titulo">{m.nombre}</span>
+              <span className="t-dato" style={{ color: colorPuntaje(puntajeMedida(m, tab)), fontSize: 30 }}>{puntajeMedida(m, tab)}</span>
+            </div>
+            <p className="t-cuerpo mt-1">{m.descriptor}</p>
           </div>
-        )}
+        ))}
+      </div>,
 
-        {guardado.cuerpo && avisaAlClinico(guardado.cuerpo.apagar) && (
-          <div className="mt-4 tarjeta p-5" style={{ borderColor: 'var(--calido)' }}>
-            <p className="t-sub">Algo de lo que marcaste en cómo te apagas se trabaja en consulta y no con una Dosis. Llévalo a tu próxima sesión: es lo más útil que puedes hacer con esa información.</p>
+      // 5 · La carga
+      <div key="g" className="pagina-anim">
+        <p className="t-micro" style={{ color: 'var(--acento)' }}>Tu carga</p>
+        <h3 className="t-display mt-3 mb-6">Zona {zona.nombre.replace('Zona ', '')}</h3>
+        {(['personal', 'trabajo', 'equipo'] as const).map((sub) => (
+          <div key={sub} className="mb-5">
+            <div className="flex justify-between mb-2">
+              <span className="t-sub">{CBI_SUBESCALA_LABEL[sub]}</span>
+              <span className="t-dato" style={{ fontSize: 22 }}>{guardado.cbi[sub]}</span>
+            </div>
+            <div className="barra"><div style={{ width: `${guardado.cbi[sub]}%`, background: guardado.cbi[sub] >= 50 ? 'var(--zona-roja)' : 'var(--zona-verde)' }} /></div>
           </div>
-        )}
+        ))}
+        <p className="t-cuerpo mt-6">{zona.descripcion}</p>
+        <p className="t-cuerpo mt-4">Se vuelve a medir el día {HITO_MEDIO} y el día {HITO_CONTRATO}, con evidencia y no con sensaciones.</p>
+      </div>,
 
-        {guardado.phq9.derivar && (
-          <div className="mt-4 tarjeta p-5" style={{ borderColor: 'var(--calido)' }}>
-            <p className="t-sub">Tu recomendación principal: hablar esta semana con un profesional de la salud mental. El camino puede esperarte; tu bienestar no.</p>
-          </div>
-        )}
-
-        <div className="mt-10 pt-7" style={{ borderTop: '1px solid var(--acento)' }}>
-          <h3 className="t-titulo mb-4">Tu carga, medida</h3>
-          {(['personal', 'trabajo', 'equipo'] as const).map((sub) => (
-            <div key={sub} className="mb-4">
-              <div className="flex justify-between mb-2">
-                <span className="t-sub">{CBI_SUBESCALA_LABEL[sub]}</span>
-                <span className="t-dato" style={{ fontSize: 19 }}>{guardado.cbi[sub]}</span>
-              </div>
-              <div className="barra"><div style={{ width: `${guardado.cbi[sub]}%`, background: guardado.cbi[sub] >= 50 ? 'var(--zona-roja)' : 'var(--zona-verde)' }} /></div>
+      // 6 · Tus patrones
+      ...(patrones.length > 0 ? [
+        <div key="p" className="pagina-anim">
+          <p className="t-micro" style={{ color: 'var(--acento)' }}>Tus patrones</p>
+          <h3 className="t-display mt-3 mb-6">Cómo funcionas.</h3>
+          {patrones.map((e) => (
+            <div key={e.tipo} className="mb-7">
+              <p className="t-titulo mb-2">{e.nombre}</p>
+              <p className="t-cuerpo">{e.espejo}</p>
             </div>
           ))}
-          <p className="t-cuerpo mt-3">Tu zona hoy: <b>{zona.nombre}</b>. Se vuelve a medir el día {HITO_MEDIO} y el día {HITO_CONTRATO}, con evidencia y no con sensaciones.</p>
+        </div>,
+      ] : []),
+
+      // 7 · Tus palabras
+      ...(guardado.palabras?.costo ? [
+        <div key="w" className="pagina-anim">
+          <p className="t-micro" style={{ color: 'var(--acento)' }}>Lo que escribiste hoy</p>
+          <h3 className="t-display mt-3 mb-6">Con tus palabras.</h3>
+          <p className="t-cuerpo">Si todo sigue igual, dentro de un año:</p>
+          <p className="voz-maestro my-6">{guardado.palabras.costo}</p>
+          <p className="t-sub" style={{ color: 'var(--texto-tenue)' }}>
+            {guardado.firma} · {new Date(guardado.fecha).toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'numeric' })}
+          </p>
+          {guardado.palabras.escena && (
+            <>
+              <p className="t-cuerpo mt-10">Y esto es lo que viene en doce semanas:</p>
+              <p className="voz-maestro my-6">{guardado.palabras.escena}</p>
+            </>
+          )}
+          <p className="t-cuerpo mt-8">Lo que no le dices a nadie queda sellado. Se abre el día {HITO_CONTRATO} y lo abres tú.</p>
+        </div>,
+      ] : []),
+    ];
+
+    const ultima = resIdx >= pantallas.length - 1;
+    return (
+      <Marco acto={acto} progreso={100}>
+        <div className="flex gap-1.5 mb-8">
+          {pantallas.map((_, i) => (
+            <i key={i} className="flex-1" style={{ height: 2, borderRadius: 2, background: i <= resIdx ? 'var(--acento)' : 'var(--papel3, rgba(21,19,15,.12))' }} />
+          ))}
         </div>
 
-        {espejos.length > 0 && (
-          <div className="mt-10 pt-7 space-y-5" style={{ borderTop: '1px solid var(--acento)' }}>
-            {espejos.map((e) => (
-              <div key={e.tipo}>
-                <p className="t-micro mb-2" style={{ color: 'var(--acento)' }}>Tu espejo · {e.nombre}</p>
-                <p className="t-cuerpo">{e.espejo}</p>
-              </div>
-            ))}
-          </div>
-        )}
+        {pantallas[Math.min(resIdx, pantallas.length - 1)]}
 
-        {guardado.palabras?.costo && (
-          <div className="mt-10 pt-7" style={{ borderTop: '1px solid var(--acento)' }}>
-            <h3 className="t-titulo mb-3">Lo que escribiste hoy</h3>
-            <p className="t-cuerpo">Si todo sigue igual, dentro de un año:</p>
-            <p className="voz-maestro my-5">{guardado.palabras.costo}</p>
-            <p className="t-sub" style={{ color: 'var(--texto-tenue)' }}>
-              {guardado.firma} · {new Date(guardado.fecha).toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'numeric' })}
-            </p>
-            {guardado.palabras.escena && (
-              <>
-                <p className="t-cuerpo mt-8">Y esto es lo que viene en doce semanas, con tus palabras:</p>
-                <p className="voz-maestro my-5">{guardado.palabras.escena}</p>
-              </>
-            )}
-            <p className="t-cuerpo mt-6">Lo que no le dices a nadie queda sellado. Se abre el día {HITO_CONTRATO} y lo abres tú.</p>
-          </div>
+        <button className="btn-primario w-full mt-12"
+          onClick={() => ultima ? setFase('dia90') : (setResIdx(resIdx + 1), window.scrollTo({ top: 0 }))}>
+          {ultima ? 'Ver mi camino' : 'Seguir'}
+        </button>
+        {resIdx > 0 && (
+          <button className="btn-fantasma w-full mt-1" onClick={() => { setResIdx(resIdx - 1); window.scrollTo({ top: 0 }); }}>Volver</button>
         )}
-
-        <button className="btn-primario w-full mt-10" onClick={() => setFase('dia90')}>Ver mi día 84</button>
       </Marco>
     );
   }
@@ -686,6 +748,27 @@ export default function Chequeo({ onTerminado, onSalir }: { onTerminado: () => v
     const tresFocos = focosTablero(tab);
     return (
       <Marco acto={acto} progreso={100}>
+        <p className="t-micro" style={{ color: 'var(--acento)' }}>El método</p>
+        <h2 className="t-display mt-3 mb-4">EL EJE</h2>
+        <p className="t-cuerpo mb-6">
+          Tu Tablero tiene tres columnas. Una empuja, otra contiene, y la del medio es la que
+          sostiene a las dos. Ese es el nombre de esto y es todo el trabajo: ni desbordarte
+          ni endurecerte.
+        </p>
+        <div className="mb-10">
+          {CICLO.map((p) => (
+            <div key={p.id} className="flex gap-4 py-4" style={{ borderBottom: '1px solid var(--borde)' }}>
+              <span className="t-dato flex-none" style={{ color: 'var(--acento)', width: 30, fontSize: 24 }}>{p.letra}</span>
+              <div>
+                <p className="t-sub">{p.nombre}</p>
+                <p className="t-cuerpo" style={{ fontSize: 16 }}>{p.que}</p>
+                <p className="t-cuerpo" style={{ fontSize: 16, color: 'var(--texto-tenue)' }}>{p.donde}</p>
+              </div>
+            </div>
+          ))}
+          <p className="t-cuerpo mt-5">{EN_UNA_LINEA}</p>
+        </div>
+
         <p className="t-micro" style={{ color: 'var(--acento)' }}>Tu camino</p>
         <h2 className="t-display mt-3 mb-5">Doce semanas. Doce sesiones.</h2>
         <p className="t-cuerpo mb-3">

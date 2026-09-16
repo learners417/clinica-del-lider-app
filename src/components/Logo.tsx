@@ -6,7 +6,7 @@ export default function Logo({ onClick }: { onClick: () => void }) {
         <path d="M2 18 H17 L23 6 L31 28 L37 12 L41 18 H62" fill="none" stroke="var(--acento)" strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
       <span className="flex flex-col leading-none text-left">
-        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 14, letterSpacing: '-0.01em' }}>Clínica del Líder</span>
+        <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 16, letterSpacing: '-0.01em' }}>Clínica del Líder</span>
       </span>
     </button>
   );

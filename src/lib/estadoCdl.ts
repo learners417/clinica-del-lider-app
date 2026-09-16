@@ -20,6 +20,8 @@ const K = {
   apaga: 'cdl_apaga',
   informes: 'cdl_informes',
   mensaje90: 'cdl_mensaje_90',
+  iceberg: 'cdl_iceberg',
+  sesiones: 'cdl_sesiones',
 };
 
 /* ── Respaldo y restauración ──
@@ -211,6 +213,50 @@ export function fechaDia90(desdeIso: string): string {
   return d.toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
+/* ── El Iceberg: un bloqueo desarmado capa por capa ── */
+
+export interface Iceberg {
+  id: string;
+  fecha: string;
+  bloqueo: string;   // lo que se ve arriba del agua
+  mentira: string;   // lo que lo sostiene
+  miedo: string;     // qué teme que se repita
+  dolor: string;     // qué dolor está cubriendo
+  perdon: string;    // lo que se le dice a esa parte
+  cerrado: boolean;
+}
+
+export function listarIcebergs(): Iceberg[] {
+  return leer<Iceberg[]>(K.iceberg, []);
+}
+
+export function guardarIceberg(i: Iceberg): void {
+  const l = listarIcebergs().filter((x) => x.id !== i.id);
+  guardar(K.iceberg, [...l, i].sort((a, b) => a.fecha.localeCompare(b.fecha)));
+}
+
+export function borrarIceberg(id: string): void {
+  guardar(K.iceberg, listarIcebergs().filter((x) => x.id !== id));
+}
+
+/* ── Las sesiones: lo que se trabajó y a qué se comprometió ── */
+
+export interface Sesion {
+  fecha: string;
+  trabajado: string;
+  compromiso: string;
+  cumplido?: boolean;
+}
+
+export function listarSesiones(): Sesion[] {
+  return leer<Sesion[]>(K.sesiones, []);
+}
+
+export function guardarSesion(s: Sesion): void {
+  const l = listarSesiones().filter((x) => x.fecha !== s.fecha);
+  guardar(K.sesiones, [...l, s].sort((a, b) => a.fecha.localeCompare(b.fecha)));
+}
+
 /* ── Diario del Líder (Signos Vitales) ── */
 export interface EntradaDiario {
   fecha: string; // yyyy-mm-dd
@@ -269,8 +315,8 @@ export function calcularRacha(): number {
 }
 
 /* ── Navegación persistida ── */
-export type PaginaId = 'hoy' | 'chequeo' | 'botiquin' | 'zona' | 'tratamiento' | 'dosis' | 'noche' | 'clinico' | 'admin';
-const PAGINAS: PaginaId[] = ['hoy', 'chequeo', 'botiquin', 'zona', 'tratamiento', 'dosis', 'noche', 'clinico', 'admin'];
+export type PaginaId = 'hoy' | 'chequeo' | 'botiquin' | 'zona' | 'tratamiento' | 'dosis' | 'noche' | 'clinico' | 'admin' | 'iceberg';
+const PAGINAS: PaginaId[] = ['hoy', 'chequeo', 'botiquin', 'zona', 'tratamiento', 'dosis', 'noche', 'clinico', 'admin', 'iceberg'];
 
 export function getPagina(): PaginaId {
   const p = leer<string>(K.pagina, 'hoy');

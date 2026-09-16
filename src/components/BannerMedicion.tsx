@@ -42,7 +42,7 @@ function Aviso({ texto, boton, onClick, destacado = false }: { texto: string; bo
     <div className="tarjeta p-4 mb-4" style={destacado ? { borderColor: 'var(--acento)', borderWidth: 2 } : { borderColor: 'var(--hairline-acento)' }}>
       <div className="flex items-start gap-3">
         <CalendarCheck size={18} color={destacado ? 'var(--acento)' : 'var(--calido)'} className="mt-0.5 flex-none" />
-        <p className="t-cuerpo" style={{ fontSize: 13.5 }}>{texto}</p>
+        <p className="t-cuerpo" style={{ fontSize: 16 }}>{texto}</p>
       </div>
       {boton && <button className="btn-primario w-full mt-3" onClick={onClick}>{boton}</button>}
     </div>

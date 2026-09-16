@@ -6,8 +6,8 @@ import { supabase, type AccesoNube } from '../lib/supabase';
 
 const TIERS = [
   { id: 'apaga', label: 'Apaga la Cabeza ($33)' },
-  { id: 'solo', label: 'El Reinicio ($333)' },
-  { id: 'acompanado', label: 'Acompañado ($999)' },
+  { id: 'solo', label: 'EL EJE · Solo ($333)' },
+  { id: 'acompanado', label: 'EL EJE · Acompañado ($999)' },
 ] as const;
 
 async function llamarApi(metodo: string, body?: unknown) {
@@ -88,7 +88,7 @@ export default function Admin() {
           </select>
           <button className="btn-primario" style={{ minHeight: 50, padding: '0 20px' }} onClick={crear} disabled={cargando}>Invitar</button>
         </div>
-        <p className="t-cuerpo mt-3" style={{ fontSize: 12 }}>Le llega un email de invitación: entra, crea su contraseña, y su acceso ya está activo con el tier elegido.</p>
+        <p className="t-cuerpo mt-3" style={{ fontSize: 16 }}>Le llega un email de invitación: entra, crea su contraseña, y su acceso ya está activo con el tier elegido.</p>
       </div>
 
       <div className="tarjeta p-5">
@@ -98,13 +98,13 @@ export default function Admin() {
           {accesos.map((a) => (
             <div key={a.user_id} className="flex flex-col lg:flex-row lg:items-center gap-2 py-2" style={{ borderBottom: '1px solid var(--borde)' }}>
               <div className="flex-1 min-w-0">
-                <p className="t-sub" style={{ fontSize: 14, overflowWrap: 'anywhere' }}>{a.email}</p>
+                <p className="t-sub" style={{ fontSize: 16, overflowWrap: 'anywhere' }}>{a.email}</p>
                 <p className="t-micro" style={{ color: 'var(--texto-tenue)' }}>
                   {a.rol !== 'paciente' ? `${a.rol} · ` : ''}inició {a.fecha_inicio}
                 </p>
               </div>
               <select value={a.tier} onChange={(e) => cambiarTier(a.user_id, e.target.value)}
-                className="px-3 rounded-xl" style={{ minHeight: 44, background: 'var(--fondo)', border: '1px solid var(--borde)', color: 'var(--texto)', fontSize: 13 }}>
+                className="px-3 rounded-xl" style={{ minHeight: 44, background: 'var(--fondo)', border: '1px solid var(--borde)', color: 'var(--texto)', fontSize: 16 }}>
                 {TIERS.map((t) => <option key={t.id} value={t.id}>{t.label}</option>)}
               </select>
             </div>
@@ -112,7 +112,7 @@ export default function Admin() {
         </div>
       </div>
 
-      <p className="t-cuerpo mt-5" style={{ fontSize: 12 }}>
+      <p className="t-cuerpo mt-5" style={{ fontSize: 16 }}>
         Los datos clínicos (Chequeos, Signos, Dosis) viven en el dispositivo de cada paciente — la sincronización a la nube es la fase 2B.
         Para el seguimiento semanal del Acompañado, el paciente comparte su semana por WhatsApp con su clínico.
       </p>

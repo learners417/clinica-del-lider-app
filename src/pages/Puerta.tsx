@@ -38,7 +38,10 @@ export default function Puerta({ onActivado }: { onActivado: () => void }) {
       <PulsoAmbiente opacidad={0.4} />
 
       <p className="t-micro" style={{ color: 'var(--acento)' }}>La Clínica del Líder</p>
-      <h1 className="t-display mt-4 mb-5">Empecemos por saber dónde estás.</h1>
+      <h1 className="t-display mt-4 mb-4">EL EJE</h1>
+      <p className="t-cuerpo mb-3" style={{ fontSize: 21 }}>
+        Ni desbordarte ni endurecerte. Sostenerte en el centro, que es donde se decide todo lo demás.
+      </p>
       <p className="t-cuerpo mb-10">
         Doce semanas, medidas. Hoy no empieza el trabajo: hoy empieza la medición,
         que es lo que hace que todo lo demás se pueda comprobar.
@@ -82,9 +85,15 @@ export default function Puerta({ onActivado }: { onActivado: () => void }) {
         )}
       </div>
 
-      <p className="t-cuerpo text-center mt-10" style={{ fontSize: 15 }}>
-        La única clínica cuyo objetivo es darte el alta.
-      </p>
+      <div className="mt-12 text-center">
+        <p className="t-micro mb-3" style={{ color: 'var(--acento)' }}>Espejo · Jugada · Evidencia</p>
+        <p className="t-cuerpo" style={{ fontSize: 16 }}>
+          Te miras sin castigarte, haces un movimiento, y compruebas si pasó algo.
+        </p>
+        <p className="t-cuerpo mt-8" style={{ fontSize: 16 }}>
+          La única clínica cuyo objetivo es darte el alta.
+        </p>
+      </div>
     </div>
   );
 }

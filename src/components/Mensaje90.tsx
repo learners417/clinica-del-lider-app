@@ -24,7 +24,7 @@ export function Mensaje90Tarjeta({ onAbrir }: { onAbrir?: () => void } = {}) {
     return (
       <div className="tarjeta p-5 mb-4">
         <p className="flex items-center gap-2 t-sub mb-1"><Mail size={17} color="var(--calido)" /> Tu mensaje al día 84</p>
-        <p className="t-cuerpo mb-3" style={{ fontSize: 13.5 }}>
+        <p className="t-cuerpo mb-3" style={{ fontSize: 16 }}>
           Escríbele unas líneas al hombre que va a terminar esto. No un discurso: la verdad de hoy — cómo estás
           llegando, por qué empezaste, qué no quieres olvidar. Se sella ahora y se abre solo el día 84, con tus
           números al lado.
@@ -35,7 +35,7 @@ export function Mensaje90Tarjeta({ onAbrir }: { onAbrir?: () => void } = {}) {
           rows={4}
           placeholder="Hoy llego así…"
           className="w-full px-3 py-3 resize-none mb-3"
-          style={{ fontSize: 15 }}
+          style={{ fontSize: 16 }}
         />
         <button
           className="btn-secundario w-full"
@@ -63,7 +63,7 @@ export function Mensaje90Tarjeta({ onAbrir }: { onAbrir?: () => void } = {}) {
         onClick={() => { abrirMensaje90(); vibrar(LATIDO_HITO); setV((v) => v + 1); onAbrir?.(); }}
       >
         <p className="flex items-center gap-2 t-sub mb-1"><MailOpen size={17} color="var(--acento)" /> Tu mensaje te espera</p>
-        <p className="t-cuerpo" style={{ fontSize: 13.5 }}>Lo escribiste el Día {mensaje.dia}. Hoy se abre.</p>
+        <p className="t-cuerpo" style={{ fontSize: 16 }}>Lo escribiste el Día {mensaje.dia}. Hoy se abre.</p>
       </button>
     );
   }
@@ -75,7 +75,7 @@ export function Mensaje90Tarjeta({ onAbrir }: { onAbrir?: () => void } = {}) {
   return (
     <div className="tarjeta p-4 mb-4 flex items-center gap-3">
       <Lock size={17} color="var(--texto-tenue)" className="flex-none" />
-      <p className="t-cuerpo" style={{ fontSize: 13 }}>
+      <p className="t-cuerpo" style={{ fontSize: 16 }}>
         Tu mensaje al día 84 está sellado. Se abre en <b>{TOTAL_DIAS - dia} días</b>.
       </p>
     </div>
@@ -92,9 +92,9 @@ export function Mensaje90Reveal({ compacto = false }: { compacto?: boolean }) {
       <p className="t-micro mb-3" style={{ color: 'var(--texto-tenue)' }}>
         {new Date(mensaje.fecha + 'T12:00:00').toLocaleDateString('es')}
       </p>
-      <p className="t-cuerpo" style={{ whiteSpace: 'pre-wrap', fontSize: 15.5, fontStyle: 'italic' }}>{mensaje.texto}</p>
+      <p className="t-cuerpo" style={{ whiteSpace: 'pre-wrap', fontSize: 16, fontStyle: 'italic' }}>{mensaje.texto}</p>
       {!compacto && (
-        <p className="t-cuerpo mt-4" style={{ fontSize: 13 }}>Eso escribió el que empezó. Léelo entero antes de seguir.</p>
+        <p className="t-cuerpo mt-4" style={{ fontSize: 16 }}>Eso escribió el que empezó. Léelo entero antes de seguir.</p>
       )}
     </div>
   );

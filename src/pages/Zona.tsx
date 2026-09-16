@@ -1,7 +1,10 @@
 /** Mi Zona — evolución medida: Zona Vital, CBI, racha y el Tratamiento. */
 import { Stethoscope, Flame } from 'lucide-react';
 import { HITO_MEDIO, HITO_CONTRATO } from '../data/camino';
-import { descargarRespaldo, restaurarRespaldo, getNombre } from '../lib/estadoCdl';
+import { descargarRespaldo, restaurarRespaldo, getNombre, listarSesiones, guardarSesion, hoyIso } from '../lib/estadoCdl';
+import { useState } from 'react';
+import ArbolTablero from '../components/ArbolTablero';
+import { MEDIDAS, puntaje, colorPuntaje, indiceJugador, promedioColumna, estadoMedida } from '../data/arbol';
 import { useRef } from 'react';
 import { toast } from 'sonner';
 import { CBI_SUBESCALA_LABEL } from '../data/cbi';
@@ -13,6 +16,9 @@ import { PuntoZona } from '../components/ui';
 export default function Zona({ irAlChequeo }: { irAlChequeo: () => void }) {
   const archivoRef = useRef<HTMLInputElement>(null);
   const nombrePaciente = getNombre();
+  const [sesiones, setSesiones] = useState(listarSesiones());
+  const [trabajado, setTrabajado] = useState('');
+  const [compromiso, setCompromiso] = useState('');
   const chequeos = listarChequeos();
   const ultimo = chequeos.length ? chequeos[chequeos.length - 1] : null;
   const racha = calcularRacha();
@@ -50,8 +56,8 @@ export default function Zona({ irAlChequeo }: { irAlChequeo: () => void }) {
         {(['personal', 'trabajo', 'equipo'] as const).map((s) => (
           <div key={s} className="mb-3">
             <div className="flex justify-between mb-1">
-              <span className="t-cuerpo" style={{ fontSize: 13 }}>{CBI_SUBESCALA_LABEL[s]}</span>
-              <span className="t-dato" style={{ fontSize: 15 }}>{ultimo.cbi[s]}</span>
+              <span className="t-cuerpo" style={{ fontSize: 16 }}>{CBI_SUBESCALA_LABEL[s]}</span>
+              <span className="t-dato" style={{ fontSize: 16 }}>{ultimo.cbi[s]}</span>
             </div>
             <div className="barra"><div style={{ width: `${ultimo.cbi[s]}%`, background: ultimo.cbi[s] >= 50 ? 'var(--zona-roja)' : 'var(--zona-verde)' }} /></div>
           </div>
@@ -69,13 +75,13 @@ export default function Zona({ irAlChequeo }: { irAlChequeo: () => void }) {
             </div>
           ))}
         </div>
-        <p className="t-cuerpo mt-4" style={{ fontSize: 12 }}>La Zona se mueve con evidencia real: tu CBI de los días 45 y 90 y tus hitos verificados. Ver contenido no mueve la Zona. El cambio real, sí.</p>
+        <p className="t-cuerpo mt-4" style={{ fontSize: 16 }}>La Zona se mueve con evidencia real: tu CBI de los días 45 y 90 y tus hitos verificados. Ver contenido no mueve la Zona. El cambio real, sí.</p>
       </div>
 
       {chequeos.length > 0 && (
         <div className="tarjeta p-5 mb-4">
           <p className="t-sub mb-1">Tu historia clínica</p>
-          <p className="t-cuerpo mb-3" style={{ fontSize: 12 }}>Mismo instrumento, siempre. Por eso el número vale.</p>
+          <p className="t-cuerpo mb-3" style={{ fontSize: 16 }}>Mismo instrumento, siempre. Por eso el número vale.</p>
           <div className="space-y-2.5">
             {chequeos.map((c, i) => {
               const z = zonaDesdeCbi(c.cbi.promedio);
@@ -85,8 +91,8 @@ export default function Zona({ irAlChequeo }: { irAlChequeo: () => void }) {
                 <div key={c.fecha} className="flex items-center gap-3">
                   <PuntoZona color={z.color} size={10} />
                   <div className="flex-1">
-                    <p className="t-sub" style={{ fontSize: 14 }}>{i === 0 ? 'Punto de partida' : `Medición ${i + 1}`} <span className="t-micro ml-1" style={{ color: 'var(--texto-tenue)' }}>{new Date(c.fecha).toLocaleDateString('es')}</span></p>
-                    <p className="t-cuerpo" style={{ fontSize: 12.5 }}>{z.nombre}</p>
+                    <p className="t-sub" style={{ fontSize: 16 }}>{i === 0 ? 'Punto de partida' : `Medición ${i + 1}`} <span className="t-micro ml-1" style={{ color: 'var(--texto-tenue)' }}>{new Date(c.fecha).toLocaleDateString('es')}</span></p>
+                    <p className="t-cuerpo" style={{ fontSize: 16 }}>{z.nombre}</p>
                   </div>
                   <span className="t-dato" style={{ fontSize: 17 }}>{c.cbi.promedio}</span>
                   {delta !== null && (
@@ -109,6 +115,107 @@ export default function Zona({ irAlChequeo }: { irAlChequeo: () => void }) {
       ) : (
         <button className="btn-secundario w-full" onClick={irAlChequeo}>Repetir mi Chequeo</button>
       )}
+
+      {ultimo && (
+        <div className="mt-10">
+          <div style={{ borderTop: '1px solid var(--acento)', paddingTop: 26 }}>
+            <p className="t-micro mb-2" style={{ color: 'var(--acento)' }}>El Espejo</p>
+            <h3 className="t-titulo mb-1">Tu Árbol</h3>
+            <p className="t-cuerpo mb-5" style={{ fontSize: 16 }}>
+              {chequeos.length > 1
+                ? `Lo lleno es hoy. El contorno punteado es tu Día 0.`
+                : 'Tu punto de partida. Se vuelve a medir el día 42 y el día 84.'}
+            </p>
+          </div>
+
+          <ArbolTablero tablero={ultimo.rueda} previo={chequeos.length > 1 ? chequeos[0].rueda : undefined} />
+
+          <div className="mt-6">
+            {MEDIDAS.map((m) => {
+              const v = puntaje(m, ultimo.rueda);
+              const previo = chequeos.length > 1 ? puntaje(m, chequeos[0].rueda) : null;
+              const delta = previo === null ? null : v - previo;
+              return (
+                <div key={m.id} className="flex items-baseline justify-between gap-3 py-3"
+                  style={{ borderBottom: '1px solid var(--borde)' }}>
+                  <div>
+                    <span className="t-sub">{m.nombre}</span>
+                    <span className="t-cuerpo ml-2" style={{ fontSize: 16 }}>{estadoMedida(v)}</span>
+                  </div>
+                  <div className="flex items-baseline gap-3">
+                    {delta !== null && delta !== 0 && (
+                      <span className="t-micro" style={{ color: delta > 0 ? 'var(--zona-verde)' : 'var(--zona-roja)' }}>
+                        {delta > 0 ? '+' : ''}{delta}
+                      </span>
+                    )}
+                    <span className="t-dato" style={{ color: colorPuntaje(v), fontSize: 21 }}>{v}</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {chequeos.length > 1 && (
+            <div className="tarjeta p-5 mt-6">
+              <p className="t-micro mb-2" style={{ color: 'var(--acento)' }}>La Evidencia</p>
+            <p className="t-sub mb-3">Tus mediciones, una al lado de la otra</p>
+              {chequeos.map((c, i) => (
+                <div key={c.fecha} className="flex justify-between items-baseline py-2">
+                  <span className="t-cuerpo" style={{ fontSize: 16 }}>
+                    {i === 0 ? 'Día 0' : new Date(c.fecha).toLocaleDateString('es', { day: 'numeric', month: 'short' })}
+                    {' · '}contención {promedioColumna('izq', c.rueda)} · eje {promedioColumna('eje', c.rueda)} · expansión {promedioColumna('der', c.rueda)}
+                  </span>
+                  <span className="t-dato" style={{ color: colorPuntaje(indiceJugador(c.rueda)), fontSize: 24 }}>
+                    {indiceJugador(c.rueda)}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      <div className="mt-10">
+        <div style={{ borderTop: '1px solid var(--acento)', paddingTop: 26 }}>
+          <p className="t-micro mb-2" style={{ color: 'var(--acento)' }}>La Jugada</p>
+          <h3 className="t-titulo mb-1">Tus sesiones</h3>
+          <p className="t-cuerpo mb-5" style={{ fontSize: 17 }}>
+            Al salir de cada sesión, dos líneas. Lo que se trabajó y a qué te comprometiste.
+            Lo que no se escribe se pierde entre una sesión y la siguiente.
+          </p>
+        </div>
+
+        <div className="tarjeta p-5">
+          <label className="t-micro block mb-2" style={{ color: 'var(--texto-tenue)' }}>Qué trabajamos hoy</label>
+          <textarea className="w-full px-4 py-3 mb-4" style={{ minHeight: 90 }}
+            placeholder="En una línea" value={trabajado} onChange={(e) => setTrabajado(e.target.value)} />
+          <label className="t-micro block mb-2" style={{ color: 'var(--texto-tenue)' }}>A qué me comprometí</label>
+          <textarea className="w-full px-4 py-3" style={{ minHeight: 90 }}
+            placeholder="Algo concreto, con fecha" value={compromiso} onChange={(e) => setCompromiso(e.target.value)} />
+          <button className="btn-primario w-full mt-4" disabled={trabajado.trim().length < 3}
+            onClick={() => {
+              guardarSesion({ fecha: hoyIso(), trabajado: trabajado.trim(), compromiso: compromiso.trim() });
+              setSesiones(listarSesiones()); setTrabajado(''); setCompromiso('');
+              toast.success('Sesión guardada.');
+            }}>
+            Guardar la sesión
+          </button>
+        </div>
+
+        {sesiones.length > 0 && (
+          <div className="mt-5">
+            {[...sesiones].reverse().map((s) => (
+              <div key={s.fecha} className="py-4" style={{ borderBottom: '1px solid var(--borde)' }}>
+                <p className="t-micro mb-2" style={{ color: 'var(--texto-tenue)' }}>
+                  {new Date(s.fecha + 'T12:00:00').toLocaleDateString('es', { day: 'numeric', month: 'long' })}
+                </p>
+                <p className="t-sub mb-1">{s.trabajado}</p>
+                {s.compromiso && <p className="t-cuerpo" style={{ fontSize: 18 }}>Me comprometí a: {s.compromiso}</p>}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
 
       <div className="tarjeta p-5 mt-8">
         <p className="t-sub mb-2">Tu respaldo</p>

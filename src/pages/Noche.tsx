@@ -67,13 +67,13 @@ export default function NochePage({ navegar }: { navegar: (p: PaginaId) => void 
       <h1 className="t-display mt-2 mb-5">{noche.titulo}</h1>
 
       <div className="tarjeta p-5 mb-4">
-        <p className="t-micro mb-2" style={{ color: 'var(--calido)' }}>La Señal</p>
-        <p className="t-cuerpo" style={{ fontSize: 15.5 }}>{noche.senal}</p>
+        <p className="t-micro mb-2" style={{ color: 'var(--calido)' }}>El Espejo</p>
+        <p className="t-cuerpo" style={{ fontSize: 16 }}>{noche.senal}</p>
       </div>
 
       <div className="tarjeta p-5 mb-6" style={{ borderColor: 'var(--hairline-acento)' }}>
         <p className="t-micro mb-2" style={{ color: 'var(--acento)' }}>Esta noche</p>
-        <p className="t-sub" style={{ fontSize: 15.5, lineHeight: '24px' }}>{noche.accion}</p>
+        <p className="t-sub" style={{ fontSize: 16, lineHeight: '24px' }}>{noche.accion}</p>
       </div>
 
       <AudioJavo id="apagado" titulo="El Apagado" />
@@ -90,7 +90,7 @@ export default function NochePage({ navegar }: { navegar: (p: PaginaId) => void 
       <button className="btn-fantasma w-full mt-2 flex items-center justify-center gap-2" onClick={() => navegar('clinico')}>
         <Stethoscope size={15} /> Pregúntale al Clínico sobre esta Noche
       </button>
-      <p className="t-cuerpo mt-2 text-center" style={{ fontSize: 12 }}>Si esta noche no puedes, la Noche te espera. El protocolo no castiga — mide.</p>
+      <p className="t-cuerpo mt-2 text-center" style={{ fontSize: 16 }}>Si esta noche no puedes, la Noche te espera. El protocolo no castiga — mide.</p>
     </div>
   );
 }

@@ -1,6 +1,9 @@
-/** La Dosis — la unidad diaria del Reinicio: Señal → Acción → Registro. */
+/** La Dosis — la unidad diaria de EL EJE: Espejo → Jugada → Evidencia. */
+
+/** Días donde lo que aparece tiene fondo y conviene bajarlo capa por capa. */
+const ESPEJO_A_FONDO = [13, 15, 18, 20, 29, 31, 36, 39, 40, 41, 61, 74];
 import { useEffect, useState } from 'react';
-import { CheckCircle2, ArrowRight, Lock, Stethoscope } from 'lucide-react';
+import { CheckCircle2, ArrowRight, Lock, Stethoscope, Layers } from 'lucide-react';
 import { DOSIS, faseDeDia, TOTAL_DIAS } from '../data/protocolo';
 import { AudioJavo, VideoJavo } from '../components/Contenido';
 import { calcularFocos, refuerzoDelDia } from '../lib/enfasis';
@@ -10,6 +13,12 @@ import { getProtocolo, marcarDosisHecha, proximaDosis, diaDelProtocolo, getEntra
 import type { PaginaId } from '../lib/estadoCdl';
 
 export default function DosisPage({ navegar }: { navegar: (p: PaginaId) => void }) {
+  // Lo que dijo en el Chequeo sobre su ventana real de la mañana.
+  const ventanaCorta = (() => {
+    const ch = getUltimoChequeo();
+    const min = ch?.cuerpo?.ventanaAM;
+    return typeof min === 'number' && min > 0 && min <= 20 ? min : null;
+  })();
   const protocolo = getProtocolo();
   useEffect(() => { if (!protocolo) navegar('hoy'); }, [protocolo]);
   if (!protocolo) return null;
@@ -85,13 +94,13 @@ export default function DosisPage({ navegar }: { navegar: (p: PaginaId) => void 
 
       <VideoJavo dia={dosis.dia} />
       <div className="tarjeta p-5 mb-4">
-        <p className="t-micro mb-2" style={{ color: 'var(--calido)' }}>La Señal</p>
-        <p className={dosis.maestro ? 'voz-maestro' : 't-cuerpo'} style={dosis.maestro ? undefined : { fontSize: 15.5 }}>{dosis.senal}</p>
+        <p className="t-micro mb-2" style={{ color: 'var(--calido)' }}>El Espejo</p>
+        <p className={dosis.maestro ? 'voz-maestro' : 't-cuerpo'} style={dosis.maestro ? undefined : { fontSize: 16 }}>{dosis.senal}</p>
       </div>
 
       <div className="tarjeta p-5 mb-6" style={{ borderColor: 'var(--hairline-acento)' }}>
-        <p className="t-micro mb-2" style={{ color: 'var(--acento)' }}>La Acción de hoy</p>
-        <p className="t-sub" style={{ fontSize: 15.5, lineHeight: '24px' }}>{dosis.accion}</p>
+        <p className="t-micro mb-2" style={{ color: 'var(--acento)' }}>Tu Jugada de hoy</p>
+        <p className="t-sub" style={{ fontSize: 16, lineHeight: '24px' }}>{dosis.accion}</p>
       </div>
 
       {(() => {
@@ -102,12 +111,32 @@ export default function DosisPage({ navegar }: { navegar: (p: PaginaId) => void 
         return (
           <div className="tarjeta p-4 mb-4" style={{ borderColor: r.foco.color }}>
             <p className="t-micro mb-1.5" style={{ color: r.foco.color }}>Tu énfasis · {r.foco.nombre}</p>
-            <p className="t-cuerpo" style={{ fontSize: 13.5 }}>{r.texto}</p>
+            <p className="t-cuerpo" style={{ fontSize: 16 }}>{r.texto}</p>
           </div>
         );
       })()}
+      {!dosis.variante && ventanaCorta && (
+        <div className="mt-4" style={{ borderLeft: '2px solid var(--acento)', paddingLeft: 18 }}>
+          <p className="t-cuerpo" style={{ fontSize: 18 }}>
+            Dijiste que por la mañana tienes {ventanaCorta} minutos. Si hoy no entra completa, haz la
+            mitad y regístrala igual: la versión corta hecha vale, la larga postergada no.
+          </p>
+        </div>
+      )}
+
+      {ESPEJO_A_FONDO.includes(dosis.dia) && (
+        <button className="tarjeta tarjeta-hover w-full text-left p-5 mt-5 flex items-center gap-3"
+          style={{ borderColor: 'var(--hairline-acento)' }} onClick={() => navegar('iceberg')}>
+          <Layers size={19} color="var(--acento)" className="flex-none" />
+          <div>
+            <p className="t-sub">Bajar esto capa por capa</p>
+            <p className="t-cuerpo" style={{ fontSize: 17 }}>Lo de hoy tiene fondo. El Iceberg lo desarma en cinco pasos.</p>
+          </div>
+        </button>
+      )}
+
       {[4, 7, 18, 19].includes(dosis.dia) && <AudioJavo id="apagado" titulo="El Apagado" />}
-      {[27, 60, 76].includes(dosis.dia) && <AudioJavo id="senal" titulo="La Señal" />}
+      {[27, 60, 76].includes(dosis.dia) && <AudioJavo id="senal" titulo="El Espejo" />}
       {dosis.dia === 79 && <AudioJavo id="carta" titulo="La Carta, guiada" />}
       {[44, 45, 48].includes(dosis.dia) && <AudioJavo id="despliegue" titulo="El Despliegue" />}
       {necesitaChequeo && (
@@ -123,7 +152,7 @@ export default function DosisPage({ navegar }: { navegar: (p: PaginaId) => void 
       <button className="btn-fantasma w-full mt-2 flex items-center justify-center gap-2" onClick={() => navegar('clinico')}>
         <Stethoscope size={15} /> Pregúntale al Clínico sobre esta Dosis
       </button>
-      <p className="t-cuerpo mt-2 text-center" style={{ fontSize: 12 }}>Si hoy no puedes, la Dosis te espera. El protocolo no castiga — mide.</p>
+      <p className="t-cuerpo mt-2 text-center" style={{ fontSize: 16 }}>Si hoy no puedes, la Dosis te espera. El protocolo no castiga — mide.</p>
     </div>
   );
 }

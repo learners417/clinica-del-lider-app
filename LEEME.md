@@ -1,19 +1,35 @@
-# CdL · arreglo de la entrada
+# EL EJE · versión completa
 
 Reemplaza TODO el contenido del repo clinica-del-lider-app.
 
-## Qué cambia
-1. Al activar el código, la app se RECARGA entera en vez de depender de que la
-   pantalla se redibuje sola. Al recargar relee el acceso desde el almacenamiento
-   y entra. Esto elimina toda una familia de causas posibles del bloqueo.
-2. Si el navegador no deja guardar, la app se detiene al arrancar con una
-   pantalla que explica el problema, en vez de fallar en silencio.
-3. La Puerta verifica que el acceso quedó guardado antes de avanzar.
+## EL ICEBERG (nuevo)
+Tu método, adentro de la app. Cinco capas, de a una:
+  1 Lo que se ve      ¿con qué te estás chocando?
+  2 Primera capa      ¿qué te dices que sostiene eso?
+  3 Segunda capa      si eso no fuera cierto, ¿qué temes que pase?
+  4 El fondo          ¿cuándo pasó eso por primera vez?
+  5 Lo que suelta     ¿qué le dices a esa parte tuya?
 
-## Si aun así se traba
-Abrir la consola del navegador (F12 → Console) al tocar Entrar y mirar si hay
-un error en rojo. Sin ese dato es adivinar.
+La quinta capa es el paso del perdón: ver la mentira no la suelta.
+Guarda los bloqueos trabajados, se pueden retomar sin terminar, y la frase
+del perdón queda visible en la lista. Entra por Hoy, y por la Dosis en los
+doce días donde lo que aparece tiene fondo — incluidos los de la semana 6,
+que ahora mandan explícitamente a cerrar la última capa.
 
-## Códigos de Acompañado
-  ACOMP-XCHU-ELHX · ACOMP-D9VY-TR96 · ACOMP-4AU8-WSWF · ACOMP-Z3CS-VMX7
-  ACOMP-6KE5-V45J · ACOMP-UK3Y-HSVH · ACOMP-FRCR-84B4 · ACOMP-YYA2-G3LM
+## EL REGISTRO DE SESIONES (nuevo)
+En Mi Zona: qué se trabajó y a qué se comprometió, con fecha. Lo que no se
+escribe se pierde entre el martes y el jueves.
+
+## EL ÁRBOL TOCABLE
+Tocás una medida y dice qué mide, cómo está y con qué pregunta se midió.
+Funciona en el resultado, en Mi Zona y en las ceremonias.
+
+## LA VERSIÓN CORTA AUTOMÁTICA
+Las dosis sin variante escrita ahora usan la ventana real que declaró en el
+Chequeo: si dijo diez minutos, se lo dicen con su número.
+
+## Verificado en ejecución
+Iceberg y sesiones (guardan, actualizan sin duplicar, entran al respaldo y se
+restauran) · lógica del Tablero · respaldo · entrada con código · el tablero
+real de la primera sesión · la regla del alta · 84 dosis íntegras.
+tsc limpio · auditoría OK · test:logica OK · build OK.

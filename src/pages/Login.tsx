@@ -95,7 +95,7 @@ export default function Login({ onEntro }: { onEntro: () => void }) {
         )}
       </div>
 
-      <p className="t-cuerpo text-center mt-6" style={{ fontSize: 12 }}>
+      <p className="t-cuerpo text-center mt-6" style={{ fontSize: 16 }}>
         ¿Todavía no tienes cuenta? Tu acceso se crea al comprar — revisa el email de invitación de la clínica.
       </p>
     </div>

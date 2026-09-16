@@ -23,14 +23,14 @@ export default function Botiquin() {
               </span>
               <div>
                 <p className="t-sub" style={{ fontSize: 16 }}>{h.nombre}</p>
-                <p className="t-cuerpo" style={{ fontSize: 13 }}>{h.cuando}</p>
+                <p className="t-cuerpo" style={{ fontSize: 16 }}>{h.cuando}</p>
               </div>
             </div>
           </button>
         ))}
       </div>
       <div className="tarjeta p-4 mt-6" style={{ borderColor: 'var(--borde-fuerte)' }}>
-        <p className="text-xs leading-relaxed" style={{ color: 'var(--texto-suave)' }}>{BOTIQUIN_AVISO}</p>
+        <p className="text-base leading-relaxed" style={{ color: 'var(--texto-suave)' }}>{BOTIQUIN_AVISO}</p>
       </div>
     </div>
   );
@@ -77,13 +77,13 @@ function HerramientaGuiada({ h, onSalir }: { h: Herramienta; onSalir: () => void
 
   return (
     <PantallaBotiquin onSalir={onSalir}>
-      <p className="text-xs font-bold uppercase tracking-widest mb-5" style={{ color: 'var(--calido)' }}>{h.nombre} · {i + 1}/{h.pasos.length}</p>
+      <p className="text-base font-bold uppercase tracking-widest mb-5" style={{ color: 'var(--calido)' }}>{h.nombre} · {i + 1}/{h.pasos.length}</p>
       {paso.respirar && (
         <div className={`circulo-respirar mb-6 ${inhala ? 'inhala' : 'exhala'}`} />
       )}
       <h2 className="text-xl font-extrabold mb-2">{paso.titulo}</h2>
       <p className="text-sm leading-relaxed mb-4" style={{ color: 'var(--texto-suave)' }}>{paso.sub}</p>
-      {seg > 0 && <p className="text-xs mb-4" style={{ color: 'var(--texto-tenue)' }}>{seg}s…</p>}
+      {seg > 0 && <p className="text-base mb-4" style={{ color: 'var(--texto-tenue)' }}>{seg}s…</p>}
       {!ultimo && <button className="btn-primario w-full" onClick={() => setI(i + 1)}>Siguiente →</button>}
       {ultimo && (
         <>
