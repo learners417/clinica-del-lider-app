@@ -31,6 +31,9 @@ export default async function handler(req: any, res: any) {
   if (req.method === 'POST') {
     const { email, tier, rol = 'paciente' } = req.body || {};
     if (!email || !tier) return res.status(400).json({ error: 'Faltan email o tier.' });
+    if (!['apaga', 'solo', 'acompanado'].includes(tier) || !['paciente', 'equipo', 'admin'].includes(rol)) {
+      return res.status(400).json({ error: 'Tier o rol inválido.' });
+    }
     const redirectTo = `https://${req.headers.host}`;
     const { data: inv, error: e1 } = await svc.auth.admin.inviteUserByEmail(email, { redirectTo });
     if (e1 || !inv.user) return res.status(500).json({ error: e1?.message || 'No se pudo invitar.' });
@@ -43,8 +46,16 @@ export default async function handler(req: any, res: any) {
     const { user_id, tier, rol } = req.body || {};
     if (!user_id) return res.status(400).json({ error: 'Falta user_id.' });
     const cambios: Record<string, string> = {};
-    if (tier) cambios.tier = tier;
-    if (rol) cambios.rol = rol;
+    if (tier) {
+      if (!['apaga', 'solo', 'acompanado'].includes(tier)) return res.status(400).json({ error: 'Tier inválido.' });
+      cambios.tier = tier;
+    }
+    if (rol) {
+      if (!['paciente', 'equipo', 'admin'].includes(rol)) return res.status(400).json({ error: 'Rol inválido.' });
+      if (user_id === user.id && rol !== 'admin') return res.status(400).json({ error: 'No puedes quitarte el rol de admin a ti mismo.' });
+      cambios.rol = rol;
+    }
+    if (!Object.keys(cambios).length) return res.status(400).json({ error: 'Nada para cambiar.' });
     const { error } = await svc.from('accesos').update(cambios).eq('user_id', user_id);
     if (error) return res.status(500).json({ error: error.message });
     return res.status(200).json({ ok: true });
