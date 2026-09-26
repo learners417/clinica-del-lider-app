@@ -1,9 +1,11 @@
 /** La Clínica del Líder — modo NUBE (login + accesos gestionados) o modo LOCAL (Puerta + códigos). */
 import { useEffect, useState } from 'react';
-import { Home, HeartPulse, Activity, Cross, ShieldCheck, LogOut } from 'lucide-react';
+import { Home, HeartPulse, Activity, Cross, ShieldCheck, LogOut, ClipboardList } from 'lucide-react';
 import Puerta from './pages/Puerta';
 import Login from './pages/Login';
 import Admin from './pages/Admin';
+import Fichas from './pages/Fichas';
+import { sincronizar, cortarSync } from './lib/sync';
 import Hoy from './pages/Hoy';
 import NochePage from './pages/Noche';
 import DosisPage from './pages/Dosis';
@@ -13,10 +15,15 @@ import Botiquin from './pages/Botiquin';
 import Zona from './pages/Zona';
 import Clinico from './pages/Clinico';
 import IcebergPage from './pages/Iceberg';
+import SesionPage from './pages/Sesion';
+import JugadaPage from './pages/Jugada';
+import DescargaPage from './pages/Descarga';
+import TestimonioPage from './pages/TestimonioPage';
+import Consentimiento from './pages/Consentimiento';
 import BotiquinFab from './components/BotiquinFab';
 import Arranque from './components/Arranque';
 import Logo from './components/Logo';
-import { getPagina, setPagina, getAcceso, sembrarAccesoLocal, puedeGuardar, type PaginaId } from './lib/estadoCdl';
+import { getPagina, setPagina, getAcceso, sembrarAccesoLocal, puedeGuardar, getConsentimiento, type PaginaId } from './lib/estadoCdl';
 import { supabase, MODO_NUBE, getAccesoNube, type AccesoNube } from './lib/supabase';
 
 const NAV: { id: PaginaId; label: string; Icon: typeof Home }[] = [
@@ -32,6 +39,7 @@ export default function App() {
   const [pagina, setPaginaState] = useState<PaginaId>(getPagina());
   const [estadoNube, setEstadoNube] = useState<EstadoNube>(MODO_NUBE ? 'cargando' : 'listo');
   const [accesoNube, setAccesoNube] = useState<AccesoNube | null>(null);
+  const [, setFirmas] = useState(0);
 
   function navegar(p: PaginaId) {
     setPagina(p);
@@ -42,6 +50,7 @@ export default function App() {
   async function cargarAcceso() {
     const a = await getAccesoNube();
     if (!a) { setEstadoNube('sin-acceso'); return; }
+    await sincronizar(a.user_id);
     sembrarAccesoLocal(a.tier, a.fecha_inicio);
     setAccesoNube(a);
     setEstadoNube('listo');
@@ -61,6 +70,7 @@ export default function App() {
   }, []);
 
   async function salir() {
+    await cortarSync();
     await supabase?.auth.signOut();
   }
 
@@ -135,8 +145,23 @@ export default function App() {
   }
 
   const esAdmin = accesoNube?.rol === 'admin';
-  const nav = esAdmin ? [...NAV, { id: 'admin' as PaginaId, label: 'Admin', Icon: ShieldCheck }] : NAV;
-  const enFlujo = pagina === 'chequeo' || pagina === 'dosis' || pagina === 'noche' || pagina === 'clinico';
+  const esEquipo = accesoNube?.rol === 'equipo' || esAdmin;
+
+  // ══ El consentimiento, una sola vez, antes del Chequeo (el equipo no lo firma) ══
+  if (!esEquipo && !getConsentimiento()) {
+    return (
+      <div className="min-h-screen">
+        <header className="pantalla pt-5"><Logo onClick={() => {}} /></header>
+        <main className="pagina-anim"><Consentimiento onFirmado={() => { setFirmas((n) => n + 1); navegar('hoy'); }} /></main>
+      </div>
+    );
+  }
+  const nav = [
+    ...NAV,
+    ...(esEquipo ? [{ id: 'fichas' as PaginaId, label: 'Fichas', Icon: ClipboardList }] : []),
+    ...(esAdmin ? [{ id: 'admin' as PaginaId, label: 'Admin', Icon: ShieldCheck }] : []),
+  ];
+  const enFlujo = pagina === 'chequeo' || pagina === 'dosis' || pagina === 'noche' || pagina === 'clinico' || pagina === 'iceberg' || pagina === 'sesion' || pagina === 'descarga' || pagina === 'testimonio';
 
   return (
     <div className="min-h-screen">
@@ -171,10 +196,15 @@ export default function App() {
           {pagina === 'tratamiento' && <Tratamiento navegar={navegar} />}
           {pagina === 'chequeo' && <Chequeo onTerminado={() => navegar('hoy')} onSalir={() => navegar('hoy')} />}
           {pagina === 'botiquin' && <Botiquin />}
-          {pagina === 'zona' && <Zona irAlChequeo={() => navegar('chequeo')} />}
+          {pagina === 'zona' && <Zona irAlChequeo={() => navegar('chequeo')} irASesion={() => navegar('sesion')} />}
           {pagina === 'iceberg' && <IcebergPage navegar={navegar} />}
+          {pagina === 'sesion' && <SesionPage navegar={navegar} />}
+          {pagina === 'jugada' && <JugadaPage navegar={navegar} />}
+          {pagina === 'descarga' && <DescargaPage navegar={navegar} />}
+          {pagina === 'testimonio' && <TestimonioPage navegar={navegar} />}
           {pagina === 'clinico' && <Clinico navegar={navegar} />}
           {pagina === 'admin' && (esAdmin ? <Admin /> : <Hoy navegar={navegar} />)}
+          {pagina === 'fichas' && (esEquipo ? <Fichas /> : <Hoy navegar={navegar} />)}
         </main>
       </div>
 

@@ -1,18 +1,21 @@
 /** LA CEREMONIA DE LA MEDICIÓN — D0 → hoy en pantalla completa: números, Zona, y la puerta que toque. */
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ArbolTablero from './ArbolTablero';
-import { HITO_CONTRATO, TOTAL_DIAS, SUBIDA_CONTRATO } from '../data/camino';
+import { HITO_CONTRATO, HITO_MEDIO, TOTAL_DIAS, SUBIDA_CONTRATO } from '../data/camino';
 import { indiceJugador } from '../data/arbol';
 import { zonaDesdeCbi } from '../data/zonas';
 import { vibrar, LATIDO_HITO } from '../lib/haptics';
 import { PuntoZona } from './ui';
 import CertificadoAlta from './CertificadoAlta';
 import { Mensaje90Reveal } from './Mensaje90';
-import { listarChequeos, getProtocolo, diaDelProtocolo, getNombre, hoyIso, abrirMensaje90, getMensaje90 } from '../lib/estadoCdl';
+import DosColumnas from './DosColumnas';
+import TestimonioFlujo from './Testimonio';
+import { listarChequeos, getProtocolo, diaDelProtocolo, getNombre, hoyIso, abrirMensaje90, getMensaje90, getTestimonio } from '../lib/estadoCdl';
 
 export default function CeremoniaMedicion({ onCerrar }: { onCerrar: () => void }) {
   const chequeos = listarChequeos();
   const hayComparacion = chequeos.length >= 2;
+  const [testimonioListo, setTestimonioListo] = useState(Boolean(getTestimonio()?.cerrado));
   useEffect(() => { if (hayComparacion) vibrar(LATIDO_HITO); }, [hayComparacion]);
   const protocolo = getProtocolo();
   if (chequeos.length < 2 || !protocolo) {
@@ -80,6 +83,9 @@ export default function CeremoniaMedicion({ onCerrar }: { onCerrar: () => void }
         </div>
       </div>
 
+      {/* Las dos columnas: en el día 42 y en el 84 */}
+      {dia >= HITO_MEDIO && <DosColumnas dia={esContrato ? HITO_CONTRATO : HITO_MEDIO} />}
+
       {/* El cambio de Zona, celebrado en serio */}
       {cambioZona && delta < 0 && (
         <div className="tarjeta p-5 mb-4 text-center reveal-zona" style={{ borderColor: zActual.color, borderWidth: 2 }}>
@@ -95,8 +101,17 @@ export default function CeremoniaMedicion({ onCerrar }: { onCerrar: () => void }
             Tu Índice subió {subida} puntos
           </p>
           <p className="voz-maestro text-center mb-4">"El que responde hoy no es el que respondió el Día 0."</p>
-          {(() => { abrirMensaje90(); return getMensaje90() ? <Mensaje90Reveal /> : null; })()}
-          <CertificadoAlta nombre={getNombre()} indiceInicial={indiceBase} indiceFinal={indiceActual} fecha={hoyIso()} />
+          {!testimonioListo ? (
+            <div className="tarjeta p-5 mb-4">
+              <p className="t-cuerpo mb-5">Antes de tu certificado, cuéntalo. Seis preguntas, las mismas que hacemos en cada Alta.</p>
+              <TestimonioFlujo onTerminado={() => { setTestimonioListo(true); window.scrollTo({ top: 0 }); }} />
+            </div>
+          ) : (
+            <>
+              {(() => { abrirMensaje90(); return getMensaje90() ? <Mensaje90Reveal /> : null; })()}
+              <CertificadoAlta nombre={getNombre()} indiceInicial={indiceBase} indiceFinal={indiceActual} fecha={hoyIso()} />
+            </>
+          )}
         </div>
       )}
       {esContrato && !esAlta && (
@@ -111,7 +126,9 @@ export default function CeremoniaMedicion({ onCerrar }: { onCerrar: () => void }
         </div>
       )}
 
-      <button className="btn-primario w-full" onClick={onCerrar}>{esAlta ? 'Volver a mi clínica' : 'Seguir con mi Tratamiento'}</button>
+      {(!esAlta || testimonioListo) && (
+        <button className="btn-primario w-full" onClick={onCerrar}>{esAlta ? 'Volver a mi clínica' : 'Seguir con mi Tratamiento'}</button>
+      )}
     </div>
   );
 }

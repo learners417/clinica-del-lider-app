@@ -25,3 +25,25 @@ export const VIDEOS: Record<number, string> = {
   78: '',  // Apertura de LIDERARTE
   84: '',  // El Alta
 };
+
+/** WhatsApp del terapeuta (solo números, con código de país). Vacío = el paciente elige el contacto. */
+export const WHATSAPP_TERAPEUTA = '';
+
+/** VIDEOS DE EL EJE — los 18 de la Hoja de Ruta v2. Pegar la URL y aparecen solos. Vacío = no se muestra. */
+export const VIDEOS_EJE: Record<string, string> = {
+  bienvenida: '',   // Día 0, antes del Chequeo · 3 min
+  iceberg: '',      // Herramienta · día 1 · 3 min
+  freno: '',        // Herramienta · día 1 · 3 min
+  descarga: '',     // Herramienta · día 8 · 3 min
+  semana1: '', semana2: '', semana3: '', semana4: '', semana5: '', semana6: '',
+  semana7: '', semana8: '', semana9: '', semana10: '', semana11: '', semana12: '',
+  medicion42: '',   // antes del Tablero del día 42 · 2 min
+  medicion84: '',   // antes del Tablero del día 84 · 2 min
+};
+
+/**
+ * Ayuda urgente — lo que se muestra en "Si esto te desborda" y en el consentimiento.
+ * Si trabajas con un solo país, pon acá su número de emergencias o su línea de crisis
+ * (ejemplo: 'En Chile, llama al *4141'). Vacío = texto general para todos los países.
+ */
+export const AYUDA_URGENTE = '';

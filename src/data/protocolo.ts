@@ -342,7 +342,7 @@ export const DOSIS: Dosis[] = [
   },
   {
     dia: 57, titulo: 'Con quién quieres llegar', duracion: '10 min',
-    senal: 'Trabajaste ocho semanas para tener energía y horas. Ahora viene la pregunta que decide para qué sirvió todo esto: con quién las vas a usar. Porque el agotamiento tiene una característica silenciosa y es que a las personas que más quieres les tocó siempre lo que sobraba.',
+    senal: 'Trabajaste ocho semanas para tener energía y horas. Ahora viene la pregunta que decide para qué sirvió todo esto: con quién las vas a usar. Porque el agotamiento tiene una característica silenciosa y es que a las personas que más quieres les tocó siempre lo que sobraba. Y un aviso para este último tramo: el tercer mes cuesta distinto. Ya no es la dureza del principio. Muchos lo sienten en el cuerpo, con menos empuje, justo cuando lo de afuera empieza a andar. Es esperable: estás sosteniendo más que antes. Anótalo en tus Signos y llévalo a la sesión del martes. Si el cuerpo avisa más de una semana seguida, consúltalo con tu médico.',
     accion: 'Escribe los nombres de las tres personas con las que quieres llegar al final de tu vida. Al lado de cada uno, cuánto tiempo real y presente le diste el mes pasado.'
   },
   {

@@ -1,8 +1,10 @@
 /** Cliente Supabase — si las variables no están, la app corre en modo local (códigos). */
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
 
-const url = import.meta.env.VITE_SUPABASE_URL as string | undefined;
-const anon = import.meta.env.VITE_SUPABASE_ANON_KEY as string | undefined;
+// En los tests (node) no hay import.meta.env: la app queda en modo local.
+const env = (import.meta.env ?? {}) as Record<string, string | undefined>;
+const url = env.VITE_SUPABASE_URL;
+const anon = env.VITE_SUPABASE_ANON_KEY;
 
 export const supabase: SupabaseClient | null = url && anon ? createClient(url, anon) : null;
 export const MODO_NUBE = Boolean(supabase);

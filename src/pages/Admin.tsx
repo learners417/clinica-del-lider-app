@@ -57,6 +57,16 @@ export default function Admin() {
     }
   }
 
+  async function cambiarRol(user_id: string, rol: string) {
+    try {
+      await llamarApi('PATCH', { user_id, rol });
+      toast.success(rol === 'equipo' ? 'Ahora ve las Fichas.' : 'Rol actualizado.');
+      await cargar();
+    } catch (e) {
+      toast.error((e as Error).message);
+    }
+  }
+
   async function cambiarTier(user_id: string, nuevo: string) {
     try {
       await llamarApi('PATCH', { user_id, tier: nuevo });
@@ -103,7 +113,13 @@ export default function Admin() {
                   {a.rol !== 'paciente' ? `${a.rol} · ` : ''}inició {a.fecha_inicio}
                 </p>
               </div>
-              <select value={a.tier} onChange={(e) => cambiarTier(a.user_id, e.target.value)}
+              <select value={a.rol} onChange={(e) => cambiarRol(a.user_id, e.target.value)} aria-label="Rol"
+                className="px-3 rounded-xl" style={{ minHeight: 44, background: 'var(--fondo)', border: '1px solid var(--borde)', color: 'var(--texto)', fontSize: 16 }}>
+                <option value="paciente">Paciente</option>
+                <option value="equipo">Equipo</option>
+                <option value="admin">Admin</option>
+              </select>
+              <select value={a.tier} onChange={(e) => cambiarTier(a.user_id, e.target.value)} aria-label="Acceso"
                 className="px-3 rounded-xl" style={{ minHeight: 44, background: 'var(--fondo)', border: '1px solid var(--borde)', color: 'var(--texto)', fontSize: 16 }}>
                 {TIERS.map((t) => <option key={t.id} value={t.id}>{t.label}</option>)}
               </select>
@@ -113,8 +129,8 @@ export default function Admin() {
       </div>
 
       <p className="t-cuerpo mt-5" style={{ fontSize: 16 }}>
-        Los datos clínicos (Chequeos, Signos, Dosis) viven en el dispositivo de cada paciente — la sincronización a la nube es la fase 2B.
-        Para el seguimiento semanal del Acompañado, el paciente comparte su semana por WhatsApp con su clínico.
+        El camino de cada paciente se guarda en su cuenta y el equipo lo ve en Fichas. Para que un terapeuta vea las Fichas,
+        ponle el rol Equipo.
       </p>
     </div>
   );

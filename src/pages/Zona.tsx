@@ -1,7 +1,7 @@
 /** Mi Zona — evolución medida: Zona Vital, CBI, racha y el Tratamiento. */
 import { Stethoscope, Flame } from 'lucide-react';
 import { HITO_MEDIO, HITO_CONTRATO } from '../data/camino';
-import { descargarRespaldo, restaurarRespaldo, getNombre, listarSesiones, guardarSesion, hoyIso } from '../lib/estadoCdl';
+import { descargarRespaldo, restaurarRespaldo, getNombre, listarSesiones } from '../lib/estadoCdl';
 import { useState } from 'react';
 import ArbolTablero from '../components/ArbolTablero';
 import { MEDIDAS, puntaje, colorPuntaje, indiceJugador, promedioColumna, estadoMedida } from '../data/arbol';
@@ -13,12 +13,10 @@ import { listarChequeos, calcularRacha, fechaDia90, getProtocolo, diaDelProtocol
 import ZonaBadge from '../components/ZonaBadge';
 import { PuntoZona } from '../components/ui';
 
-export default function Zona({ irAlChequeo }: { irAlChequeo: () => void }) {
+export default function Zona({ irAlChequeo, irASesion }: { irAlChequeo: () => void; irASesion?: () => void }) {
   const archivoRef = useRef<HTMLInputElement>(null);
   const nombrePaciente = getNombre();
-  const [sesiones, setSesiones] = useState(listarSesiones());
-  const [trabajado, setTrabajado] = useState('');
-  const [compromiso, setCompromiso] = useState('');
+  const [sesiones] = useState(listarSesiones());
   const chequeos = listarChequeos();
   const ultimo = chequeos.length ? chequeos[chequeos.length - 1] : null;
   const racha = calcularRacha();
@@ -180,27 +178,11 @@ export default function Zona({ irAlChequeo }: { irAlChequeo: () => void }) {
           <p className="t-micro mb-2" style={{ color: 'var(--acento)' }}>La Jugada</p>
           <h3 className="t-titulo mb-1">Tus sesiones</h3>
           <p className="t-cuerpo mb-5" style={{ fontSize: 17 }}>
-            Al salir de cada sesión, dos líneas. Lo que se trabajó y a qué te comprometiste.
-            Lo que no se escribe se pierde entre una sesión y la siguiente.
+            La entrada y el cierre de cada sesión quedan aquí: lo que te llevaste, a qué te comprometiste y si lo cumpliste.
           </p>
         </div>
 
-        <div className="tarjeta p-5">
-          <label className="t-micro block mb-2" style={{ color: 'var(--texto-tenue)' }}>Qué trabajamos hoy</label>
-          <textarea className="w-full px-4 py-3 mb-4" style={{ minHeight: 90 }}
-            placeholder="En una línea" value={trabajado} onChange={(e) => setTrabajado(e.target.value)} />
-          <label className="t-micro block mb-2" style={{ color: 'var(--texto-tenue)' }}>A qué me comprometí</label>
-          <textarea className="w-full px-4 py-3" style={{ minHeight: 90 }}
-            placeholder="Algo concreto, con fecha" value={compromiso} onChange={(e) => setCompromiso(e.target.value)} />
-          <button className="btn-primario w-full mt-4" disabled={trabajado.trim().length < 3}
-            onClick={() => {
-              guardarSesion({ fecha: hoyIso(), trabajado: trabajado.trim(), compromiso: compromiso.trim() });
-              setSesiones(listarSesiones()); setTrabajado(''); setCompromiso('');
-              toast.success('Sesión guardada.');
-            }}>
-            Guardar la sesión
-          </button>
-        </div>
+        <button className="btn-primario w-full" onClick={() => irASesion?.()}>Abrir la sesión de hoy</button>
 
         {sesiones.length > 0 && (
           <div className="mt-5">
@@ -209,8 +191,11 @@ export default function Zona({ irAlChequeo }: { irAlChequeo: () => void }) {
                 <p className="t-micro mb-2" style={{ color: 'var(--texto-tenue)' }}>
                   {new Date(s.fecha + 'T12:00:00').toLocaleDateString('es', { day: 'numeric', month: 'long' })}
                 </p>
-                <p className="t-sub mb-1">{s.trabajado}</p>
-                {s.compromiso && <p className="t-cuerpo" style={{ fontSize: 18 }}>Me comprometí a: {s.compromiso}</p>}
+                <p className="t-sub mb-1">{s.verdad || s.trabajado}</p>
+                {s.compromiso && <p className="t-cuerpo" style={{ fontSize: 18 }}>
+                  Me comprometí a: {s.compromiso}{s.cumplido === true ? ' · cumplido' : s.cumplido === false ? ' · no cumplido' : ''}
+                </p>}
+                {s.llegada && s.escala ? <p className="t-cuerpo" style={{ fontSize: 16 }}>Llegué con {s.llegada} · me fui con {s.escala}/10 de claridad</p> : null}
               </div>
             ))}
           </div>

@@ -226,7 +226,7 @@ function MiTratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
         </div>
       )}
 
-      <MiAlta />
+      <MiAlta navegar={navegar} />
 
       <div className="flex items-center gap-2 justify-center">
         <PuntoZona color="var(--acento)" size={8} />
@@ -237,7 +237,7 @@ function MiTratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
 }
 
 /* El acceso permanente al certificado, cuando está ganado. */
-function MiAlta() {
+function MiAlta({ navegar }: { navegar: (p: PaginaId) => void }) {
   const [abierto, setAbierto] = useStateAlta(false);
   const p = getProtocolo();
   const chequeos = listarChequeos();
@@ -258,6 +258,7 @@ function MiAlta() {
       ) : (
         <button className="btn-secundario w-full" onClick={() => setAbierto(true)}>Ver mi certificado del Alta</button>
       )}
+      <button className="btn-fantasma w-full mt-2" onClick={() => navegar('testimonio')}>Mi testimonio</button>
     </div>
   );
 }

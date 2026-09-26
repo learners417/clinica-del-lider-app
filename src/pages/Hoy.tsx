@@ -1,7 +1,7 @@
 /** HOY — la pantalla diaria: arriba tu Noche o tu Dosis, abajo tus Signos Vitales. Un solo ritual. */
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { Angry, Frown, Meh, Smile, Laugh, Flame, Moon, Pill, ChevronRight, Stethoscope, type LucideIcon , Layers} from 'lucide-react';
+import { Angry, Frown, Meh, Smile, Laugh, Flame, Moon, Pill, ChevronRight, Stethoscope, type LucideIcon , Layers } from 'lucide-react';
 import {
   getAcceso, getApaga, proximaNoche, nocheDeHoyHecha, getProtocolo, proximaDosis, diaDelProtocolo,
   getEntradaHoy, guardarEntradaDiario, listarDiario, calcularRacha, hoyIso, getUltimoChequeo,
@@ -13,6 +13,9 @@ import ZonaBadge from '../components/ZonaBadge';
 import InformeSemanal from '../components/InformeSemanal';
 import { Mensaje90Tarjeta } from '../components/Mensaje90';
 import BannerMedicion from '../components/BannerMedicion';
+import TuSemana from '../components/TuSemana';
+import LineaSemanaTarjeta from '../components/LineaSemana';
+import { semanaDeDia } from '../data/camino';
 import { vibrar } from '../lib/haptics';
 import { zonaDesdeCbi } from '../data/zonas';
 
@@ -83,6 +86,8 @@ export default function Hoy({ navegar }: { navegar: (p: PaginaId) => void }) {
         {chequeo && <ZonaBadge zona={zonaDesdeCbi(chequeo.cbi.promedio)} />}
       </div>
 
+      <LineaSemanaTarjeta />
+
       {/* ── ARRIBA: tu paso de hoy según acceso ── */}
       {acceso === 'apaga' && apaga && (() => {
         const n = proximaNoche(apaga);
@@ -127,6 +132,10 @@ export default function Hoy({ navegar }: { navegar: (p: PaginaId) => void }) {
           </button>
         );
       })()}
+
+      {acceso === 'acompanado' && (
+        <TuSemana navegar={navegar} semana={protocolo ? semanaDeDia(Math.min(diaDelProtocolo(protocolo), TOTAL_DIAS)).n : undefined} />
+      )}
 
       {racha > 0 && !hoyHecho && (
         <div className="tarjeta p-4 mb-4 flex items-center gap-3" style={{ borderColor: 'var(--zona-naranja)' }}>
@@ -200,7 +209,13 @@ export default function Hoy({ navegar }: { navegar: (p: PaginaId) => void }) {
 
       <button className="tarjeta tarjeta-hover w-full text-left p-4 flex items-center gap-3 mb-3" onClick={() => navegar('iceberg')}>
         <Layers size={19} color="var(--acento)" className="flex-none" />
-        <span className="t-sub">Trabajar un bloqueo · El Iceberg</span>
+        <span className="t-sub">El Iceberg · desarmar un bloqueo</span>
+        <ChevronRight size={17} className="ml-auto flex-none" color="var(--texto-tenue)" />
+      </button>
+
+      <button className="tarjeta tarjeta-hover w-full text-left p-4 flex items-center gap-3 mb-3" onClick={() => navegar('descarga')}>
+        <Flame size={19} color="var(--calido)" className="flex-none" />
+        <span className="t-sub">La Descarga · escribir y quemar</span>
         <ChevronRight size={17} className="ml-auto flex-none" color="var(--texto-tenue)" />
       </button>
 

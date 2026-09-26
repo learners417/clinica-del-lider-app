@@ -22,6 +22,12 @@ const K = {
   mensaje90: 'cdl_mensaje_90',
   iceberg: 'cdl_iceberg',
   sesiones: 'cdl_sesiones',
+  jugadas: 'cdl_jugadas',
+  consentimiento: 'cdl_consentimiento',
+  descargas: 'cdl_descargas',
+  columnas: 'cdl_columnas',
+  testimonio: 'cdl_testimonio',
+  lineas: 'cdl_lineas',
 };
 
 /* ── Respaldo y restauración ──
@@ -70,7 +76,7 @@ export function restaurarRespaldo(texto: string): { ok: boolean; error?: string 
   let escritas = 0;
   for (const [clave, valor] of Object.entries(r.datos)) {
     if (!validas.has(clave)) continue;
-    try { localStorage.setItem(clave, JSON.stringify(valor)); escritas++; } catch { /* noop */ }
+    try { localStorage.setItem(clave, JSON.stringify(valor)); escritas++; oyente?.(clave); } catch { /* noop */ }
   }
   if (escritas === 0) return { ok: false, error: 'El respaldo no traía datos de la Clínica.' };
   return { ok: true };
@@ -85,9 +91,17 @@ function leer<T>(key: string, fallback: T): T {
   }
 }
 
+/* ── Aviso de escritura: la sincronización con la nube se cuelga de acá ── */
+type Oyente = (clave: string) => void;
+let oyente: Oyente | null = null;
+export function alGuardar(fn: Oyente | null): void { oyente = fn; }
+/** Todas las claves que la app guarda en el teléfono. */
+export const CLAVES = K;
+
 function guardar(key: string, valor: unknown): boolean {
   try {
     localStorage.setItem(key, JSON.stringify(valor));
+    oyente?.(key);
     return true;
   } catch {
     return false;
@@ -215,15 +229,35 @@ export function fechaDia90(desdeIso: string): string {
 
 /* ── El Iceberg: un bloqueo desarmado capa por capa ── */
 
+export type Test = 'bloquea' | 'desbloquea';
+
 export interface Iceberg {
   id: string;
   fecha: string;
-  bloqueo: string;   // lo que se ve arriba del agua
-  mentira: string;   // lo que lo sostiene
-  miedo: string;     // qué teme que se repita
-  dolor: string;     // qué dolor está cubriendo
-  perdon: string;    // lo que se le dice a esa parte
+  bloqueo: string;   // el fruto: lo que se ve desde afuera
+  mentira: string;   // la mentira más fuerte (compatibilidad con los Iceberg viejos)
+  miedo: string;     // de qué la protegen las mentiras
+  dolor: string;     // qué dolería si pasara
+  perdon: string;    // el mensaje del adulto a quien era entonces
   cerrado: boolean;
+  /* ── v2 (24 sep 2026): la secuencia completa de EL EJE ── */
+  mentiras?: string[];   // todas, con “¿Qué más?”
+  fuerte?: number;       // índice de la más fuerte
+  origen?: string;       // la escena
+  edad?: number;         // qué edad tenía
+  antes?: number;        // 1-10: cuánto cree la frase antes de la yuxtaposición
+  hecho?: string;        // el hecho de este mes que la contradice
+  despues?: number;      // 1-10: cuánto la cree dichas las dos juntas
+  verdad?: string;       // el permiso que aparece
+  test?: Record<string, Test>; // 'm0'..'mN' y 'verdad'
+  enviado?: string;      // fecha en que se mandó al terapeuta
+  cerradoEn?: string;    // fecha en que se cerró (cuenta para la entrega del lunes)
+}
+
+/** Un Iceberg de la versión anterior se abre en la nueva sin perder nada. */
+export function normalizarIceberg(i: Iceberg): Iceberg {
+  if (i.mentiras && i.mentiras.length) return i;
+  return { ...i, mentiras: i.mentira ? [i.mentira] : [''], fuerte: i.mentira ? 0 : undefined };
 }
 
 export function listarIcebergs(): Iceberg[] {
@@ -243,9 +277,52 @@ export function borrarIceberg(id: string): void {
 
 export interface Sesion {
   fecha: string;
-  trabajado: string;
+  trabajado: string;     // el objetivo de la hora
   compromiso: string;
-  cumplido?: boolean;
+  cumplido?: boolean;    // se marca en la entrada de la sesión siguiente
+  /* ── v2: entrada y cierre dentro de la app ── */
+  tipo?: 'adentro' | 'afuera';
+  emocion?: string;
+  llegada?: number;      // 1-10 con qué número llega
+  verdad?: string;       // su verdad, con sus palabras
+  escala?: number;       // 1-10 qué tan claro le quedó
+  falta?: string;        // qué falta para 10
+  cuando?: string;       // fecha y hora del compromiso (datetime-local)
+  cerrada?: boolean;
+}
+
+export function getSesionHoy(): Sesion | null {
+  return listarSesiones().find((s) => s.fecha === hoyIso()) ?? null;
+}
+
+/** El último compromiso de una sesión anterior que todavía no se revisó. */
+export function compromisoPendiente(): Sesion | null {
+  const previas = listarSesiones().filter((s) => s.fecha < hoyIso() && s.compromiso.trim());
+  const ultima = previas[previas.length - 1];
+  return ultima && ultima.cumplido === undefined ? ultima : null;
+}
+
+/* ── La Jugada: el entregable de afuera, para el jueves ── */
+
+export interface Jugada {
+  id: string;
+  fecha: string;
+  que: string;
+  evidencia: string;
+  enviado?: string;
+}
+
+export function listarJugadas(): Jugada[] {
+  return leer<Jugada[]>(K.jugadas, []);
+}
+
+export function guardarJugada(j: Jugada): void {
+  const l = listarJugadas().filter((x) => x.id !== j.id);
+  guardar(K.jugadas, [...l, j].sort((a, b) => a.fecha.localeCompare(b.fecha)));
+}
+
+export function borrarJugada(id: string): void {
+  guardar(K.jugadas, listarJugadas().filter((x) => x.id !== id));
 }
 
 export function listarSesiones(): Sesion[] {
@@ -315,8 +392,8 @@ export function calcularRacha(): number {
 }
 
 /* ── Navegación persistida ── */
-export type PaginaId = 'hoy' | 'chequeo' | 'botiquin' | 'zona' | 'tratamiento' | 'dosis' | 'noche' | 'clinico' | 'admin' | 'iceberg';
-const PAGINAS: PaginaId[] = ['hoy', 'chequeo', 'botiquin', 'zona', 'tratamiento', 'dosis', 'noche', 'clinico', 'admin', 'iceberg'];
+export type PaginaId = 'hoy' | 'chequeo' | 'botiquin' | 'zona' | 'tratamiento' | 'dosis' | 'noche' | 'clinico' | 'admin' | 'iceberg' | 'sesion' | 'jugada' | 'fichas' | 'descarga' | 'testimonio';
+const PAGINAS: PaginaId[] = ['hoy', 'chequeo', 'botiquin', 'zona', 'tratamiento', 'dosis', 'noche', 'clinico', 'admin', 'iceberg', 'sesion', 'jugada', 'fichas', 'descarga', 'testimonio'];
 
 export function getPagina(): PaginaId {
   const p = leer<string>(K.pagina, 'hoy');
@@ -520,4 +597,71 @@ export function abrirMensaje90(): Mensaje90 | null {
   if (!m || !puedeAbrirMensaje90()) return m;
   if (!m.abierto) { m.abierto = hoyIso(); guardar(K.mensaje90, m); }
   return m;
+}
+
+
+/* ── El consentimiento: qué es esto, qué no es, cuándo se deriva ── */
+
+export const VERSION_CONSENTIMIENTO = 1;
+export interface Consentimiento { fecha: string; version: number; nombre: string }
+
+export function getConsentimiento(): Consentimiento | null {
+  const c = leer<Consentimiento | null>(K.consentimiento, null);
+  return c && c.version >= VERSION_CONSENTIMIENTO ? c : null;
+}
+
+export function firmarConsentimiento(nombre: string): void {
+  guardar(K.consentimiento, { fecha: new Date().toISOString(), version: VERSION_CONSENTIMIENTO, nombre: nombre.trim() } satisfies Consentimiento);
+}
+
+/* ── La Descarga: se escribe, se quema. El texto nunca se guarda: solo el día. ── */
+
+export function listarDescargas(): string[] {
+  return leer<string[]>(K.descargas, []);
+}
+
+export function registrarDescarga(): void {
+  guardar(K.descargas, [...listarDescargas(), hoyIso()]);
+}
+
+/* ── Las dos columnas: en cada medición, qué me faltó recibir y qué faltó de mí ── */
+
+export interface Columnas { fecha: string; dia: number; recibir: string; demi: string }
+
+export function listarColumnas(): Columnas[] {
+  return leer<Columnas[]>(K.columnas, []);
+}
+
+export function guardarColumnas(c: Columnas): void {
+  guardar(K.columnas, [...listarColumnas().filter((x) => x.dia !== c.dia), c].sort((a, b) => a.dia - b.dia));
+}
+
+/* ── El testimonio del Alta: sus respuestas, y si decide compartirlas ── */
+
+export interface Testimonio {
+  fecha: string;
+  respuestas: Record<string, string>;
+  recomienda?: number;
+  compartido: boolean;
+  cerrado: boolean;
+}
+
+export function getTestimonio(): Testimonio | null {
+  return leer<Testimonio | null>(K.testimonio, null);
+}
+
+export function guardarTestimonio(t: Testimonio): void {
+  guardar(K.testimonio, t);
+}
+
+/* ── La línea de la semana: la escribe el terapeuta, el paciente la lee en Hoy ── */
+
+export interface LineaSemana { id: string; fecha: string; texto: string }
+
+export function listarLineas(): LineaSemana[] {
+  return leer<LineaSemana[]>(K.lineas, []);
+}
+
+export function guardarLineasCache(l: LineaSemana[]): void {
+  guardar(K.lineas, l);
 }
