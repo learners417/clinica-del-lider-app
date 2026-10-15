@@ -5,8 +5,13 @@ import { zonaDesdeCbi } from '../src/data/zonas';
 import {
   rachaDesde, normalizarIceberg, firmarConsentimiento, getConsentimiento, registrarDescarga, listarDescargas,
   guardarColumnas, listarColumnas, alGuardar, CLAVES,
+  guardarIceberg, listarIcebergs, modoArbol, resumenEscena, raicesAbiertas, esperandoHecho, yuxtaponerEn,
+  getAncla, setAncla, armarRespaldo, diaDelProtocolo, fechaUltimoDia,
 } from '../src/lib/estadoCdl';
+import { textoIceberg } from '../src/lib/envio';
+import { completo, primerPasoPendiente, pasosDe, PASOS_LIMPIAR, PASOS_SEMBRAR, CAPAS } from '../src/pages/Iceberg';
 import { planSync, SINCRONIZADAS } from '../src/lib/sync';
+import { TOTAL_DIAS, HITO_MEDIO, HITO_CONTRATO } from '../src/data/camino';
 import { barandillaPendiente, aTiempo, promedio } from '../src/lib/ficha';
 import { proximoDia, ventanaEntrega, entregadoEnVentana, urlCalendario, linkWhatsApp, isoLocal } from '../src/lib/semana';
 
@@ -148,6 +153,95 @@ console.log('v1.3 · consentimiento, Descarga, columnas y lo que viaja a la nube
   ok([CLAVES.consentimiento, CLAVES.descargas, CLAVES.columnas, CLAVES.testimonio].every((k) => SINCRONIZADAS.includes(k)), 'lo nuevo sube a la cuenta');
   ok(!SINCRONIZADAS.includes(CLAVES.lineas), 'las líneas de la semana bajan del terapeuta, no se suben');
   ok(!SINCRONIZADAS.includes(CLAVES.clinicoChat) && !SINCRONIZADAS.includes(CLAVES.borrador), 'el chat del Clínico y el borrador se quedan en el teléfono');
+
+  console.log('\nEl Árbol v4 · los dos sentidos y las tres marcas de la escena:');
+  // Sigue corriendo con el localStorage de memoria de arriba.
+  const limpiar = {
+    id: 'a1', fecha: '2026-10-12', modo: 'limpiar' as const,
+    bloqueo: 'No cobré las tres facturas de septiembre', mentira: 'Si cobro pierdo al cliente',
+    mentiras: ['Si cobro pierdo al cliente'], fuerte: 0,
+    beneficio: 'Me ahorro la cara del otro', miedo: '', dolor: '', perdon: '',
+    origen: 'En la cocina, mi papá contando billetes', quien: 'papá', edad: 9,
+    frase: 'Acá la plata no se habla', cerrado: false,
+  };
+  guardarIceberg(limpiar);
+  ok(modoArbol(limpiar) === 'limpiar', 'un árbol sin modo declarado se limpia');
+  ok(modoArbol({ ...limpiar, modo: 'sembrar' }) === 'sembrar', 'el modo sembrar se respeta');
+  ok(resumenEscena(limpiar) === 'con papá · a los 9', 'la escena se resume con quién y a qué edad');
+  ok(resumenEscena({ ...limpiar, quien: undefined, edad: undefined }) === '', 'sin persona ni edad no hay escena que mostrar');
+  ok(raicesAbiertas().some((x) => x.id === 'a1'), 'un árbol abierto con escena es una raíz abierta: el Clínico la ve');
+  ok(esperandoHecho().some((x) => x.id === 'a1'), 'sin hecho con fecha, el árbol espera uno');
+
+  // Un fruto sembrado se carga como el hecho con fecha del árbol que se limpia.
+  ok(yuxtaponerEn('a1', 'El 9 de octubre le cobré a Rodrigo y siguió siendo cliente'), 'el fruto sembrado se carga en el árbol elegido');
+  ok(!yuxtaponerEn('no-existe', 'x'), 'no se carga en un árbol que no existe');
+  const conHecho = listarIcebergs().find((x) => x.id === 'a1');
+  ok(conHecho?.hecho?.startsWith('El 9 de octubre'), 'el hecho quedó guardado, sin tocar el resto del árbol');
+  ok(conHecho?.origen === limpiar.origen && conHecho?.frase === limpiar.frase, 'la raíz y la frase textual no se pisan');
+  ok(!esperandoHecho().some((x) => x.id === 'a1'), 'ya con hecho, deja de esperar');
+
+  // El texto que el terapeuta lee el lunes a la noche.
+  const txtL = textoIceberg(conHecho!, 'Maxi');
+  ok(txtL.startsWith('*Mi Árbol* · Maxi'), 'el envío se llama Árbol y lleva el nombre');
+  ok(txtL.includes('papá · a los 9') && txtL.includes('Acá la plata no se habla'),
+    'el envío lleva las tres marcas: quién, qué edad y la frase textual');
+  ok(txtL.includes('Lo que gano creyéndola'), 'el beneficio viaja como capa propia');
+  ok(txtL.includes('Sin terminar'), 'un árbol abierto avisa que quedó a mitad');
+
+  const sembrado = {
+    id: 'a2', fecha: '2026-10-13', modo: 'sembrar' as const,
+    bloqueo: 'Le cobré a Rodrigo el jueves', mentira: '', mentiras: [], miedo: '', dolor: '', perdon: '',
+    verdad: 'Cobrar es parte del servicio', beneficio: 'Rodrigo pagó al día siguiente',
+    amor: 'Me trato como alguien que vale lo que cobra', enlazado: 'a1', cerrado: true,
+  };
+  guardarIceberg(sembrado);
+  const txtS = textoIceberg(sembrado, 'Maxi');
+  ok(txtS.startsWith('*Mi Árbol sembrado*'), 'el árbol sembrado se envía como sembrado');
+  ok(txtS.includes('*Abajo de todo:* Me trato como alguien que vale lo que cobra'), 'el amor propio viaja abajo de todo');
+  ok(!txtS.includes('Las mentiras'), 'un árbol sembrado no inventa mentiras');
+  ok(!esperandoHecho().some((x) => x.id === 'a2'), 'un árbol sembrado nunca espera un hecho: él es el hecho');
+
+  // El ancla: la frase del consultante, textual, que el Clínico puede devolver.
+  ok(getAncla() === '', 'sin ancla, cadena vacía');
+  setAncla('  No soy el que no puede.  ');
+  ok(getAncla() === 'No soy el que no puede.', 'el ancla se guarda sin espacios de sobra');
+  const respaldo = armarRespaldo().datos;
+  ok(respaldo[CLAVES.ancla] === 'No soy el que no puede.', 'el ancla entra en el respaldo');
+  ok(Object.keys(respaldo).includes(CLAVES.iceberg), 'los árboles entran en el respaldo');
+
+  console.log('\nEl recorrido del Árbol · qué deja pasar cada pantalla:');
+  ok(PASOS_LIMPIAR.length === 14 && PASOS_SEMBRAR.length === 5, 'catorce pantallas para limpiar, cinco para sembrar');
+  ok(pasosDe(limpiar).length === 14 && pasosDe(sembrado).length === 5, 'cada árbol recorre las pantallas de su modo');
+  ok(PASOS_LIMPIAR.indexOf('beneficio') === PASOS_LIMPIAR.indexOf('fuerte') + 1
+    && PASOS_LIMPIAR.indexOf('miedo') === PASOS_LIMPIAR.indexOf('beneficio') + 1,
+    'el beneficio tiene su pantalla, entre elegir la mentira y el miedo');
+  ok(CAPAS.length === 6 && CAPAS.every((c) => c.prueba.includes('?')), 'las seis capas traen su prueba escrita');
+
+  // Un fruto que es un pensamiento no pasa de la primera pantalla por longitud, pero
+  // la regla que importa es la de la escena: sin persona y sin edad no hay raíz.
+  ok(!completo({ ...limpiar, origen: 'siempre fui así', quien: '', edad: undefined }, 'origen'),
+    'sin persona con nombre ni edad, el origen no deja seguir');
+  ok(!completo({ ...limpiar, quien: 'papá', edad: undefined }, 'origen'), 'con persona pero sin edad, tampoco');
+  ok(completo(limpiar, 'origen'), 'con escena, persona y edad, sí');
+  ok(completo({ ...limpiar, frase: '' }, 'frase'), 'si en esa escena nadie dijo nada, se sigue de largo');
+  ok(!completo({ ...limpiar, beneficio: '' }, 'beneficio'), 'el beneficio no se puede saltear');
+  ok(!completo({ ...limpiar, mentiras: ['una', 'dos'] }, 'mentiras'), 'con dos mentiras todavía no se baja');
+  ok(completo({ ...limpiar, mentiras: ['una', 'dos', 'tres'] }, 'mentiras'), 'con tres, sí');
+  ok(!completo({ ...sembrado, amor: '' }, 'amor'), 'sembrar sin el amor propio no cierra');
+  ok(completo({ ...sembrado, enlazado: undefined }, 'yuxta'), 'enlazar es opcional: el fruto vale por sí mismo');
+
+  // Un árbol a medio hacer abre donde se trabó, no al principio.
+  const aMedias = { ...limpiar, beneficio: '', mentiras: ['una', 'dos', 'tres'], fuerte: 0 };
+  ok(PASOS_LIMPIAR[primerPasoPendiente(aMedias)] === 'beneficio', 'un árbol a medias abre en la primera capa vacía');
+
+  console.log('\nLas 84 fechas del camino · las dos cuentas tienen que dar lo mismo:');
+  const p84 = { tier: 'acompanado' as const, fechaInicio: '2026-08-04', dosisHechas: [] };
+  ok(diaDelProtocolo(p84, '2026-08-04') === 1, 'el día de arranque es el día 1');
+  ok(diaDelProtocolo(p84, '2026-09-14') === HITO_MEDIO, `el ${HITO_MEDIO} cae el 14 de septiembre`);
+  ok(diaDelProtocolo(p84, '2026-10-26') === HITO_CONTRATO, `el ${HITO_CONTRATO} cae el 26 de octubre`);
+  ok(fechaUltimoDia('2026-08-04T12:00:00') === '26 de octubre de 2026',
+    'la fecha que se le promete es la del día 84, no la del 85');
+  ok(TOTAL_DIAS === HITO_CONTRATO && HITO_MEDIO * 2 === HITO_CONTRATO, 'el camino son dos mitades de 42, medidas en 0, 42 y 84');
 }
 
 if (fallos > 0) { console.error(`\n${fallos} test(s) FALLARON`); process.exit(1); }

@@ -39,7 +39,7 @@ export default function TuSemana({ navegar, semana }: { navegar: (p: PaginaId) =
       <p className="t-micro mb-1" style={{ color: 'var(--acento)' }}>Tu semana</p>
       <p className="t-cuerpo mb-2" style={{ fontSize: 16 }}>Martes adentro · jueves afuera</p>
       {semana ? <VideoEje clave={`semana${semana}`} titulo={`El video de la semana ${semana}`} /> : null}
-      <Fila hecho={iceHecho} titulo="El Iceberg" detalle={iceHecho ? 'Entregado para el martes.' : textoVence(vIce, hoy)} onClick={() => navegar('iceberg')} />
+      <Fila hecho={iceHecho} titulo="El Árbol" detalle={iceHecho ? 'Entregado para el martes.' : textoVence(vIce, hoy)} onClick={() => navegar('iceberg')} />
       <Fila hecho={Boolean(sesionHoy?.cerrada)} titulo="La sesión" detalle={detalleSesion} onClick={() => navegar('sesion')} />
       <Fila hecho={jugHecha} titulo="La Jugada" detalle={jugHecha ? 'Entregada para el jueves.' : textoVence(vJug, hoy)} onClick={() => navegar('jugada')} />
     </div>

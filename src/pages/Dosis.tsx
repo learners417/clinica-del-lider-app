@@ -25,14 +25,14 @@ export default function DosisPage({ navegar }: { navegar: (p: PaginaId) => void 
   const dia = proximaDosis(protocolo);
   const diaActual = Math.min(diaDelProtocolo(protocolo), TOTAL_DIAS);
 
-  // Tratamiento completo: las 90 hechas
+  // Tratamiento completo: las 84 hechas
   if (protocolo.dosisHechas.length >= TOTAL_DIAS) {
     return (
       <div className="pantalla pt-10 pb-28 text-center">
         <CheckCircle2 size={44} color="var(--acento)" className="mx-auto mb-4 reveal-zona" />
-        <h1 className="t-titulo mb-2">Las 90 Dosis: hechas.</h1>
+        <h1 className="t-titulo mb-2">Las {TOTAL_DIAS} Dosis: hechas.</h1>
         <p className="t-cuerpo mb-6">El Tratamiento está completo. Tu bitácora y tu comparación de mediciones te esperan en la pestaña Tratamiento.</p>
-        <button className="btn-primario w-full" onClick={() => navegar('tratamiento')}>Ver mi día 85</button>
+        <button className="btn-primario w-full" onClick={() => navegar('tratamiento')}>Ver mi día {TOTAL_DIAS + 1}</button>
       </div>
     );
   }
@@ -130,7 +130,7 @@ export default function DosisPage({ navegar }: { navegar: (p: PaginaId) => void 
           <Layers size={19} color="var(--acento)" className="flex-none" />
           <div>
             <p className="t-sub">Bajar esto capa por capa</p>
-            <p className="t-cuerpo" style={{ fontSize: 17 }}>Lo de hoy tiene fondo. El Iceberg lo desarma en cinco pasos.</p>
+            <p className="t-cuerpo" style={{ fontSize: 17 }}>Lo de hoy tiene raíz. El Árbol la encuentra, una pregunta por pantalla.</p>
           </div>
         </button>
       )}

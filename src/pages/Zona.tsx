@@ -9,7 +9,7 @@ import { useRef } from 'react';
 import { toast } from 'sonner';
 import { CBI_SUBESCALA_LABEL } from '../data/cbi';
 import { ZONAS, zonaDesdeCbi } from '../data/zonas';
-import { listarChequeos, calcularRacha, fechaDia90, getProtocolo, diaDelProtocolo } from '../lib/estadoCdl';
+import { listarChequeos, calcularRacha, fechaUltimoDia, getProtocolo, diaDelProtocolo } from '../lib/estadoCdl';
 import ZonaBadge from '../components/ZonaBadge';
 import { PuntoZona } from '../components/ui';
 
@@ -45,7 +45,7 @@ export default function Zona({ irAlChequeo, irASesion }: { irAlChequeo: () => vo
         <ZonaBadge zona={zona} grande />
         <p className="t-cuerpo mt-4">{zona.descripcion}</p>
         <p className="flex items-center justify-center gap-1.5 t-micro mt-3" style={{ color: 'var(--texto-tenue)' }}>
-          <Flame size={13} /> Racha de Signos: {racha} {racha === 1 ? 'día' : 'días'}{protocolo ? ` · Tu último día: ${fechaDia90(protocolo.fechaInicio + 'T12:00:00')}` : ''}
+          <Flame size={13} /> Racha de Signos: {racha} {racha === 1 ? 'día' : 'días'}{protocolo ? ` · Tu último día: ${fechaUltimoDia(protocolo.fechaInicio + 'T12:00:00')}` : ''}
         </p>
       </div>
 
@@ -73,7 +73,7 @@ export default function Zona({ irAlChequeo, irASesion }: { irAlChequeo: () => vo
             </div>
           ))}
         </div>
-        <p className="t-cuerpo mt-4" style={{ fontSize: 16 }}>La Zona se mueve con evidencia real: tu CBI de los días 45 y 90 y tus hitos verificados. Ver contenido no mueve la Zona. El cambio real, sí.</p>
+        <p className="t-cuerpo mt-4" style={{ fontSize: 16 }}>La Zona se mueve con evidencia real: tu Índice de los días 42 y 84 y tus hitos verificados. Ver contenido no mueve la Zona. El cambio real, sí.</p>
       </div>
 
       {chequeos.length > 0 && (

@@ -8,6 +8,7 @@ import {
   puedeGenerarInforme, guardarInforme, ultimoInforme, getUltimoChequeo,
 } from '../lib/estadoCdl';
 import { faseDeDia } from '../data/protocolo';
+import { TOTAL_DIAS } from '../data/camino';
 import { zonaDesdeCbi } from '../data/zonas';
 
 function sistemaInforme(): string {
@@ -37,7 +38,7 @@ export default function InformeSemanal() {
     setCargando(true);
     try {
       const p = getProtocolo()!;
-      const dia = Math.min(diaDelProtocolo(p), 90);
+      const dia = Math.min(diaDelProtocolo(p), TOTAL_DIAS);
       const fase = faseDeDia(dia);
       const ch = getUltimoChequeo();
       const semana = registrosUltimos7();

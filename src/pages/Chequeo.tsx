@@ -20,7 +20,7 @@ import { CONTEXTO } from '../data/contexto';
 import { ZONAS, zonaDesdeCbi } from '../data/zonas';
 import {
   getNombre, setNombre, guardarChequeo, leerBorrador, guardarBorrador, limpiarBorrador,
-  fechaDia90, type ChequeoGuardado, type ContextoLider,
+  fechaUltimoDia, type ChequeoGuardado, type ContextoLider,
 } from '../lib/estadoCdl';
 import ZonaBadge from '../components/ZonaBadge';
 import { Opcion, Chips, Stepper, BarraActos, PuntoZona } from '../components/ui';
@@ -827,7 +827,7 @@ export default function Chequeo({ onTerminado, onSalir }: { onTerminado: () => v
             este mismo Chequeo otra vez. Los tres juntos, uno al lado del otro.
           </p>
           <p className="t-cuerpo">
-            Tu día {HITO_CONTRATO} es el <b>{fechaDia90(guardado.fecha)}</b>.
+            Tu día {HITO_CONTRATO} es el <b>{fechaUltimoDia(guardado.fecha)}</b>.
           </p>
         </div>
 

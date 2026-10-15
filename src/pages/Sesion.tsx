@@ -15,6 +15,7 @@ import {
 } from '../lib/estadoCdl';
 import { Chips } from '../components/ui';
 import { urlCalendario, DIA_AFUERA } from '../lib/semana';
+import { MEDIDAS } from '../data/arbol';
 
 const DIEZ = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 const lleno = (t?: string) => (t ?? '').trim().length >= 3;
@@ -56,7 +57,8 @@ export default function SesionPage({ navegar }: { navegar: (p: PaginaId) => void
 
   const puedeEntrar = !pendiente && Boolean(sesion.llegada) && lleno(sesion.trabajado);
   const puedeCerrar = lleno(sesion.verdad) && Boolean(sesion.escala)
-    && (sesion.escala === 10 || lleno(sesion.falta)) && lleno(sesion.compromiso) && Boolean(sesion.cuando);
+    && (sesion.escala === 10 || lleno(sesion.falta)) && lleno(sesion.compromiso) && Boolean(sesion.cuando)
+    && Boolean(sesion.medida);
 
   /* ── Hecha ── */
   if (fase === 'hecha') {
@@ -70,6 +72,11 @@ export default function SesionPage({ navegar }: { navegar: (p: PaginaId) => void
           <p className="t-micro mb-2" style={{ color: 'var(--texto-tenue)' }}>Tu compromiso</p>
           <p className="t-titulo mb-2">{sesion.compromiso}</p>
           {cuando && <p className="t-cuerpo">{cuando.toLocaleString('es', { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' })}</p>}
+          {sesion.medida && (
+            <p className="t-cuerpo mt-3" style={{ color: 'var(--acento)' }}>
+              Mueve tu {MEDIDAS.find((m) => m.id === sesion.medida)?.nombre}
+            </p>
+          )}
         </div>
         {cuando && (
           <a className="btn-primario w-full flex items-center justify-center gap-2" target="_blank" rel="noopener noreferrer"
@@ -107,6 +114,20 @@ export default function SesionPage({ navegar }: { navegar: (p: PaginaId) => void
         <p className="t-sub mb-3">¿Cuándo?</p>
         <input type="datetime-local" className="w-full px-5 py-3"
           value={sesion.cuando ?? ''} onChange={(e) => cambiar({ cuando: e.target.value })} />
+
+        <p className="t-sub mt-7 mb-2">Si cumples eso, ¿qué medida de tu Tablero se mueve?</p>
+        <p className="t-cuerpo mb-4">Una. Es la que vas a mirar en la medición del día 42 y del 84.</p>
+        <div className="space-y-2">
+          {MEDIDAS.map((m) => (
+            <button key={m.id} className="tarjeta tarjeta-hover w-full text-left p-4" style={{
+              borderColor: sesion.medida === m.id ? 'var(--acento)' : undefined,
+              background: sesion.medida === m.id ? 'var(--acento-tinte)' : undefined,
+            }} onClick={() => cambiar({ medida: m.id })}>
+              <span className="t-sub">{m.nombre}</span>
+              <span className="t-cuerpo block" style={{ fontSize: 16, color: 'var(--texto-tenue)' }}>{m.descriptor}</span>
+            </button>
+          ))}
+        </div>
 
         <button className="btn-primario w-full mt-7" disabled={!puedeCerrar} onClick={guardarCierre}>Cerrar la sesión</button>
         <button className="btn-fantasma w-full mt-1" onClick={() => navegar('hoy')}>Volver</button>

@@ -15,6 +15,7 @@ import { Mensaje90Tarjeta } from '../components/Mensaje90';
 import BannerMedicion from '../components/BannerMedicion';
 import TuSemana from '../components/TuSemana';
 import LineaSemanaTarjeta from '../components/LineaSemana';
+import Ancla from '../components/Ancla';
 import { semanaDeDia } from '../data/camino';
 import { vibrar } from '../lib/haptics';
 import { zonaDesdeCbi } from '../data/zonas';
@@ -85,6 +86,8 @@ export default function Hoy({ navegar }: { navegar: (p: PaginaId) => void }) {
         </div>
         {chequeo && <ZonaBadge zona={zonaDesdeCbi(chequeo.cbi.promedio)} />}
       </div>
+
+      <Ancla />
 
       <LineaSemanaTarjeta />
 
@@ -209,7 +212,7 @@ export default function Hoy({ navegar }: { navegar: (p: PaginaId) => void }) {
 
       <button className="tarjeta tarjeta-hover w-full text-left p-4 flex items-center gap-3 mb-3" onClick={() => navegar('iceberg')}>
         <Layers size={19} color="var(--acento)" className="flex-none" />
-        <span className="t-sub">El Iceberg · desarmar un bloqueo</span>
+        <span className="t-sub">El Árbol · del fruto a la raíz</span>
         <ChevronRight size={17} className="ml-auto flex-none" color="var(--texto-tenue)" />
       </button>
 

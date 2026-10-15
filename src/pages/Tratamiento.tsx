@@ -18,7 +18,7 @@ import { HITO_MEDIO, HITO_CONTRATO, SUBIDA_CONTRATO } from '../data/camino';
 import { indiceJugador } from '../data/arbol';
 import {
   getProtocolo, activarProtocolo, diaDelProtocolo, proximaDosis, listarChequeos,
-  listarBitacora, listarDiario, calcularRacha, fechaDia90, type PaginaId,
+  listarBitacora, listarDiario, calcularRacha, fechaUltimoDia, type PaginaId,
 } from '../lib/estadoCdl';
 
 export default function Tratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
@@ -177,7 +177,7 @@ function MiTratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
       {/* Los Sistemas Instalados */}
       <div className="tarjeta p-5 mb-4">
         <p className="t-sub mb-1">Tus Sistemas Instalados</p>
-        <p className="t-cuerpo mb-3" style={{ fontSize: 16 }}>El Tratamiento no son 90 acciones sueltas: son 10 sistemas que quedan operando. Instalado → sostenido 14 días → tuyo.</p>
+        <p className="t-cuerpo mb-3" style={{ fontSize: 16 }}>El Tratamiento son 10 sistemas que quedan operando. Instalado → sostenido 14 días → tuyo.</p>
         <div className="space-y-2.5">
           {SISTEMAS.map((s) => {
             const est = estadoSistema(s, p.dosisHechas, dia);
@@ -213,8 +213,8 @@ function MiTratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
 
       <div className="tarjeta p-5 mb-4">
         <p className="flex items-center gap-2 t-sub mb-1"><Activity size={16} color="var(--acento)" /> Tus mediciones</p>
-        <p className="t-cuerpo mb-3" style={{ fontSize: 16 }}>Día {HITO_MEDIO} y día {HITO_CONTRATO}, el mismo instrumento. Tu último día: <b>{fechaDia90(p.fechaInicio + 'T12:00:00')}</b>.</p>
-        <button className="btn-secundario w-full" disabled={dia < 45} onClick={() => navegar('chequeo')}>
+        <p className="t-cuerpo mb-3" style={{ fontSize: 16 }}>Día {HITO_MEDIO} y día {HITO_CONTRATO}, el mismo instrumento. Tu último día: <b>{fechaUltimoDia(p.fechaInicio + 'T12:00:00')}</b>.</p>
+        <button className="btn-secundario w-full" disabled={dia < HITO_MEDIO} onClick={() => navegar('chequeo')}>
           {dia < HITO_MEDIO ? `La medición se abre el día ${HITO_MEDIO} (faltan ${HITO_MEDIO - dia})` : 'Hacer mi medición oficial'}
         </button>
       </div>

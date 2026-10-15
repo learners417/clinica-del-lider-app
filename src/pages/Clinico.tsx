@@ -3,11 +3,13 @@ import { useEffect, useRef, useState } from 'react';
 import { SendHorizontal, Stethoscope } from 'lucide-react';
 import {
   getUltimoChequeo, getProtocolo, getNombre, getAcceso, esMadrugada,
-  getClinicoUsos, sumarClinicoUso, getClinicoChat, guardarClinicoChat, type MensajeClinico,
+  getClinicoUsos, sumarClinicoUso, getClinicoChat, guardarClinicoChat,
+  raicesAbiertas, resumenEscena, getAncla, type MensajeClinico,
 } from '../lib/estadoCdl';
 import { generarTexto } from '../lib/clinicoApi';
 import { CBI_SUBESCALA_LABEL } from '../data/cbi';
 import { DOSIS, faseDeDia } from '../data/protocolo';
+import { TOTAL_DIAS } from '../data/camino';
 import { NOCHES } from '../data/apaga';
 import { getApaga, proximaNoche, proximaDosis, diaDelProtocolo } from '../lib/estadoCdl';
 import { zonaDesdeCbi } from '../data/zonas';
@@ -21,7 +23,7 @@ interface PasoActual { etiqueta: string; detalle: string; chips: string[]; }
 function pasoActual(): PasoActual | null {
   const p = getProtocolo();
   if (p) {
-    const dia = Math.min(diaDelProtocolo(p), 90);
+    const dia = Math.min(diaDelProtocolo(p), TOTAL_DIAS);
     const prox = proximaDosis(p);
     if (prox > dia) return { etiqueta: `Día ${dia} · Dosis hecha`, detalle: 'La Dosis de hoy ya está hecha; la próxima se libera mañana.', chips: ['¿Qué me conviene hacer con el resto del día?', '¿Cómo viene mi semana según mis Signos?'] };
     const d = DOSIS.find((x) => x.dia === prox);
@@ -47,6 +49,23 @@ function pasoActual(): PasoActual | null {
   return null;
 }
 
+/** Las escenas que ya cargó y la frase que lo devuelve: el Clínico no las vuelve a pedir. */
+function contextoRaices(): string {
+  const partes: string[] = [];
+  const ancla = getAncla();
+  if (ancla) partes.push(`SU ANCLA, con sus palabras (puedes devolvérsela textual, nunca reescrita): "${ancla}"`);
+  const abiertas = raicesAbiertas();
+  if (abiertas.length) {
+    const lista = abiertas.map((i) => {
+      const esc = resumenEscena(i);
+      const frase = i.frase?.trim() ? ` — se dijo: "${i.frase.trim()}"` : ' — todavía sin la frase textual';
+      return `“${i.bloqueo}”${esc ? ` (${esc})` : ''}${frase}`;
+    }).join(' | ');
+    partes.push(`ESCENAS ABIERTAS en su Árbol, sin cerrar: ${lista}. Si lo que te cuenta hoy es una de estas, no abras otra: devuélvelo a esa.`);
+  }
+  return partes.join(' ');
+}
+
 function sistemaClinico(): string {
   const nombre = getNombre();
   const ch = getUltimoChequeo();
@@ -68,6 +87,14 @@ TUS LÍMITES (innegociables):
 - No inventas datos del usuario: usa solo el contexto provisto.
 - No prometes resultados; la promesa medible es del protocolo, no tuya.
 
+CÓMO RECONOCES UNA ESCENA (esto es lo más importante que haces):
+Una frase y una escena no son lo mismo. "Si no lo hago yo no sale" es una frase: vive en la cabeza y se discute con la cabeza, y mientras se discute no pasa nada. Una escena tiene tres marcas: UNA PERSONA CON NOMBRE, UNA EDAD O UN AÑO, y UNA FRASE TEXTUAL que alguien dijo. Cuando en lo que te escribe aparecen DOS de las tres, dejas de responder lo que venías respondiendo y lo dices: "Acá hay una escena." Después pides la que falta, UNA sola y en una pregunta corta: quién estaba ahí, qué edad tenía, o qué se dijo exactamente. Y lo mandas al Árbol a cargarla, porque ahí queda guardada para su sesión.
+El material de raíz llega feo: en una oración al pasar, en voz baja, terminando en "supongo". Lo que llega con énfasis suele ser la justificación. No confundas una cosa con la otra.
+Nunca interpretas la escena ni le dices qué significa. No le explicas su historia. Preguntas y guardas.
+
+CUANDO TE CUENTA ALGO QUE LE SALIÓ BIEN:
+El Árbol se recorre en los dos sentidos y el bueno es el que nadie usa. Si te cuenta algo que esta vez sí pudo —cobró, dijo que no, llegó a horario, pidió ayuda— eso es un fruto bueno con fecha y no se deja pasar con un "qué bien". Le dices que lo siembre en el Árbol: ahí carga qué hizo, qué creencia suya se lo permitió, qué ganó y cómo se trata a sí mismo cuando le sale. Y le nombras lo que importa de verdad: ese hecho, con su fecha, es lo que después se dice en voz alta junto a la frase vieja, y es lo que la baja de 8 a 4. Un fruto bueno sin cargar es una prueba que se pierde.
+
 TUS 3 MODOS (elige según el contexto que se te indica al final):
 - MODO INFORME: explicar su Chequeo y sus mediciones con claridad clínica.
 - MODO DOSIS: acompañar la acción del día — resolver la duda práctica, adaptar al caso ("no tengo 20 minutos hoy"), sin cambiar el protocolo.
@@ -77,7 +104,7 @@ TU TRABAJO: responder sobre su informe, acompañar la Dosis o la Noche del día,
 
 VOCABULARIO PROHIBIDO: coach, nivel, embudo, marketing, gurú. Se dice: el Chequeo, la Dosis, Signos Vitales, tu Zona, el protocolo, consulta clínica.
 
-CONTEXTO DEL PACIENTE: ${contexto || 'Aún no hizo el Chequeo — invítalo a hacerlo primero: sin medición no hay acompañamiento serio.'} ${p ? `Camino activo: EL EJE (${p.tier === 'acompanado' ? 'Acompañado' : 'Solo'}), inició ${p.fechaInicio}, ${p.dosisHechas.length} Dosis hechas.` : 'Está en Apaga la Cabeza (las 5 noches, aún sin el Tratamiento completo).'} ${esMadrugada() ? 'AHORA MISMO ES DE MADRUGADA: usa el MODO MADRUGADA.' : ''} ${(() => { const paso = pasoActual(); return paso ? `EL PASO EXACTO EN EL QUE ESTÁ HOY (úsalo en MODO DOSIS): ${paso.detalle}` : ''; })()}`;
+CONTEXTO DEL PACIENTE: ${contexto || 'Aún no hizo el Chequeo — invítalo a hacerlo primero: sin medición no hay acompañamiento serio.'} ${p ? `Camino activo: EL EJE (${p.tier === 'acompanado' ? 'Acompañado' : 'Solo'}), inició ${p.fechaInicio}, ${p.dosisHechas.length} Dosis hechas.` : 'Está en Apaga la Cabeza (las 5 noches, aún sin el Tratamiento completo).'} ${esMadrugada() ? 'AHORA MISMO ES DE MADRUGADA: usa el MODO MADRUGADA.' : ''} ${(() => { const paso = pasoActual(); return paso ? `EL PASO EXACTO EN EL QUE ESTÁ HOY (úsalo en MODO DOSIS): ${paso.detalle}` : ''; })()} ${contextoRaices()}`;
 }
 
 export default function Clinico({ navegar }: { navegar: (p: PaginaId) => void }) {

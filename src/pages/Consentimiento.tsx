@@ -20,7 +20,7 @@ const PANTALLAS = [
     cap: '2 de 3 · Lo que escribes',
     titulo: 'Lo tuyo, y quién lo ve.',
     parrafos: MODO_NUBE ? [
-      'Lo que registras se guarda en tu cuenta. Tu terapeuta ve tus mediciones, tus Signos, tus Iceberg, tus sesiones y tus Jugadas, para preparar cada encuentro.',
+      'Lo que registras se guarda en tu cuenta. Tu terapeuta ve tus mediciones, tus Signos, tus Árboles, tus sesiones y tus Jugadas, para preparar cada encuentro.',
       'Tu Mensaje del día 84 y tus informes semanales son solo tuyos. La Descarga no se guarda en ningún lado. Tu testimonio lo ve tu terapeuta solo si eliges compartirlo.',
       'Cuando quieras, escríbenos y borramos todos tus datos.',
     ] : [

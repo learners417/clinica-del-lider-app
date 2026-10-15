@@ -28,6 +28,7 @@ const K = {
   columnas: 'cdl_columnas',
   testimonio: 'cdl_testimonio',
   lineas: 'cdl_lineas',
+  ancla: 'cdl_ancla',
 };
 
 /* ── Respaldo y restauración ──
@@ -220,10 +221,15 @@ export function limpiarBorrador(): void {
   try { localStorage.removeItem(K.borrador); } catch { /* noop */ }
 }
 
-/** Fecha del último día del camino a partir de un ISO, formateada en castellano. */
-export function fechaDia90(desdeIso: string): string {
+/**
+ * Fecha del último día del camino a partir de un ISO, formateada en castellano.
+ * El día de arranque es el día 1 (así lo cuenta diaDelProtocolo), así que el
+ * último día cae a los TOTAL_DIAS - 1 días: sumar TOTAL_DIAS daba la fecha del
+ * día 85 y es la fecha que se le promete al consultante en el Chequeo.
+ */
+export function fechaUltimoDia(desdeIso: string): string {
   const d = new Date(desdeIso);
-  d.setDate(d.getDate() + TOTAL_DIAS_PROTOCOLO);
+  d.setDate(d.getDate() + TOTAL_DIAS_PROTOCOLO - 1);
   return d.toLocaleDateString('es', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 
@@ -245,6 +251,11 @@ export interface Iceberg {
   fuerte?: number;       // índice de la más fuerte
   origen?: string;       // la escena
   edad?: number;         // qué edad tenía
+  /* ── v3 (8 oct 2026): una escena se reconoce por tres marcas.
+     Sin persona no es escena: es otra frase. La frase textual es opcional
+     porque no en toda escena alguien dijo algo. ── */
+  quien?: string;        // quién estaba ahí, con nombre
+  frase?: string;        // qué se dijo, textual
   antes?: number;        // 1-10: cuánto cree la frase antes de la yuxtaposición
   hecho?: string;        // el hecho de este mes que la contradice
   despues?: number;      // 1-10: cuánto la cree dichas las dos juntas
@@ -252,6 +263,21 @@ export interface Iceberg {
   test?: Record<string, Test>; // 'm0'..'mN' y 'verdad'
   enviado?: string;      // fecha en que se mandó al terapeuta
   cerradoEn?: string;    // fecha en que se cerró (cuenta para la entrega del lunes)
+  /* ── v4 (14 oct 2026): el beneficio es una capa propia, no un renglón de las
+     mentiras — así se trabaja en sesión. Y el Árbol se recorre en los dos
+     sentidos: LIMPIAR parte de un fruto que no gusta y baja hasta la escena;
+     SEMBRAR parte de un fruto bueno y sube hasta el amor que lo sostiene.
+     El fruto de un árbol sembrado es el hecho con fecha que yuxtapone a un
+     árbol que se está limpiando: por eso uno alimenta al otro. ── */
+  beneficio?: string;    // limpiar: qué gano con la mentira · sembrar: qué gano con la verdad
+  amor?: string;         // sembrar: el amor propio que sostiene todo
+  modo?: 'limpiar' | 'sembrar';
+  enlazado?: string;     // sembrar: id del árbol al que este fruto le sirve de hecho
+}
+
+/** Los árboles se recorren en dos sentidos. Los de antes de v4 son todos de limpiar. */
+export function modoArbol(i: Iceberg): 'limpiar' | 'sembrar' {
+  return i.modo ?? 'limpiar';
 }
 
 /** Un Iceberg de la versión anterior se abre en la nueva sin perder nada. */
@@ -273,6 +299,43 @@ export function borrarIceberg(id: string): void {
   guardar(K.iceberg, listarIcebergs().filter((x) => x.id !== id));
 }
 
+/** Una escena en una línea: con quién y a qué edad. Vacío si todavía no es escena. */
+export function resumenEscena(i: Iceberg): string {
+  if (!i.quien && !i.edad) return '';
+  const quien = i.quien?.trim();
+  const edad = i.edad ? `a los ${i.edad}` : '';
+  return [quien ? `con ${quien}` : '', edad].filter(Boolean).join(' · ');
+}
+
+/** Los Icebergs con escena cargada que todavía no se cerraron: las puertas abiertas. */
+export function raicesAbiertas(): Iceberg[] {
+  return listarIcebergs().filter((i) => !i.cerrado && Boolean(i.quien || i.origen));
+}
+
+/** Árboles que se están limpiando y todavía esperan su hecho con fecha. */
+export function esperandoHecho(): Iceberg[] {
+  return listarIcebergs().filter((i) => modoArbol(i) === 'limpiar' && !i.cerrado && !(i.hecho ?? '').trim());
+}
+
+/** Carga el fruto de un árbol sembrado como el hecho que yuxtapone a otro. */
+export function yuxtaponerEn(idDestino: string, hecho: string): boolean {
+  const destino = listarIcebergs().find((x) => x.id === idDestino);
+  if (!destino) return false;
+  guardarIceberg({ ...destino, hecho });
+  return true;
+}
+
+/* ── El Ancla: la frase propia que lo devuelve, mostrada todos los días ── */
+
+/** Una sola frase, escrita por el paciente. No se interpreta: se repite. */
+export function getAncla(): string {
+  return leer<string>(K.ancla, '');
+}
+
+export function setAncla(texto: string): boolean {
+  return guardar(K.ancla, texto.trim());
+}
+
 /* ── Las sesiones: lo que se trabajó y a qué se comprometió ── */
 
 export interface Sesion {
@@ -289,6 +352,9 @@ export interface Sesion {
   falta?: string;        // qué falta para 10
   cuando?: string;       // fecha y hora del compromiso (datetime-local)
   cerrada?: boolean;
+  /* ── v3 (8 oct 2026): el contrato es que el Índice sube. Una sesión que no
+     mueve ninguna medida fue una conversación, así que el cierre la nombra. ── */
+  medida?: string;       // id de la medida del Tablero que se mueve si cumple
 }
 
 export function getSesionHoy(): Sesion | null {
@@ -422,7 +488,7 @@ export function activarProtocolo(tier: 'solo' | 'acompanado'): ProtocoloActivo {
   return p;
 }
 
-/** Día del protocolo (1..90+) según la fecha de inicio. */
+/** Día del protocolo (1..84+) según la fecha de inicio. */
 export function diaDelProtocolo(p: ProtocoloActivo, hoy: string = hoyIso()): number {
   const [y1, m1, d1] = p.fechaInicio.split('-').map(Number);
   const [y2, m2, d2] = hoy.split('-').map(Number);
@@ -432,11 +498,11 @@ export function diaDelProtocolo(p: ProtocoloActivo, hoy: string = hoyIso()): num
 
 /** La próxima Dosis pendiente (nunca se acumulan: siempre hay UNA próxima). */
 export function proximaDosis(p: ProtocoloActivo): number {
-  const dia = Math.min(diaDelProtocolo(p), 90);
+  const dia = Math.min(diaDelProtocolo(p), TOTAL_DIAS);
   for (let d = 1; d <= dia; d++) {
     if (!p.dosisHechas.includes(d)) return d;
   }
-  return Math.min(dia + 1, 90);
+  return Math.min(dia + 1, TOTAL_DIAS);
 }
 
 export function marcarDosisHecha(dia: number): void {
@@ -569,7 +635,7 @@ export function puedeGenerarInforme(): boolean {
 
 const TOTAL_DIAS_PROTOCOLO = TOTAL_DIAS;
 
-/* ── EL MENSAJE AL DÍA 90: se sella al empezar, se abre en el Alta ── */
+/* ── EL MENSAJE AL DÍA 84: se sella al empezar, se abre en el Alta ── */
 export interface Mensaje90 { fecha: string; dia: number; texto: string; abierto?: string }
 
 export function getMensaje90(): Mensaje90 | null {

@@ -1,20 +1,21 @@
 /**
  * FICHAS — la pantalla del terapeuta (rol equipo o admin).
  * Una lista de pacientes con la barandilla arriba de todo, y la ficha de cada uno:
- * lo de esta semana, sus números, su último Iceberg, su última sesión y su Jugada.
+ * lo de esta semana, sus números, su último Árbol, su última sesión y su Jugada.
  */
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { RefreshCw, ChevronLeft, ChevronRight, AlertTriangle } from 'lucide-react';
 import { supabase, type AccesoNube } from '../lib/supabase';
 import {
-  normalizarIceberg, type ChequeoGuardado, type EntradaDiario, type Iceberg, type Jugada, type Sesion, type ProtocoloActivo,
+  normalizarIceberg, modoArbol, resumenEscena,
+  type ChequeoGuardado, type EntradaDiario, type Iceberg, type Jugada, type Sesion, type ProtocoloActivo,
   type Consentimiento, type Columnas, type Testimonio, type LineaSemana,
 } from '../lib/estadoCdl';
 import { barandillaPendiente, aTiempo, promedio } from '../lib/ficha';
 import { lineasDe, escribirLinea } from '../lib/lineas';
 import { PREGUNTAS_TESTIMONIO } from '../components/Testimonio';
-import { DIA_ADENTRO, DIA_AFUERA } from '../lib/semana';
+import { DIA_ADENTRO, DIA_AFUERA, ventanaEntrega, entregadoEnVentana } from '../lib/semana';
 import { indiceJugador } from '../data/arbol';
 import { semanaDeDia, TOTAL_DIAS } from '../data/camino';
 
@@ -46,6 +47,7 @@ export default function Fichas() {
   const [pacientes, setPacientes] = useState<AccesoNube[]>([]);
   const [chequeos, setChequeos] = useState<Record<string, ChequeoGuardado[]>>({});
   const [barandillas, setBarandillas] = useState<Barandilla[]>([]);
+  const [arboles, setArboles] = useState<Record<string, Iceberg[]>>({});
   const [abierto, setAbierto] = useState<AccesoNube | null>(null);
   const [estado, setEstado] = useState<Estado>({});
   const [cargando, setCargando] = useState(false);
@@ -56,15 +58,17 @@ export default function Fichas() {
   async function cargarLista() {
     if (!supabase) return;
     setCargando(true);
-    const [a, c, b] = await Promise.all([
+    const [a, c, b, ar] = await Promise.all([
       supabase.from('accesos').select('*').eq('rol', 'paciente').order('creado_en', { ascending: false }),
       supabase.from('estado_paciente').select('user_id, valor').eq('clave', 'cdl_chequeos'),
       supabase.from('barandilla').select('*'),
+      supabase.from('estado_paciente').select('user_id, valor').eq('clave', 'cdl_iceberg'),
     ]);
     if (a.error) toast.error(a.error.message);
     setPacientes((a.data as AccesoNube[]) ?? []);
     setChequeos(Object.fromEntries((c.data ?? []).map((f: { user_id: string; valor: unknown }) => [f.user_id, f.valor as ChequeoGuardado[]])));
     setBarandillas((b.data as Barandilla[]) ?? []);
+    setArboles(Object.fromEntries((ar.data ?? []).map((f: { user_id: string; valor: unknown }) => [f.user_id, (f.valor as Iceberg[]) ?? []])));
     setCargando(false);
   }
 
@@ -102,6 +106,21 @@ export default function Fichas() {
 
   const habladasDe = (id: string) => barandillas.filter((b) => b.paciente_id === id).map((b) => b.chequeo_fecha);
   const pendienteDe = (id: string) => barandillaPendiente(chequeos[id] ?? [], habladasDe(id));
+
+  /**
+   * Si entregó el Árbol para la sesión de esta semana. Es lo primero que se
+   * mira el lunes a la noche cuando hay varios consultantes: sin esto hay que
+   * abrir una ficha por vez para enterarse.
+   */
+  const ventanaIce = ventanaEntrega(DIA_ADENTRO, new Date());
+  const entregoDe = (id: string) => entregadoEnVentana(
+    (arboles[id] ?? []).filter((i) => i.cerrado).map((i) => i.cerradoEn ?? i.fecha), ventanaIce,
+  );
+  const raizDe = (id: string) => {
+    const ultimo = (arboles[id] ?? []).filter((i) => i.bloqueo?.trim()).slice(-1)[0];
+    if (!ultimo || modoArbol(ultimo) === 'sembrar') return '';
+    return resumenEscena(ultimo);
+  };
 
   /* ── La ficha ── */
   if (abierto) {
@@ -146,7 +165,7 @@ export default function Fichas() {
             <p className="flex items-center gap-2 t-sub mb-2" style={{ color: 'var(--zona-roja)' }}><AlertTriangle size={19} /> La barandilla</p>
             <p className="t-cuerpo mb-3">
               El Chequeo del {fecha(pend.fecha)} marcó derivación{pend.phq9.motivoItem9 ? ' por el ítem 9' : ` (PHQ-9: ${pend.phq9.total})`}.
-              Esta conversación abre la próxima sesión, antes que cualquier Iceberg, y se coordina con quien lo atienda.
+              Esta conversación abre la próxima sesión, antes que cualquier Árbol, y se coordina con quien lo atienda.
             </p>
             <textarea className="w-full px-4 py-3 mb-3" style={{ minHeight: 80 }} placeholder="Qué se habló y con quién se coordinó"
               value={nota} onChange={(e) => setNota(e.target.value)} />
@@ -170,7 +189,7 @@ export default function Fichas() {
 
         <div className="tarjeta p-5 mb-5">
           <p className="t-micro mb-1" style={{ color: 'var(--acento)' }}>La validación</p>
-          <Dato titulo="Iceberg a tiempo (últimas semanas)" valor={iceAT.total ? `${iceAT.hechas} de ${iceAT.total}` : 'Todavía sin semanas vencidas'} bien={iceAT.total ? iceAT.hechas / iceAT.total >= 0.9 : undefined} />
+          <Dato titulo="Árbol a tiempo (últimas semanas)" valor={iceAT.total ? `${iceAT.hechas} de ${iceAT.total}` : 'Todavía sin semanas vencidas'} bien={iceAT.total ? iceAT.hechas / iceAT.total >= 0.9 : undefined} />
           <Dato titulo="Jugada a tiempo (últimas semanas)" valor={jugAT.total ? `${jugAT.hechas} de ${jugAT.total}` : 'Todavía sin semanas vencidas'} bien={jugAT.total ? jugAT.hechas / jugAT.total >= 0.9 : undefined} />
           <Dato titulo="Compromisos cumplidos" valor={revisadas.length ? `${cumplidas} de ${revisadas.length}` : 'Sin revisar todavía'} bien={revisadas.length ? cumplidas / revisadas.length >= 0.8 : undefined} />
           <Dato titulo="Escala de cierre promedio" valor={escala !== null ? `${escala} / 10` : 'Sin sesiones cerradas'} bien={escala !== null ? escala >= 8 : undefined} />
@@ -188,18 +207,33 @@ export default function Fichas() {
         </div>
 
         <div className="tarjeta p-5 mb-5">
-          <p className="t-micro mb-2" style={{ color: 'var(--acento)' }}>Su último Iceberg {ultimoIce ? `· ${fecha(ultimoIce.fecha)}${ultimoIce.cerrado ? '' : ' · sin terminar'}` : ''}</p>
-          {!ultimoIce ? <p className="t-cuerpo">Todavía no hizo ninguno.</p> : <>
-            <Linea t="Lo que se ve" v={ultimoIce.bloqueo} />
+          <p className="t-micro mb-2" style={{ color: 'var(--acento)' }}>
+            Su último Árbol {ultimoIce ? `· ${modoArbol(ultimoIce) === 'sembrar' ? 'sembrado' : 'en limpieza'} · ${fecha(ultimoIce.fecha)}${ultimoIce.cerrado ? '' : ' · sin terminar'}` : ''}
+          </p>
+          {!ultimoIce ? <p className="t-cuerpo">Todavía no hizo ninguno.</p> : modoArbol(ultimoIce) === 'sembrar' ? <>
+            <Linea t="El fruto" v={ultimoIce.bloqueo} />
+            <Linea t="La verdad que lo sostuvo" v={ultimoIce.verdad} />
+            <Linea t="Lo que ganó" v={ultimoIce.beneficio} />
+            <Linea t="Abajo de todo" v={ultimoIce.amor} />
+          </> : <>
+            <Linea t="El fruto" v={ultimoIce.bloqueo} />
             {(ultimoIce.mentiras ?? []).filter((m) => m.trim()).map((m, k) => (
               <p key={k} className="t-cuerpo mb-1" style={{ fontWeight: k === ultimoIce.fuerte ? 700 : 400 }}>
                 {k === ultimoIce.fuerte ? '★ ' : '· '}{m}{ultimoIce.test?.[`m${k}`] ? ` · ${ultimoIce.test[`m${k}`]}` : ''}
               </p>
             ))}
             <div className="mb-2" />
+            <Linea t="Lo que gana creyéndola" v={ultimoIce.beneficio} />
             <Linea t="El miedo" v={ultimoIce.miedo} />
             <Linea t="El dolor" v={ultimoIce.dolor} />
-            <Linea t={`El origen${ultimoIce.edad ? ` (a los ${ultimoIce.edad})` : ''}`} v={ultimoIce.origen} />
+            {/* Las tres marcas de la escena, juntas: sin persona y edad es réplica, no raíz. */}
+            <Linea t={`La raíz${resumenEscena(ultimoIce) ? ` (${resumenEscena(ultimoIce)})` : ''}`} v={ultimoIce.origen} />
+            {ultimoIce.frase?.trim() ? <p className="t-cuerpo mb-2"><b>Lo que se dijo ahí:</b> “{ultimoIce.frase.trim()}”</p> : null}
+            {ultimoIce.origen?.trim() && !resumenEscena(ultimoIce) && (
+              <p className="t-sub mb-2" style={{ color: 'var(--zona-roja)' }}>
+                Sin persona con nombre ni edad: esto es una réplica. La sesión empieza pidiendo la escena.
+              </p>
+            )}
             <Linea t="Lo que le dice" v={ultimoIce.perdon} />
             <Linea t="La prueba de este mes" v={ultimoIce.hecho} />
             {ultimoIce.antes && ultimoIce.despues ? <p className="t-cuerpo mb-2"><b>Cuánto cree la frase:</b> {ultimoIce.antes}/10 → {ultimoIce.despues}/10</p> : null}
@@ -257,9 +291,12 @@ export default function Fichas() {
   }
 
   /* ── La lista ── */
+  // Arriba lo que hay que atender: la barandilla primero, después quien no entregó.
   const ordenados = [...pacientes].sort((a, b) =>
     Number(Boolean(pendienteDe(b.user_id))) - Number(Boolean(pendienteDe(a.user_id)))
+    || Number(!entregoDe(b.user_id)) - Number(!entregoDe(a.user_id))
     || Number(b.tier === 'acompanado') - Number(a.tier === 'acompanado'));
+  const entregaron = pacientes.filter((p) => entregoDe(p.user_id)).length;
 
   return (
     <div className="pantalla pt-6 pb-28 pagina-anim">
@@ -269,10 +306,17 @@ export default function Fichas() {
           <RefreshCw size={15} className={cargando ? 'pulso-latido' : ''} /> Actualizar
         </button>
       </div>
-      <h1 className="t-display mt-2 mb-6">Fichas</h1>
+      <h1 className="t-display mt-2 mb-3">Fichas</h1>
+      {pacientes.length > 0 && (
+        <p className="t-cuerpo mb-6">
+          Árboles entregados para esta semana: <b>{entregaron} de {pacientes.length}</b>.
+        </p>
+      )}
       {pacientes.length === 0 && !cargando && <p className="t-cuerpo">Todavía no hay pacientes.</p>}
       {ordenados.map((p) => {
         const pend = pendienteDe(p.user_id);
+        const entrego = entregoDe(p.user_id);
+        const raiz = raizDe(p.user_id);
         return (
           <button key={p.user_id} className="tarjeta tarjeta-hover w-full text-left p-4 mb-3 flex items-center gap-3"
             style={{ borderColor: pend ? 'var(--zona-roja)' : undefined }} onClick={() => abrir(p)}>
@@ -280,6 +324,10 @@ export default function Fichas() {
               <span className="t-sub block" style={{ overflowWrap: 'anywhere' }}>{p.email}</span>
               <span className="t-cuerpo block" style={{ fontSize: 16 }}>
                 {p.tier === 'acompanado' ? 'Acompañado' : p.tier === 'solo' ? 'Solo' : 'Apaga la Cabeza'} · día {diaDe(p.fecha_inicio)}
+              </span>
+              <span className="t-cuerpo block mt-1" style={{ fontSize: 16, color: entrego ? 'var(--zona-verde)' : 'var(--acento)' }}>
+                {entrego ? 'Árbol entregado' : 'Falta el Árbol de esta semana'}
+                {raiz ? ` · ${raiz}` : ''}
               </span>
               {pend && <span className="t-sub block mt-1" style={{ color: 'var(--zona-roja)', fontSize: 16 }}>Barandilla sin hablar</span>}
             </span>
