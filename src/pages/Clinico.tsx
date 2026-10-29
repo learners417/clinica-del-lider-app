@@ -104,7 +104,7 @@ TU TRABAJO: responder sobre su informe, acompañar la Dosis o la Noche del día,
 
 VOCABULARIO PROHIBIDO: coach, nivel, embudo, marketing, gurú. Se dice: el Chequeo, la Dosis, Signos Vitales, tu Zona, el protocolo, consulta clínica.
 
-CONTEXTO DEL PACIENTE: ${contexto || 'Aún no hizo el Chequeo — invítalo a hacerlo primero: sin medición no hay acompañamiento serio.'} ${p ? `Camino activo: EL EJE (${p.tier === 'acompanado' ? 'Acompañado' : 'Solo'}), inició ${p.fechaInicio}, ${p.dosisHechas.length} Dosis hechas.` : 'Está en Apaga la Cabeza (las 5 noches, aún sin el Tratamiento completo).'} ${esMadrugada() ? 'AHORA MISMO ES DE MADRUGADA: usa el MODO MADRUGADA.' : ''} ${(() => { const paso = pasoActual(); return paso ? `EL PASO EXACTO EN EL QUE ESTÁ HOY (úsalo en MODO DOSIS): ${paso.detalle}` : ''; })()} ${contextoRaices()}`;
+CONTEXTO DEL PACIENTE: ${contexto || 'Aún no hizo el Chequeo — invítalo a hacerlo primero: sin medición no hay acompañamiento serio.'} ${p ? `Camino activo: EL EJE (${p.tier === 'acompanado' ? 'Acompañado' : 'Solo'}), inició ${p.fechaInicio}, ${p.dosisHechas.length} Dosis hechas.` : 'Está en Apaga la Cabeza (las 5 noches, aún sin el Camino completo).'} ${esMadrugada() ? 'AHORA MISMO ES DE MADRUGADA: usa el MODO MADRUGADA.' : ''} ${(() => { const paso = pasoActual(); return paso ? `EL PASO EXACTO EN EL QUE ESTÁ HOY (úsalo en MODO DOSIS): ${paso.detalle}` : ''; })()} ${contextoRaices()}`;
 }
 
 export default function Clinico({ navegar }: { navegar: (p: PaginaId) => void }) {
@@ -163,7 +163,7 @@ export default function Clinico({ navegar }: { navegar: (p: PaginaId) => void })
         <div>
           <h1 className="t-titulo">El Clínico</h1>
           <p className="t-micro" style={{ color: 'var(--texto-tenue)' }}>
-            {madrugada ? 'Madrugada. Estamos aquí.' : protocolo ? 'Tu acompañante del Tratamiento' : `${restantes} de ${LIMITE_GRATIS} preguntas incluidas`}
+            {madrugada ? 'Madrugada. Estamos aquí.' : protocolo ? 'Tu acompañante del Camino' : `${restantes} de ${LIMITE_GRATIS} preguntas incluidas`}
           </p>
         </div>
       </div>
@@ -204,7 +204,7 @@ export default function Clinico({ navegar }: { navegar: (p: PaginaId) => void })
       {sinCupo ? (
         <div className="tarjeta p-5">
           <p className="t-sub mb-2">Tus 3 preguntas incluidas se usaron.</p>
-          <p className="t-cuerpo mb-4">El Clínico completo acompaña a los pacientes del Tratamiento, todos los días.</p>
+          <p className="t-cuerpo mb-4">El Clínico completo acompaña a los pacientes del Camino, todos los días.</p>
           <button className="btn-primario w-full" onClick={() => navegar('tratamiento')}>Ver cómo entrar</button>
         </div>
       ) : (

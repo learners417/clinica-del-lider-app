@@ -264,7 +264,7 @@ export const DOSIS: Dosis[] = [
   {
     dia: 42, titulo: 'LA MEDICIÓN DEL DÍA 42', maestro: true, duracion: '15 min',
     senal: '"Se terminó el primer viaje. Cuarenta y dos días sacando lo que no era tuyo: lo que te apagaba, el ruido, los síes que eran no, el traje. Hoy volvemos a medir con el mismo instrumento del primer día, y quiero que lo respondas igual que entonces: para saber, no para aprobar. Después te va a aparecer algo que escribiste el Día 0 y no volviste a leer. Léelo despacio. De aquí en adelante ya no se saca: se construye." — Javo',
-    accion: 'Haz tu medición del día 42 desde el Tratamiento: el Tablero completo y el CBI. Cuando termines, compara las diez medidas con las del Día 0 y mira cuál se movió más.'
+    accion: 'Haz tu medición del día 42 desde el Camino: el Tablero completo y el CBI. Cuando termines, compara las diez medidas con las del Día 0 y mira cuál se movió más.'
   },
   {
     dia: 43, titulo: 'El cuerpo que dejaste', duracion: '10 min',
@@ -449,7 +449,7 @@ export const DOSIS: Dosis[] = [
   {
     dia: 78, titulo: 'Para qué lideras', duracion: '12 min',
     senal: 'Última semana. La primera medida de tu Tablero pregunta con qué frecuencia lo que haces te acerca a algo que elegiste tú, y es la que está arriba de todas las demás por una razón: sin eso, las otras nueve son un motor muy bueno girando sin destino.',
-    accion: 'Escribe para qué lideras. No la respuesta que dirías en una entrevista: la que dirías a las dos de la mañana. Tres líneas alcanzan.',
+    accion: 'Llena tu ikigai, los cuatro círculos primero y el centro al final. Después escribe en tres líneas para qué lideras, como lo dirías a las dos de la mañana. Tacha lo que suene a discurso. Si hoy no te da, solo el centro de tu ikigai, en una línea.',
   },
   {
     dia: 79, titulo: 'La carta al Personaje', duracion: '15 min',
@@ -479,7 +479,7 @@ export const DOSIS: Dosis[] = [
   {
     dia: 84, titulo: 'LA MEDICIÓN DEL CONTRATO', maestro: true, duracion: '12 min',
     senal: '"Día 84. El mismo instrumento del Día 0, las mismas preguntas, tu verdad de hoy. Respóndelo como siempre: para SABER, no para aprobar. Del otro lado hay dos puertas y las dos son dignas. Si tu Índice subió los veinticinco puntos, es tu alta: la construiste una Dosis por vez, y hoy se abre lo que sellaste el primer día. Si el número dice que falta, el contrato habla: seguimos hasta lograrlo, porque esto era por contrato y no por marketing. Sea cual sea la puerta, el que responde hoy no es el que respondió el Día 0. Eso ya nadie te lo saca." — Javo',
-    accion: 'Haz tu medición del día 84 desde el Tratamiento. Mira tu Tablero completo: Día 0, día 42 y hoy, los tres juntos. Después abre lo que escribiste el primer día y no volviste a leer.',
+    accion: 'Haz tu medición del día 84 desde el Camino. Mira tu Tablero completo: Día 0, día 42 y hoy, los tres juntos. Después abre lo que escribiste el primer día y no volviste a leer.',
   },
 ];
 

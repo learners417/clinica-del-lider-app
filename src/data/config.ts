@@ -16,7 +16,7 @@ export const AUDIOS = {
   carta: '',        // LA CARTA guiada — día 79
 };
 
-/** VIDEOS de Javo (YouTube no listado / Wistia) — por día del Tratamiento. Vacío = no se muestra. */
+/** VIDEOS de Javo (YouTube no listado / Wistia) — por día del Camino. Vacío = no se muestra. */
 export const VIDEOS: Record<number, string> = {
   1: '',   // Bienvenida + apertura de VER
   15: '',  // Apertura de INTERRUMPIR

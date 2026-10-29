@@ -13,7 +13,7 @@ import { CLAVES, alGuardar } from './estadoCdl';
 export const SINCRONIZADAS: string[] = [
   CLAVES.nombre, CLAVES.chequeos, CLAVES.diario, CLAVES.protocolo, CLAVES.apaga,
   CLAVES.informes, CLAVES.mensaje90, CLAVES.iceberg, CLAVES.sesiones, CLAVES.jugadas,
-  CLAVES.consentimiento, CLAVES.descargas, CLAVES.columnas, CLAVES.testimonio,
+  CLAVES.consentimiento, CLAVES.descargas, CLAVES.columnas, CLAVES.testimonio, CLAVES.ikigai,
 ];
 
 const K_TS = 'cdl_sync_ts';

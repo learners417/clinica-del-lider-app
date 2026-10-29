@@ -35,7 +35,7 @@ export default function NochePage({ navegar }: { navegar: (p: PaginaId) => void 
         <CheckCircle2 size={44} color="var(--acento)" className="mx-auto mb-4" />
         <h1 className="t-titulo mb-2">Las 5 noches: hechas.</h1>
         <p className="t-cuerpo mb-6">Llegas al vivo con tu número en la mano y noches distintas en el cuerpo. Ahí te muestro el mapa completo de las doce semanas.</p>
-        <button className="btn-primario w-full" onClick={() => navegar('tratamiento')}>Ver el Tratamiento completo</button>
+        <button className="btn-primario w-full" onClick={() => navegar('tratamiento')}>Ver el Camino completo</button>
         <button className="btn-fantasma w-full mt-2" onClick={() => navegar('hoy')}>Volver a Hoy</button>
       </div>
     );

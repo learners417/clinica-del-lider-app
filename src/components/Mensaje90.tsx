@@ -82,7 +82,7 @@ export function Mensaje90Tarjeta({ onAbrir }: { onAbrir?: () => void } = {}) {
   );
 }
 
-/* ══ La revelación: en la ceremonia del Alta y en el Tratamiento ══ */
+/* ══ La revelación: en la ceremonia del Alta y en el Camino ══ */
 export function Mensaje90Reveal({ compacto = false }: { compacto?: boolean }) {
   const mensaje = getMensaje90();
   if (!mensaje) return null;

@@ -17,7 +17,7 @@ function sistemaInforme(): string {
 FORMATO EXACTO: 3 párrafos cortos, máximo 150 palabras en total, castellano neutro (tú), sin emojis, sin listas, sin saludo ni despedida.
 1) Los números de la semana y LA correlación más importante que ves (una sola).
 2) Una observación honesta — incluye lo que empeoró si empeoró; nada de porrismo.
-3) UN ajuste concreto para la semana que viene, ligado a la fase actual del Tratamiento. Uno solo.
+3) UN ajuste concreto para la semana que viene, ligado a la fase actual del Camino. Uno solo.
 
 LÍMITES: no diagnosticas, no usas jerga clínica, no inventas datos que no estén en la tabla. Si las líneas del paciente muestran señales de crisis o desesperanza profunda, tu ajuste único es hablar esta semana con un profesional de salud mental, dicho con calidez.`;
 }
@@ -48,7 +48,7 @@ export default function InformeSemanal() {
       const tabla = semana.map((e) =>
         `${e.fecha}: estado ${e.estado}/5 · energía ${e.energia}/5 · sueño ${e.horasSueno}h · trabajo ${e.horasTrabajo}h${e.nota ? ` · "${e.nota}"` : ''}`
       ).join('\n');
-      const datos = `PACIENTE: Día ${dia} del Tratamiento, Fase ${fase.id} (${fase.nombre}).${ch ? ` Zona ${zonaDesdeCbi(ch.cbi.promedio).nombre} (CBI ${ch.cbi.promedio}).` : ''}
+      const datos = `PACIENTE: Día ${dia} del Camino, Fase ${fase.id} (${fase.nombre}).${ch ? ` Zona ${zonaDesdeCbi(ch.cbi.promedio).nombre} (CBI ${ch.cbi.promedio}).` : ''}
 SEMANA (${semana.length} registros):
 ${tabla}
 PROMEDIOS de la semana: sueño ${prom(semana, (e) => e.horasSueno)}h · energía ${prom(semana, (e) => e.energia)}/5 · trabajo ${prom(semana, (e) => e.horasTrabajo)}h.

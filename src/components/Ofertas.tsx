@@ -25,7 +25,7 @@ export function OfertasReinicio({ onElegida }: { onElegida: () => void }) {
     <div className="space-y-4">
       <div className="tarjeta p-6" style={{ borderColor: 'var(--acento)', borderWidth: 2 }}>
         <p className="t-micro" style={{ color: 'var(--acento)' }}>DIY · tú con el sistema</p>
-        <h3 className="t-titulo mt-1">EL EJE — 12 semanas</h3>
+        <h3 className="t-titulo mt-1">EL EJE Solo · 12 semanas</h3>
         <div className="flex items-baseline gap-3 mt-3 mb-1">
           <span className="t-display">${PRECIO_REINICIO}</span>
           <span className="t-cuerpo" style={{ fontSize: 16 }}>pago único · $3,70 por día</span>
@@ -38,7 +38,7 @@ export function OfertasReinicio({ onElegida }: { onElegida: () => void }) {
             </p>
           ))}
         </div>
-        <button className="btn-primario w-full" onClick={elegir(LINK_PAGO_333)}>Empezar mi Tratamiento</button>
+        <button className="btn-primario w-full" onClick={elegir(LINK_PAGO_333)}>Empezar mi Camino</button>
       </div>
 
       <div className="tarjeta p-6">

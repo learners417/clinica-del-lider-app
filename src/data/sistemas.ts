@@ -16,7 +16,7 @@ export const SISTEMAS: Sistema[] = [
 
 export type EstadoSistema = 'pendiente' | 'instalado' | 'sostenido' | 'tuyo';
 
-/** Estado de un sistema según las dosis hechas y el día actual del Tratamiento. */
+/** Estado de un sistema según las dosis hechas y el día actual del Camino. */
 export function estadoSistema(s: Sistema, dosisHechas: number[], diaActual: number): EstadoSistema {
   if (!dosisHechas.includes(s.dia)) return 'pendiente';
   const diasSostenido = diaActual - s.dia;

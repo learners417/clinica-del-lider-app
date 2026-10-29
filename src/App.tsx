@@ -28,7 +28,7 @@ import { supabase, MODO_NUBE, getAccesoNube, type AccesoNube } from './lib/supab
 
 const NAV: { id: PaginaId; label: string; Icon: typeof Home }[] = [
   { id: 'hoy', label: 'Hoy', Icon: Home },
-  { id: 'tratamiento', label: 'Tratamiento', Icon: HeartPulse },
+  { id: 'tratamiento', label: 'Camino', Icon: HeartPulse },
   { id: 'zona', label: 'Mi Zona', Icon: Activity },
   { id: 'botiquin', label: 'Botiquín', Icon: Cross },
 ];

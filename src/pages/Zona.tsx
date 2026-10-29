@@ -1,4 +1,4 @@
-/** Mi Zona — evolución medida: Zona Vital, CBI, racha y el Tratamiento. */
+/** Mi Zona — evolución medida: Zona Vital, CBI, racha y el Camino. */
 import { Stethoscope, Flame } from 'lucide-react';
 import { HITO_MEDIO, HITO_CONTRATO } from '../data/camino';
 import { descargarRespaldo, restaurarRespaldo, getNombre, listarSesiones } from '../lib/estadoCdl';
@@ -11,6 +11,7 @@ import { CBI_SUBESCALA_LABEL } from '../data/cbi';
 import { ZONAS, zonaDesdeCbi } from '../data/zonas';
 import { listarChequeos, calcularRacha, fechaUltimoDia, getProtocolo, diaDelProtocolo } from '../lib/estadoCdl';
 import ZonaBadge from '../components/ZonaBadge';
+import Ikigai from '../components/Ikigai';
 import { PuntoZona } from '../components/ui';
 
 export default function Zona({ irAlChequeo, irASesion }: { irAlChequeo: () => void; irASesion?: () => void }) {
@@ -201,6 +202,8 @@ export default function Zona({ irAlChequeo, irASesion }: { irAlChequeo: () => vo
           </div>
         )}
       </div>
+
+      <div className="mt-8"><Ikigai /></div>
 
       <div className="tarjeta p-5 mt-8">
         <p className="t-sub mb-2">Tu respaldo</p>

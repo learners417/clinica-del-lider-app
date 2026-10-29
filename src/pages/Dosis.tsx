@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { CheckCircle2, ArrowRight, Lock, Stethoscope, Layers } from 'lucide-react';
 import { DOSIS, faseDeDia, TOTAL_DIAS } from '../data/protocolo';
 import { AudioJavo, VideoJavo } from '../components/Contenido';
+import Ikigai from '../components/Ikigai';
 import { calcularFocos, refuerzoDelDia } from '../lib/enfasis';
 import { vibrar, LATIDO_HECHO } from '../lib/haptics';
 import { getUltimoChequeo as ultimoChequeoEnfasis } from '../lib/estadoCdl';
@@ -25,13 +26,13 @@ export default function DosisPage({ navegar }: { navegar: (p: PaginaId) => void 
   const dia = proximaDosis(protocolo);
   const diaActual = Math.min(diaDelProtocolo(protocolo), TOTAL_DIAS);
 
-  // Tratamiento completo: las 84 hechas
+  // Camino completo: las 84 hechas
   if (protocolo.dosisHechas.length >= TOTAL_DIAS) {
     return (
       <div className="pantalla pt-10 pb-28 text-center">
         <CheckCircle2 size={44} color="var(--acento)" className="mx-auto mb-4 reveal-zona" />
         <h1 className="t-titulo mb-2">Las {TOTAL_DIAS} Dosis: hechas.</h1>
-        <p className="t-cuerpo mb-6">El Tratamiento está completo. Tu bitácora y tu comparación de mediciones te esperan en la pestaña Tratamiento.</p>
+        <p className="t-cuerpo mb-6">El Camino está completo. Tu bitácora y tu comparación de mediciones te esperan en la pestaña Camino.</p>
         <button className="btn-primario w-full" onClick={() => navegar('tratamiento')}>Ver mi día {TOTAL_DIAS + 1}</button>
       </div>
     );
@@ -43,7 +44,7 @@ export default function DosisPage({ navegar }: { navegar: (p: PaginaId) => void 
       <div className="pantalla pt-10 pb-28 text-center">
         <CheckCircle2 size={44} color="var(--acento)" className="mx-auto mb-4" />
         <h1 className="t-titulo mb-2">Por hoy, hecho.</h1>
-        <p className="t-cuerpo mb-6">La Dosis del Día {dia} se libera mañana. El Tratamiento dosifica a propósito: un día, una acción. Hoy ya hiciste la tuya.</p>
+        <p className="t-cuerpo mb-6">La Dosis del Día {dia} se libera mañana. El Camino dosifica a propósito: un día, una acción. Hoy ya hiciste la tuya.</p>
         <button className="btn-primario w-full" onClick={() => navegar('hoy')}>Volver a Hoy</button>
       </div>
     );
@@ -78,7 +79,7 @@ export default function DosisPage({ navegar }: { navegar: (p: PaginaId) => void 
       <div className="pantalla pt-10 pb-28 text-center">
         <CheckCircle2 size={44} color="var(--acento)" className="mx-auto mb-4 reveal-zona" />
         <h1 className="t-titulo mb-2">Dosis del Día {dosis.dia}: hecha.</h1>
-        <p className="t-cuerpo mb-6">El registro cierra el día. Tus Signos Vitales son la evidencia de tu Tratamiento.</p>
+        <p className="t-cuerpo mb-6">El registro cierra el día. Tus Signos Vitales son la evidencia de tu Camino.</p>
         {!diarioHoy && <button className="btn-primario w-full mb-3" onClick={() => navegar('hoy')}>Cerrar con mis Signos Vitales</button>}
         <button className="btn-secundario w-full" onClick={() => navegar('hoy')}>Volver a Hoy</button>
       </div>
@@ -137,6 +138,7 @@ export default function DosisPage({ navegar }: { navegar: (p: PaginaId) => void 
 
       {[4, 7, 18, 19].includes(dosis.dia) && <AudioJavo id="apagado" titulo="El Apagado" />}
       {[27, 60, 76].includes(dosis.dia) && <AudioJavo id="senal" titulo="El Espejo" />}
+      {dosis.dia === 78 && <div className="mt-5"><Ikigai compacto /></div>}
       {dosis.dia === 79 && <AudioJavo id="carta" titulo="La Carta, guiada" />}
       {[44, 45, 48].includes(dosis.dia) && <AudioJavo id="despliegue" titulo="El Despliegue" />}
       {necesitaChequeo && (

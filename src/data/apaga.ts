@@ -1,7 +1,7 @@
 /**
  * APAGA LA CABEZA — el protocolo de 5 noches ($33).
  * Noche 1 = el Chequeo. Noches 2-5 = una consigna nocturna por noche.
- * Es, sin decirlo, los días -3 a 0 del Tratamiento.
+ * Es, sin decirlo, los días -3 a 0 del Camino.
  */
 export interface Noche {
   n: number;

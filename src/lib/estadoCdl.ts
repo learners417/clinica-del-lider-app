@@ -29,6 +29,7 @@ const K = {
   testimonio: 'cdl_testimonio',
   lineas: 'cdl_lineas',
   ancla: 'cdl_ancla',
+  ikigai: 'cdl_ikigai',
 };
 
 /* ── Respaldo y restauración ──
@@ -336,6 +337,20 @@ export function setAncla(texto: string): boolean {
   return guardar(K.ancla, texto.trim());
 }
 
+/* ── Tu ikigai: los cuatro círculos y el centro (libro, semana 12) ── */
+
+export interface Ikigai { amas: string; bien: string; mundo: string; pagan: string; centro: string; fecha?: string }
+
+export const IKIGAI_VACIO: Ikigai = { amas: '', bien: '', mundo: '', pagan: '', centro: '' };
+
+export function getIkigai(): Ikigai {
+  return { ...IKIGAI_VACIO, ...leer<Partial<Ikigai>>(K.ikigai, {}) };
+}
+
+export function setIkigai(i: Ikigai): boolean {
+  return guardar(K.ikigai, { ...i, fecha: new Date().toISOString().slice(0, 10) });
+}
+
 /* ── Las sesiones: lo que se trabajó y a qué se comprometió ── */
 
 export interface Sesion {
@@ -621,7 +636,7 @@ export function registrosUltimos7(): EntradaDiario[] {
   const iso = `${corte.getFullYear()}-${String(corte.getMonth() + 1).padStart(2, '0')}-${String(corte.getDate()).padStart(2, '0')}`;
   return listarDiario().filter((e) => e.fecha > iso);
 }
-/** Elegible: Tratamiento activo + 5 registros en la semana + sin informe en los últimos 6 días. */
+/** Elegible: Camino activo + 5 registros en la semana + sin informe en los últimos 6 días. */
 export function puedeGenerarInforme(): boolean {
   if (!getProtocolo()) return false;
   if (registrosUltimos7().length < 5) return false;
@@ -651,7 +666,7 @@ export function sellarMensaje90(texto: string): boolean {
   return true;
 }
 
-/** Solo el último día (o después) y solo con Tratamiento activo. */
+/** Solo el último día (o después) y solo con Camino activo. */
 export function puedeAbrirMensaje90(): boolean {
   const p = getProtocolo();
   if (!p || !getMensaje90()) return false;

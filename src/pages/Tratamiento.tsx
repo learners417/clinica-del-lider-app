@@ -47,15 +47,15 @@ function OfertaTratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
 
   function activar() {
     const tier = validarCodigo(codigo);
-    if (!tier || tier === 'apaga') { toast.error('Ese código no activa el Tratamiento. Revísalo con la clínica.'); return; }
+    if (!tier || tier === 'apaga') { toast.error('Ese código no activa el Camino. Revísalo con la clínica.'); return; }
     activarProtocolo(tier);
-    toast.success('El Tratamiento está activo. Empezamos.');
+    toast.success('El Camino está activo. Empezamos.');
     navegar('hoy');
   }
 
   return (
     <div className="pantalla pt-6 pb-28">
-      <p className="t-micro" style={{ color: 'var(--calido)' }}>El Tratamiento</p>
+      <p className="t-micro" style={{ color: 'var(--calido)' }}>El Camino</p>
       <h1 className="t-titulo mt-1 mb-2">84 días en dos viajes. Una acción por día. Tres mediciones.</h1>
       <p className="t-cuerpo mb-2">
         Semanas 1-2: duermes. Semanas 3-5: cortas lo que te drena. Semanas 6-9: reconstruyes — cuerpo, comida,
@@ -70,7 +70,7 @@ function OfertaTratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
       </div>
 
       <div className="tarjeta p-5 mt-4">
-        <p className="t-sub mb-2">¿Tienes tu código del Tratamiento?</p>
+        <p className="t-sub mb-2">¿Tienes tu código del Camino?</p>
         <div className="flex gap-2">
           <input value={codigo} onChange={(e) => setCodigo(e.target.value.toUpperCase())} placeholder="REINICIO-XXXX-XXXX"
             className="flex-1 px-3" style={{ minHeight: 50, fontFamily: 'var(--font-display)', letterSpacing: '0.04em' }} />
@@ -150,7 +150,7 @@ function MiTratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
             );
           })}
         </div>
-        <p className="t-cuerpo mt-3" style={{ fontSize: 16 }}>Las {DOSIS_ESCRITAS} Dosis del Tratamiento están escritas. Se dosifican: una por día, siempre.</p>
+        <p className="t-cuerpo mt-3" style={{ fontSize: 16 }}>Las {DOSIS_ESCRITAS} Dosis del Camino están escritas. Se dosifican: una por día, siempre.</p>
       </div>
 
       {(() => {
@@ -160,7 +160,7 @@ function MiTratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
         return (
           <div className="tarjeta p-5 mb-4">
             <p className="t-sub mb-1">Tus 3 focos</p>
-            <p className="t-cuerpo mb-3" style={{ fontSize: 16 }}>Tu Chequeo marcó estas tres áreas como las más caídas. El Tratamiento es el mismo para todos — en tus días clave, el acento va aquí.</p>
+            <p className="t-cuerpo mb-3" style={{ fontSize: 16 }}>Tu Chequeo marcó estas tres áreas como las más caídas. El Camino es el mismo para todos — en tus días clave, el acento va aquí.</p>
             <div className="space-y-2">
               {focos.map((f) => (
                 <div key={f.id} className="flex items-center gap-3">
@@ -177,7 +177,7 @@ function MiTratamiento({ navegar }: { navegar: (p: PaginaId) => void }) {
       {/* Los Sistemas Instalados */}
       <div className="tarjeta p-5 mb-4">
         <p className="t-sub mb-1">Tus Sistemas Instalados</p>
-        <p className="t-cuerpo mb-3" style={{ fontSize: 16 }}>El Tratamiento son 10 sistemas que quedan operando. Instalado → sostenido 14 días → tuyo.</p>
+        <p className="t-cuerpo mb-3" style={{ fontSize: 16 }}>El Camino son 10 sistemas que quedan operando. Instalado → sostenido 14 días → tuyo.</p>
         <div className="space-y-2.5">
           {SISTEMAS.map((s) => {
             const est = estadoSistema(s, p.dosisHechas, dia);

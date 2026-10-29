@@ -7,7 +7,7 @@ import {
   getEntradaHoy, guardarEntradaDiario, listarDiario, calcularRacha, hoyIso, getUltimoChequeo,
   type EntradaDiario, type PaginaId,
 } from '../lib/estadoCdl';
-import { faseDeDia, TOTAL_DIAS } from '../data/protocolo';
+import { TOTAL_DIAS } from '../data/protocolo';
 import { Stepper, Chips } from '../components/ui';
 import ZonaBadge from '../components/ZonaBadge';
 import InformeSemanal from '../components/InformeSemanal';
@@ -117,7 +117,6 @@ export default function Hoy({ navegar }: { navegar: (p: PaginaId) => void }) {
       {(acceso === 'solo' || acceso === 'acompanado') && protocolo && (() => {
         const dia = Math.min(diaDelProtocolo(protocolo), TOTAL_DIAS);
         const prox = proximaDosis(protocolo);
-        const fase = faseDeDia(dia);
         const completo = protocolo.dosisHechas.length >= TOTAL_DIAS;
         const alDia = prox > dia;
         return (
@@ -127,8 +126,8 @@ export default function Hoy({ navegar }: { navegar: (p: PaginaId) => void }) {
                 <Pill size={21} color="var(--acento)" />
               </span>
               <div className="flex-1">
-                <p className="t-micro" style={{ color: 'var(--acento)' }}>El Tratamiento · Fase {fase.id} · Día {dia} de {TOTAL_DIAS}</p>
-                <p className="t-sub mt-0.5" style={{ fontSize: 16 }}>{completo ? 'Tratamiento completo. Tu día 85 te espera.' : alDia ? 'Dosis de hoy: hecha. Mañana sigue.' : 'Tu Dosis de hoy te espera'}</p>
+                <p className="t-micro" style={{ color: 'var(--acento)' }}>El Camino · Semana {semanaDeDia(dia).n} · Día {dia} de {TOTAL_DIAS}</p>
+                <p className="t-sub mt-0.5" style={{ fontSize: 16 }}>{completo ? 'Camino completo. Tu día 85 te espera.' : alDia ? 'Dosis de hoy: hecha. Mañana sigue.' : 'Tu Dosis de hoy te espera'}</p>
               </div>
               <ChevronRight size={18} color="var(--texto-tenue)" className="flex-none" />
             </div>

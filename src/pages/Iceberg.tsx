@@ -489,10 +489,10 @@ export default function IcebergPage({ navegar }: { navegar: (p: PaginaId) => voi
       <p className="t-micro mb-3" style={{ color: 'var(--texto-tenue)' }}>Elige por dónde entras</p>
       <button className="btn-primario w-full flex items-center justify-center gap-2"
         onClick={() => { setActual(vacio('limpiar')); setPaso(0); }}>
-        <Scissors size={19} /> Limpiar un fruto que no me gusta
+        <Scissors size={19} /> El Iceberg · limpiar un fruto que no me gusta
       </button>
       <p className="t-cuerpo mt-2 mb-5" style={{ fontSize: 17, color: 'var(--texto-tenue)' }}>
-        Catorce pantallas. Baja del fruto hasta la escena y vuelve con un permiso.
+        Catorce pantallas, una pregunta por pantalla, del fruto al test.
       </p>
 
       <button className="btn-secundario w-full flex items-center justify-center gap-2"
@@ -515,7 +515,7 @@ export default function IcebergPage({ navegar }: { navegar: (p: PaginaId) => voi
               <div className="flex items-start justify-between gap-3">
                 <div className="flex-1">
                   <p className="t-micro mb-2" style={{ color: modoArbol(i) === 'sembrar' ? 'var(--zona-verde)' : 'var(--acento)' }}>
-                    {modoArbol(i) === 'sembrar' ? 'Sembrado' : 'En limpieza'}
+                    {modoArbol(i) === 'sembrar' ? 'Sembrado' : 'El Iceberg · en limpieza'}
                   </p>
                   <p className="t-sub mb-1">{i.bloqueo}</p>
                   {resumenEscena(i) && (

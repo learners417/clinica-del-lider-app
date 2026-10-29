@@ -127,7 +127,7 @@ export default function CeremoniaMedicion({ onCerrar }: { onCerrar: () => void }
       )}
 
       {(!esAlta || testimonioListo) && (
-        <button className="btn-primario w-full" onClick={onCerrar}>{esAlta ? 'Volver a mi clínica' : 'Seguir con mi Tratamiento'}</button>
+        <button className="btn-primario w-full" onClick={onCerrar}>{esAlta ? 'Volver a mi clínica' : 'Seguir con mi Camino'}</button>
       )}
     </div>
   );
